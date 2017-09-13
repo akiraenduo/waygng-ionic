@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,4 +15,13 @@
   </p>
 
   <button ion-button secondary menuToggle>Toggle Menu</button>
+
+
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-list>
+    <button ion-item *ngFor="let station of stations" (click)="itemSelected(item)">
+      <h2>{{station.nom}}</h2>
+    </button>
+  </ion-list>
+
 </ion-content>

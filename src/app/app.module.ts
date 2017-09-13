@@ -8,6 +8,8 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { RestProvider } from '../providers/rest/rest';
+import { HttpModule,JsonpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ListPage
   ],
   imports: [
+    HttpModule,
+    JsonpModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
   ],
@@ -28,7 +32,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    RestProvider
   ]
 })
 export class AppModule {}
