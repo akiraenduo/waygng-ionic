@@ -5,6 +5,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Station } from '../../object/station';
 import { RealTimePage } from '../real-time/real-time';
 
+import * as _ from 'lodash';
+
 /**
  * Generated class for the StationSearchPage page.
  *
@@ -27,7 +29,9 @@ export class StationSearchPage {
   ionViewDidLoad() {
     this.ginkoProvider.getStations()
         .subscribe((stations) => {
-          this.allStations = stations;
+          this.allStations = _.uniqWith(stations, function(first, second){
+                return first.nom === second.nom;
+            });
         }
     );
   }
