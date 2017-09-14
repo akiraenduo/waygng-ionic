@@ -12,7 +12,6 @@ import { StationAttente } from '../../object/stationAttente';
  * on Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-real-time',
   templateUrl: 'real-time.html',

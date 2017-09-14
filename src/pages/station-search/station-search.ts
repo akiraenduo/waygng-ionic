@@ -3,6 +3,7 @@ import { RestProvider } from '../../providers/rest/rest';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { Station } from '../../object/station';
+import { RealTimePage } from '../real-time/real-time';
 
 /**
  * Generated class for the StationSearchPage page.
@@ -11,7 +12,6 @@ import { Station } from '../../object/station';
  * on Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-station-search',
   templateUrl: 'station-search.html',
