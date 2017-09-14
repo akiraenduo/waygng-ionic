@@ -17,5 +17,9 @@
 
   <ion-searchbar placeholder="Station" (click)="searchStation()"></ion-searchbar>
 
+  <div *ngIf="searchPosition" class="spinner-container">
+    <ion-spinner name="ios"></ion-spinner>
+  </div>
+
 
 </ion-content>

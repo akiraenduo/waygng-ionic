@@ -16,6 +16,7 @@ export class HomePage {
   public longitude: number;
   public title;
   errorMessage: string;
+  public searchPosition: any = false;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
@@ -28,6 +29,7 @@ export class HomePage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
+      this.searchPosition = false;
      }).catch((error) => {
        console.log('Error getting location', error);
      });
@@ -35,7 +37,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-
+    this.searchPosition = true;
   }
 
 
