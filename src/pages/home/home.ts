@@ -3,6 +3,9 @@ import { NavController, NavParams } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
 import { Observable } from 'rxjs/Observable';
 
+import {RealTimePage} from '../real-time/real-time';
+import {StationSearchPage} from '../station-search/station-search';
+
 import { Station } from '../../object/station';
 
 @Component({
@@ -13,13 +16,8 @@ import { Station } from '../../object/station';
 
 export class HomePage {
 
-  private results: Observable<Station[]>;
-
-  allStations: Station[] = [];
-  stations: Station[] = [];
 
   public title;
-  countries: string[];
   errorMessage: string;
 
 
@@ -32,25 +30,11 @@ export class HomePage {
 
   ionViewDidLoad() {
 
-    this.rest.getStations()
-      .subscribe((stations) => {
-        this.allStations = stations;
-      }
-    );
   }
 
-  getItems(ev) {
 
-    this.stations = this.allStations;
-    // set val to the value of the ev target
-    var val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.stations = this.stations.filter((station) => {
-        return (station.nom.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
+  searchStation(){
+    this.navCtrl.push(StationSearchPage);
   }
   
 

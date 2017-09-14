@@ -14,14 +14,8 @@
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
   </p>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
 
+  <ion-searchbar placeholder="Station" (click)="searchStation()"></ion-searchbar>
 
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  <ion-list>
-    <button ion-item *ngFor="let station of stations" (click)="itemSelected(item)">
-      <h2>{{station.nom}}</h2>
-    </button>
-  </ion-list>
 
 </ion-content>
