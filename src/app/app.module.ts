@@ -2,6 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
+//MODULE NATIF
+import { Geolocation } from '@ionic-native/geolocation';
+
+// PAGE
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import {RealTimePage} from '../pages/real-time/real-time';
@@ -35,6 +39,7 @@ import { HttpModule,JsonpModule } from '@angular/http';
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider
   ]
