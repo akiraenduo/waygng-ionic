@@ -4,20 +4,18 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import {RealTimePage} from '../pages/real-time/real-time';
 import {StationSearchPage} from '../pages/station-search/station-search';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { RestProvider } from '../providers/rest/rest';
+import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { HttpModule,JsonpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     RealTimePage,
     StationSearchPage
   ],
@@ -31,7 +29,6 @@ import { HttpModule,JsonpModule } from '@angular/http';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     RealTimePage,
     StationSearchPage
   ],
@@ -39,7 +36,7 @@ import { HttpModule,JsonpModule } from '@angular/http';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    RestProvider
+    GinkoProvider
   ]
 })
 export class AppModule {}

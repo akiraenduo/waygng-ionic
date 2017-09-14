@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { RestProvider } from '../../providers/rest/rest';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { Station } from '../../object/station';
 import { RealTimePage } from '../real-time/real-time';
@@ -21,11 +21,11 @@ export class StationSearchPage {
   allStations: Station[] = [];
   stations: Station[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public rest: RestProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider) {
   }
 
   ionViewDidLoad() {
-    this.rest.getStations()
+    this.ginkoProvider.getStations()
         .subscribe((stations) => {
           this.allStations = stations;
         }

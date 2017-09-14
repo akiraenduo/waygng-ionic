@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { RestProvider } from '../../providers/rest/rest';
+import { NavController, NavParams } from 'ionic-angular';
+import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 
 import { TempsAttente } from '../../object/tempsattente';
 import { StationAttente } from '../../object/stationAttente';
@@ -23,12 +23,12 @@ export class RealTimePage {
   stationAttente: StationAttente;
   nomExact: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public rest: RestProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider) {
     this.station = navParams.get("station");
   }
 
   ionViewDidLoad() {
-    this.rest.getTempsLieu2(this.station.nom)
+    this.ginkoProvider.getTempsLieu(this.station.nom)
         .subscribe((stationAttente) => {
           this.stationAttente = stationAttente;
           this.nomExact = this.stationAttente.nomExact;

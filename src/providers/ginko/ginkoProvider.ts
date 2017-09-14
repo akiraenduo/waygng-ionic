@@ -14,7 +14,7 @@ import { TempsAttente } from '../../object/tempsAttente';
   for more info on providers and Angular DI.
 */
 @Injectable()
-export class RestProvider {
+export class GinkoProvider {
     
   
   private urlGinko = 'https://www.ginkoopenapi.fr';
@@ -39,22 +39,7 @@ export class RestProvider {
             .catch(this.handleError);
     }
 
-    getTempsLieu(nameStation): Observable<TempsAttente[]> {
-        let params = new URLSearchParams();
-        params.set('nom', nameStation);
-        params.set('nb', '2');
-        return this.http
-            .get(this.urlGinko+"/TR/getTempsLieu.do", { search: params })
-            .map(response => {
-                return response.json().objets.listeTemps
-                    .map(tempsAttente => {
-                        return new TempsAttente(tempsAttente);
-                    });
-            })
-            .catch(this.handleError);
-    }
-
-    getTempsLieu2(nameStation): Observable<StationAttente> {
+    getTempsLieu(nameStation): Observable<StationAttente> {
         let params = new URLSearchParams();
         params.set('nom', nameStation);
         params.set('nb', '2');
@@ -66,7 +51,6 @@ export class RestProvider {
             })
             .catch(this.handleError);
     }
-    
     
 
   private handleError (error: Response | any) {

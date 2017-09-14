@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { RestProvider } from '../../providers/rest/rest';
 import { Observable } from 'rxjs/Observable';
 
 import {RealTimePage} from '../real-time/real-time';
@@ -21,7 +20,7 @@ export class HomePage {
   errorMessage: string;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public rest: RestProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Home";
