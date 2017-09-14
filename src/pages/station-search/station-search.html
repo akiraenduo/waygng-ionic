@@ -16,7 +16,7 @@
 <ion-content padding>
 
   <ion-list>
-    <button ion-item *ngFor="let station of stations" (click)="itemSelected(station)">
+    <button ion-item *ngFor="let station of stations | removeDuplicateStation" (click)="itemSelected(station)">
       <h2>{{station.nom}}</h2>
     </button>
   </ion-list>

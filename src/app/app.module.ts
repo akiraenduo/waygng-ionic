@@ -5,6 +5,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 //MODULE NATIF
 import { Geolocation } from '@ionic-native/geolocation';
 
+//PIPE
+import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remove-duplicate-station';
+
 // PAGE
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -21,7 +24,8 @@ import { HttpModule,JsonpModule } from '@angular/http';
     MyApp,
     HomePage,
     RealTimePage,
-    StationSearchPage
+    StationSearchPage,
+    RemoveDuplicateStationPipe
   ],
   imports: [
     HttpModule,
