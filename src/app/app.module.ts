@@ -7,6 +7,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 //PIPE
 import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remove-duplicate-station';
+import {CalculateDistancePipe} from '../pipes/calculate-distance/calculate-distance';
+
 
 // PAGE
 import { MyApp } from './app.component';
@@ -25,7 +27,8 @@ import { HttpModule,JsonpModule } from '@angular/http';
     HomePage,
     RealTimePage,
     StationSearchPage,
-    RemoveDuplicateStationPipe
+    RemoveDuplicateStationPipe,
+    CalculateDistancePipe
   ],
   imports: [
     HttpModule,

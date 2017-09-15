@@ -25,9 +25,14 @@
     <ion-spinner name="ios"></ion-spinner>
   </div>
   <ion-list>
+    <ion-list-header>
+          Stations les plus proches
+    </ion-list-header>
     <button ion-item *ngFor="let station of stationProches | removeDuplicateStation" (click)="itemSelected(station)">
-      <h2>{{station.nom}}</h2>
-      <h2>{{station.latLong}}</h2>
+      <ion-row>
+          <ion-col col-10><h2>{{station.nom}}</h2></ion-col>
+          <ion-col col-2>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
+      </ion-row>
     </button>
   </ion-list>
 
