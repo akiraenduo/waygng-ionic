@@ -6,7 +6,6 @@ import 'rxjs/add/operator/map';
 
 import { Station } from '../../object/station';
 import { StationAttente } from '../../object/stationAttente';
-import { TempsAttente } from '../../object/tempsAttente';
 /*
   Generated class for the RestProvider provider.
 
@@ -27,7 +26,7 @@ export class GinkoProvider {
 
 
 
-    getStations(): Observable<Station[]> {
+    fetchStations(): Observable<Station[]> {
         return this.http
             .get(this.urlGinko+"/DR/getArrets.do")
             .map(response => {
@@ -39,7 +38,22 @@ export class GinkoProvider {
             .catch(this.handleError);
     }
 
-    getTempsLieu(nameStation): Observable<StationAttente> {
+    fetchStationsProche(latitude, longitude): Observable<Station[]> {
+      let params = new URLSearchParams();
+      params.set('latitude', latitude);
+      params.set('longitude', longitude);
+      return this.http
+          .get(this.urlGinko+"/DR/getArretsProches.do")
+          .map(response => {
+              return response.json().objets
+                  .map(station => {
+                  return new Station(station);
+              });
+          })
+          .catch(this.handleError);
+  }
+
+    fetchTempsLieu(nameStation): Observable<StationAttente> {
         let params = new URLSearchParams();
         params.set('nom', nameStation);
         params.set('nb', '2');

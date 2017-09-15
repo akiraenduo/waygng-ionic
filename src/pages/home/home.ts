@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import {StationSearchPage} from '../station-search/station-search';
+import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
+import { Station } from '../../object/station';
 
 @Component({
   selector: 'page-home',
@@ -17,9 +19,10 @@ export class HomePage {
   public title;
   errorMessage: string;
   public searchPosition: any = false;
+  public stationProches: Station[] = [];
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public ginkoProvider: GinkoProvider) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Home";
@@ -29,6 +32,15 @@ export class HomePage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
+
+      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
+      .subscribe((stations) => {
+        this.stationProches = stations;
+      }
+    );
+
+
+
       this.searchPosition = false;
      }).catch((error) => {
        console.log('Error getting location', error);

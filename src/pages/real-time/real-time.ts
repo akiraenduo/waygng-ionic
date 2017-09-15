@@ -28,7 +28,7 @@ export class RealTimePage {
   }
 
   ionViewDidLoad() {
-    this.ginkoProvider.getTempsLieu(this.station.nom)
+    this.ginkoProvider.fetchTempsLieu(this.station.nom)
         .subscribe((stationAttente) => {
           this.stationAttente = stationAttente;
           this.nomExact = this.stationAttente.nomExact;

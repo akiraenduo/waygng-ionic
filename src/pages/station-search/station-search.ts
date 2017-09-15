@@ -25,7 +25,7 @@ export class StationSearchPage {
   }
 
   ionViewDidLoad() {
-    this.ginkoProvider.getStations()
+    this.ginkoProvider.fetchStations()
         .subscribe((stations) => {
           this.allStations = stations;
         }
