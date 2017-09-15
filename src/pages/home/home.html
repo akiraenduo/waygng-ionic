@@ -10,30 +10,25 @@
 <ion-content padding>
   <h3>Ionic Menu Starter</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
 
-  <ion-searchbar placeholder="Station" (click)="searchStation()"></ion-searchbar>
+  <ion-searchbar [(ngModel)] = "searchModel" placeholder="Station" (click)="searchStation()"> </ion-searchbar>
 
   <div *ngIf="searchPosition" class="spinner-container">
     <ion-spinner name="ios"></ion-spinner>
   </div>
+
   <ion-list>
-    <ion-list-header>
-          Stations les plus proches
-    </ion-list-header>
-    <button ion-item *ngFor="let station of stationProches | removeDuplicateStation" (click)="itemSelected(station)">
-      <ion-row>
-          <ion-col col-10><h2>{{station.nom}}</h2></ion-col>
-          <ion-col col-2>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
-      </ion-row>
-    </button>
+    <ion-item *ngFor="let tempsAttente of listeTemps">
+        <ion-row>
+            <ion-col col-2 class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">{{tempsAttente.numLignePublic}}</ion-col>
+            <ion-col col-7>{{tempsAttente.destination}}</ion-col>
+            <ion-col col-3>{{tempsAttente.temps}}</ion-col>
+        </ion-row>
+    </ion-item>
   </ion-list>
 
 

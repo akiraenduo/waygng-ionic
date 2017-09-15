@@ -26,45 +26,44 @@ export class GinkoProvider {
 
 
 
-    fetchStations(): Observable<Station[]> {
-        return this.http
-            .get(this.urlGinko+"/DR/getArrets.do")
-            .map(response => {
-                return response.json().objets
-                    .map(station => {
-                    return new Station(station.id,station.nom,station.latitude,station.longitude);
-                });
-            })
-            .catch(this.handleError);
+  fetchStations(): Observable<Station[]> {
+    return this.http
+        .get(this.urlGinko+"/DR/getArrets.do")
+        .map(response => {
+            return response.json().objets
+                .map(station => {
+                return new Station(station.id,station.nom,station.latitude,station.longitude);
+            });
+        })
+        .catch(this.handleError);
     }
 
-    fetchStationsProche(latitude, longitude): Observable<Station[]> {
-      let params = new URLSearchParams();
-      params.set('latitude', "47.2336");
-      params.set('longitude', "6.0303");
-      return this.http
-          .get(this.urlGinko+"/DR/getArretsProches.do", { search: params })
-          .map(response => {
-              return response.json().objets
-                  .map(station => {
-                  return new Station(station.id,station.nom,station.latitude,station.longitude);
-              });
-          })
-          .catch(this.handleError);
+  fetchStationsProche(latitude, longitude): Observable<Station[]> {
+    let params = new URLSearchParams();
+    params.set('latitude', "47.2336");
+    params.set('longitude', "6.0303");
+    return this.http
+        .get(this.urlGinko+"/DR/getArretsProches.do", { search: params })
+        .map(response => {
+            return response.json().objets
+                .map(station => {
+                return new Station(station.id,station.nom,station.latitude,station.longitude);
+            });
+        })
+        .catch(this.handleError);
   }
 
-    fetchTempsLieu(nameStation): Observable<StationAttente> {
-        let params = new URLSearchParams();
-        params.set('nom', nameStation);
-        params.set('nb', '2');
-        return this.http
-            .get(this.urlGinko+"/TR/getTempsLieu.do", { search: params })
-            .map(response => {
-                var data = response.json().objets;
-                return new StationAttente(data.nomExact, data.listeTemps);
-            })
-            .catch(this.handleError);
-    }
+  fetchTempsLieu(nameStation): Observable<StationAttente> {
+    let params = new URLSearchParams();
+    params.set('nom', nameStation);
+    return this.http
+        .get(this.urlGinko+"/TR/getTempsLieu.do", { search: params })
+        .map(response => {
+            var data = response.json().objets;
+            return new StationAttente(data.nomExact, data.listeTemps);
+        })
+        .catch(this.handleError);
+  }
     
 
   private handleError (error: Response | any) {

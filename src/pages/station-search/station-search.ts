@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { NavController, NavParams } from 'ionic-angular';
+import { Geolocation } from '@ionic-native/geolocation';
 
 import { Station } from '../../object/station';
-import { RealTimePage } from '../real-time/real-time';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the StationSearchPage page.
@@ -18,10 +19,15 @@ import { RealTimePage } from '../real-time/real-time';
 })
 export class StationSearchPage {
 
-  allStations: Station[] = [];
-  stations: Station[] = [];
+  public latitude: number;
+  public longitude: number
+  public allStations: Station[] = [];
+  public stations: Station[] = [];
+  public stationProches: Station[] = [];
+  public searchPosition: any = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider, public geolocation: Geolocation) {
+    this.getStationProches(null);
   }
 
   ionViewDidLoad() {
@@ -30,6 +36,30 @@ export class StationSearchPage {
           this.allStations = stations;
         }
     );
+  }
+
+  getStationProches(refresher){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+
+      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
+      .subscribe((stations) => {
+        this.stationProches = stations;
+        this.searchPosition = false;
+        if(refresher){
+          refresher.complete();
+        }
+      }
+    );
+
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+  }
+
+  doRefresh(refresher) {
+    this.getStationProches(refresher);
   }
 
   getItems(ev) {
@@ -47,7 +77,7 @@ export class StationSearchPage {
   }
 
   itemSelected(station){
-    this.navCtrl.push(RealTimePage, {
+    this.navCtrl.push(HomePage, {
       station:station
     });
 

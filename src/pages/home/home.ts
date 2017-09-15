@@ -3,8 +3,10 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
 import {StationSearchPage} from '../station-search/station-search';
-import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { Station } from '../../object/station';
+import { TempsAttente } from '../../object/tempsattente';
+import { StationAttente } from '../../object/stationAttente';
+import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 
 @Component({
   selector: 'page-home',
@@ -20,6 +22,11 @@ export class HomePage {
   errorMessage: string;
   public searchPosition: any = false;
   public stationProches: Station[] = [];
+  public station: any;
+  public listeTemps: TempsAttente[] = [];
+  public stationAttente: StationAttente;
+  public nomExact: string;
+  searchModel: string;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public geolocation: Geolocation, public ginkoProvider: GinkoProvider) {
@@ -27,33 +34,33 @@ export class HomePage {
     if(!this.title){
       this.title = "Home";
     }
-
-    this.getStationProches(null);
+    this.station = navParams.get("station");
 
   }
 
   ionViewDidLoad() {
-    this.searchPosition = true;
+    if(this.station){
+      this.searchModel = this.station.nom;
+      this.getTempsLieu(this.station,null);
+    }
+    
   }
 
-  getStationProches(refresher){
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-
-      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
-      .subscribe((stations) => {
-        this.stationProches = stations;
-        this.searchPosition = false;
-        if(refresher){
-          refresher.complete();
+  getTempsLieu(station,refresher){
+    if(station){
+      this.searchPosition = true;
+      this.ginkoProvider.fetchTempsLieu(station.nom)
+      .subscribe((stationAttente) => {
+          this.stationAttente = stationAttente;
+          this.nomExact = this.stationAttente.nomExact;
+          this.listeTemps = this.stationAttente.listeTemps;
+          this.searchPosition = false;
+          if(refresher != null){
+            refresher.complete();
+          }
         }
-      }
-    );
-
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+      );
+   }
   }
 
   searchStation(){
@@ -61,7 +68,7 @@ export class HomePage {
   }
 
   doRefresh(refresher) {
-    this.getStationProches(refresher);
+    this.getTempsLieu(this.station,refresher);
   }
   
 
