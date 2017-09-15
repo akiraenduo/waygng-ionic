@@ -28,23 +28,7 @@ export class HomePage {
       this.title = "Home";
     }
 
-
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-
-      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
-      .subscribe((stations) => {
-        this.stationProches = stations;
-      }
-    );
-
-
-
-      this.searchPosition = false;
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    this.getStationProches(null);
 
   }
 
@@ -52,9 +36,32 @@ export class HomePage {
     this.searchPosition = true;
   }
 
+  getStationProches(refresher){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+
+      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
+      .subscribe((stations) => {
+        this.stationProches = stations;
+        this.searchPosition = false;
+        if(refresher){
+          refresher.complete();
+        }
+      }
+    );
+
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+  }
 
   searchStation(){
     this.navCtrl.push(StationSearchPage);
+  }
+
+  doRefresh(refresher) {
+    this.getStationProches(refresher);
   }
   
 

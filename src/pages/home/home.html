@@ -14,12 +14,22 @@
     If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
   </p>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
 
   <ion-searchbar placeholder="Station" (click)="searchStation()"></ion-searchbar>
 
   <div *ngIf="searchPosition" class="spinner-container">
     <ion-spinner name="ios"></ion-spinner>
   </div>
+  <ion-list>
+    <button ion-item *ngFor="let station of stationProches | removeDuplicateStation" (click)="itemSelected(station)">
+      <h2>{{station.nom}}</h2>
+      <h2>{{station.latLong}}</h2>
+    </button>
+  </ion-list>
 
 
 </ion-content>

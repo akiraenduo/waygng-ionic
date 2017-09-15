@@ -32,7 +32,7 @@ export class GinkoProvider {
             .map(response => {
                 return response.json().objets
                     .map(station => {
-                    return new Station(station);
+                    return new Station(station.id,station.nom,station.latitude,station.longitude);
                 });
             })
             .catch(this.handleError);
@@ -40,14 +40,14 @@ export class GinkoProvider {
 
     fetchStationsProche(latitude, longitude): Observable<Station[]> {
       let params = new URLSearchParams();
-      params.set('latitude', latitude);
-      params.set('longitude', longitude);
+      params.set('latitude', "47.2336");
+      params.set('longitude', "6.0303");
       return this.http
-          .get(this.urlGinko+"/DR/getArretsProches.do")
+          .get(this.urlGinko+"/DR/getArretsProches.do", { search: params })
           .map(response => {
               return response.json().objets
                   .map(station => {
-                  return new Station(station);
+                  return new Station(station.id,station.nom,station.latitude,station.longitude);
               });
           })
           .catch(this.handleError);
