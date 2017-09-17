@@ -13,7 +13,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-searchbar class="home-searchbar" [(ngModel)] = "searchModel" placeholder="Station" (click)="searchStation()"> </ion-searchbar>
+  <ion-searchbar class="home-searchbar" showCancelButton="false" [(ngModel)] = "searchModel" placeholder="Station" (click)="searchStation()"> </ion-searchbar>
 
   <div *ngIf="searchPosition" class="spinner-container">
     <ion-spinner name="ios"></ion-spinner>

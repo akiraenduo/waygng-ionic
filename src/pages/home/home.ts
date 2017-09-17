@@ -102,6 +102,7 @@ export class HomePage {
         }
       );
    }
+   refresher.complete();
   }
 
   searchStation(){
