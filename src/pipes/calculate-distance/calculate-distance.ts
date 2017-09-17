@@ -14,6 +14,7 @@ export class CalculateDistancePipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(latLong: string, myLatitude:string, myLongitude:string) {
+    console.log("lat "+myLatitude+ "long "+myLongitude);
     let latLongLst = latLong.split(";");
     let latitude = latLongLst[0];
     let longitude = latLongLst[1];

@@ -1,14 +1,23 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-item class="item-inner-without-border" *ngIf="userData">
+        <ion-avatar item-start>
+          <img [src]="userData.picture" />
+        </ion-avatar>
+        {{ userData.username }}
+      </ion-item>
+      <button ion-button *ngIf="deconnected" (click)="signInWithFacebook()">connexion</button>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+          <ion-row>
+              <ion-col col-2><ion-icon name="md-alarm"></ion-icon> </ion-col>
+              <ion-col col-10>{{p.title}}</ion-col>
+          </ion-row>
       </button>
     </ion-list>
   </ion-content>

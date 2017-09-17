@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
-import { Station } from '../../object/station';
-import { StationAttente } from '../../object/stationAttente';
+import { Station } from '../../models/station';
+import { StationAttente } from '../../models/stationAttente';
 /*
   Generated class for the RestProvider provider.
 
@@ -40,8 +40,8 @@ export class GinkoProvider {
 
   fetchStationsProche(latitude, longitude): Observable<Station[]> {
     let params = new URLSearchParams();
-    params.set('latitude', "47.2336");
-    params.set('longitude', "6.0303");
+    params.set('latitude', latitude);
+    params.set('longitude', longitude);
     return this.http
         .get(this.urlGinko+"/DR/getArretsProches.do", { search: params })
         .map(response => {
@@ -56,6 +56,7 @@ export class GinkoProvider {
   fetchTempsLieu(nameStation): Observable<StationAttente> {
     let params = new URLSearchParams();
     params.set('nom', nameStation);
+    params.set('nb', "2");
     return this.http
         .get(this.urlGinko+"/TR/getTempsLieu.do", { search: params })
         .map(response => {

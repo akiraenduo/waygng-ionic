@@ -12,6 +12,7 @@ export class TempsAttente {
     numVehicule: string;
     latitude: number;
     longitude: number;
+    lstTemps: string[];
 
     constructor(values: Object = {}) {
         Object.assign(this, values);

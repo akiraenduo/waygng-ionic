@@ -3,7 +3,7 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 
-import { Station } from '../../object/station';
+import { Station } from '../../models/station';
 import { HomePage } from '../home/home';
 
 /**
@@ -25,20 +25,24 @@ export class StationSearchPage {
   public stations: Station[] = [];
   public stationProches: Station[] = [];
   public searchPosition: any = false;
+  public searchStation: any = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider, public geolocation: Geolocation) {
     this.getStationProches(null);
   }
 
   ionViewDidLoad() {
+    this.searchStation = true;
     this.ginkoProvider.fetchStations()
         .subscribe((stations) => {
           this.allStations = stations;
+          this.searchStation = false;
         }
     );
   }
 
   getStationProches(refresher){
+    this.searchPosition = true;
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
