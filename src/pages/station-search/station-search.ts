@@ -26,7 +26,6 @@ export class StationSearchPage {
    stationProches: Station[] = [];
    searchPosition: any = false;
    searchStation: any = false;
-   noResult: any = false;
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider, public geolocation: Geolocation) {
@@ -48,15 +47,9 @@ export class StationSearchPage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
-
       this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
       .subscribe((stations) => {
         this.stationProches = stations;
-        if(this.stationProches.length == 0){
-          this.noResult = true;
-        }else{
-          this.noResult = false;
-        }
         this.searchPosition = false;
         if(refresher){
           refresher.complete();
@@ -92,6 +85,14 @@ export class StationSearchPage {
       station:station
     });
 
+  }
+
+  isStationProchesEmpty(){
+    if(this.stationProches.length == 0){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }

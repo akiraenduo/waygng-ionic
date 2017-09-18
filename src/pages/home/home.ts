@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import {AngularFireAuth,} from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { Geolocation } from '@ionic-native/geolocation';
-import { Facebook } from '@ionic-native/facebook';
 
 import {StationSearchPage} from '../station-search/station-search';
 import { Station } from '../../models/station';
 import { User } from '../../models/user';
 import { TempsAttente } from '../../models/tempsattente';
-import { StationAttente } from '../../models/stationAttente';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 
 
@@ -42,9 +40,7 @@ export class HomePage {
               public  geolocation: Geolocation, 
               public ginkoProvider: GinkoProvider, 
               private afAuth: AngularFireAuth,
-              private fb: Facebook,
-              private db: AngularFireDatabase,
-              private toast: ToastController) {
+              private db: AngularFireDatabase) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Horaires";
@@ -114,10 +110,10 @@ export class HomePage {
   }
 
   addFavoris(){
-    const itemObservable = this.db.list('/favoris');
+    const items = this.db.list('/favoris');
     let stations = [];
     stations.push(this.nomExact);
-    itemObservable.set( 'userUid', { userUid: this.userData.uid, stations: stations});
+    items.set( 'userUid', { userUid: this.userData.uid, stations: stations});
   }
   
 

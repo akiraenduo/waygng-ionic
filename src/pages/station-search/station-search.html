@@ -26,7 +26,7 @@
     <div *ngIf="searchPosition" class="spinner-container">
       <ion-spinner name="ios"></ion-spinner>
     </div>
-    <div *ngIf="noResult" class="warning-container">
+    <div *ngIf="isStationProchesEmpty()" class="warning-container">
         Aucune station à proximité
     </div>
     <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
