@@ -31,7 +31,6 @@ export class HomePage {
   stationProches: Station[] = [];
   station: any;
   listeTemps: TempsAttente[] = [];
-  stationAttente: StationAttente;
   nomExact: string;
   searchModel: string;
   userData: User;
@@ -77,15 +76,14 @@ export class HomePage {
       }
       this.ginkoProvider.fetchTempsLieu(station.nom)
       .subscribe((stationAttente) => {
-          this.stationAttente = stationAttente;
-          this.nomExact = this.stationAttente.nomExact;
-          if(this.stationAttente.listeTemps.length == 0){
+          this.nomExact = stationAttente.nomExact;
+          if(stationAttente.listeTemps.length == 0){
             this.noResult = true;
           }else{
-            for (var i = 0; i < this.stationAttente.listeTemps.length - 1; i++) {
+            for (var i = 0; i < stationAttente.listeTemps.length - 1; i++) {
                 let lstTemps = [];
-                let currentStation = this.stationAttente.listeTemps[i];
-                let nextStation = this.stationAttente.listeTemps[i+1];
+                let currentStation = stationAttente.listeTemps[i];
+                let nextStation = stationAttente.listeTemps[i+1];
                 if(currentStation.idArret == nextStation.idArret){
                   lstTemps.push(currentStation.temps);
                   lstTemps.push(nextStation.temps); 
@@ -102,7 +100,9 @@ export class HomePage {
         }
       );
    }
-   refresher.complete();
+   if(refresher != null){
+    refresher.complete();
+   }
   }
 
   searchStation(){
@@ -116,7 +116,7 @@ export class HomePage {
   addFavoris(){
     const itemObservable = this.db.list('/favoris');
     let stations = [];
-    stations.push(this.stationAttente);
+    stations.push(this.nomExact);
     itemObservable.set( 'userUid', { userUid: this.userData.uid, stations: stations});
   }
   

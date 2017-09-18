@@ -17,32 +17,35 @@
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+  </ion-refresher>
   
-    <ion-list>
-      <ion-list-header>
-        <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;Stations les plus proches
-      </ion-list-header>
-      <div *ngIf="searchPosition" class="spinner-container">
-        <ion-spinner name="ios"></ion-spinner>
-      </div>
-      <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
+  <ion-list>
+    <ion-list-header>
+      <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;Stations les plus proches
+    </ion-list-header>
+    <div *ngIf="searchPosition" class="spinner-container">
+      <ion-spinner name="ios"></ion-spinner>
+    </div>
+    <div *ngIf="noResult" class="warning-container">
+        Aucune station à proximité
+    </div>
+    <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
+      <ion-row>
+          <ion-col col-9>{{station.nom}}</ion-col>
+          <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
+      </ion-row>
+    </button>
+    <ion-list-header>
+      <ion-icon name="search"></ion-icon>&nbsp;&nbsp; Recherche station
+    </ion-list-header>
+    <div *ngIf="searchStation" class="spinner-container">
+      <ion-spinner name="ios"></ion-spinner>
+    </div>
+    <button ion-item *ngFor="let station of stations | removeDuplicateStation"  (click)="itemSelected(station)">
         <ion-row>
-            <ion-col col-9>{{station.nom}}</ion-col>
-            <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
-        </ion-row>
-      </button>
-      <ion-list-header>
-        <ion-icon name="search"></ion-icon>&nbsp;&nbsp; Recherche station
-      </ion-list-header>
-      <div *ngIf="searchStation" class="spinner-container">
-        <ion-spinner name="ios"></ion-spinner>
-      </div>
-      <button ion-item *ngFor="let station of stations | removeDuplicateStation"  (click)="itemSelected(station)">
-          <ion-row>
-            <ion-col col-9>{{station.nom}}</ion-col>
-        </ion-row>
-      </button>
-    </ion-list>
+          <ion-col col-9>{{station.nom}}</ion-col>
+      </ion-row>
+    </button>
+  </ion-list>
 
 </ion-content>

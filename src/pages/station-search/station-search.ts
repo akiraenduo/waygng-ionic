@@ -19,13 +19,15 @@ import { HomePage } from '../home/home';
 })
 export class StationSearchPage {
 
-  public latitude: number;
-  public longitude: number
-  public allStations: Station[] = [];
-  public stations: Station[] = [];
-  public stationProches: Station[] = [];
-  public searchPosition: any = false;
-  public searchStation: any = false;
+   latitude: number;
+   longitude: number
+   allStations: Station[] = [];
+   stations: Station[] = [];
+   stationProches: Station[] = [];
+   searchPosition: any = false;
+   searchStation: any = false;
+   noResult: any = false;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider, public geolocation: Geolocation) {
     this.getStationProches(null);
@@ -50,6 +52,11 @@ export class StationSearchPage {
       this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
       .subscribe((stations) => {
         this.stationProches = stations;
+        if(this.stationProches.length == 0){
+          this.noResult = true;
+        }else{
+          this.noResult = false;
+        }
         this.searchPosition = false;
         if(refresher){
           refresher.complete();
