@@ -113,7 +113,6 @@ export class HomePage {
     const items = this.db.list('/users/'+this.userData.uid+'/stations');
     let stations = [];
     stations.push(this.nomExact);
-    //items.set( this.userData.uid, {'user': this.userData, 'stations': stations});
     items.push(this.nomExact);
   }
   

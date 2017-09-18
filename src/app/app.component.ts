@@ -8,6 +8,7 @@ import { FavorisPage } from '../pages/favoris/favoris';
 
 import { User } from '../models/user';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
 import { Facebook } from '@ionic-native/facebook';
 
 import * as firebase from 'firebase/app';
@@ -29,7 +30,8 @@ export class MyApp {
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
-              private afAuth: AngularFireAuth, 
+              private afAuth: AngularFireAuth,
+              private db: AngularFireDatabase, 
               private fb: Facebook) {
     this.initializeApp();
 
@@ -86,6 +88,7 @@ export class MyApp {
           var user = result.user;
           this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
           this.deconnected = false;
+          this.addUser();
         });
     }
   }
@@ -100,6 +103,16 @@ export class MyApp {
         });
       }
     });
+  }
+
+  addUser(){
+    const items = this.db.list('/users');
+    items.set( this.userData.uid, {'user': this.userData});
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
+    this.userData = null;
   }
 
 }

@@ -26,6 +26,7 @@ export class FavorisPage {
 
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(user => {
+      this.items = [];
       if(user && user.uid){
         this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
         const favoris = this.db.list('/users/'+user.uid+'/stations', { preserveSnapshot: true });

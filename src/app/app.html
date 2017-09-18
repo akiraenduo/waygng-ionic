@@ -6,6 +6,9 @@
           <img [src]="userData.picture" />
         </ion-avatar>
         {{ userData.username }}
+        <button ion-button round class="float-right" (click)="logout()">
+            <ion-icon name="power"></ion-icon>
+          </button>
       </ion-item>
       <button ion-button *ngIf="deconnected" (click)="signInWithFacebook()">connexion</button>
     </ion-toolbar>
