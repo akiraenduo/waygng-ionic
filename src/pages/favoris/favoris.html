@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar hideBackButton>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+    <ion-list>
+        <ion-row *ngFor="let fav of items">
+            <ion-col col-9>{{fav}}</ion-col>
+        </ion-row>
+      </ion-list>
+
+</ion-content>

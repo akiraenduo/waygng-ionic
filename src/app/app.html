@@ -15,7 +15,7 @@
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
           <ion-row>
-              <ion-col col-2><ion-icon name="md-alarm"></ion-icon> </ion-col>
+              <ion-col col-2><ion-icon name={{p.icon}}></ion-icon> </ion-col>
               <ion-col col-10>{{p.title}}</ion-col>
           </ion-row>
       </button>

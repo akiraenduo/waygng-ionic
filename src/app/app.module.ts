@@ -22,6 +22,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import {StationSearchPage} from '../pages/station-search/station-search';
+import {FavorisPage} from '../pages/favoris/favoris';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -36,6 +37,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     LoginPage,
     RegisterPage,
     StationSearchPage,
+    FavorisPage,
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
     ShowTwoTimePipe
@@ -55,7 +57,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     HomePage,
     LoginPage,
     RegisterPage,
-    StationSearchPage
+    StationSearchPage,
+    FavorisPage
   ],
   providers: [
     StatusBar,

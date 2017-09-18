@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {AngularFireAuth,} from 'angularfire2/auth';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -22,7 +22,7 @@ export class HomePage {
 
   latitude: number;
   longitude: number;
-  title;
+  title: any;
   errorMessage: string;
   searchPosition: any = false;
   noResult: any = false;
@@ -110,10 +110,11 @@ export class HomePage {
   }
 
   addFavoris(){
-    const items = this.db.list('/favoris');
+    const items = this.db.list('/users/'+this.userData.uid+'/stations');
     let stations = [];
     stations.push(this.nomExact);
-    items.set( 'userUid', { userUid: this.userData.uid, stations: stations});
+    //items.set( this.userData.uid, {'user': this.userData, 'stations': stations});
+    items.push(this.nomExact);
   }
   
 

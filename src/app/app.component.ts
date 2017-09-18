@@ -4,12 +4,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { FavorisPage } from '../pages/favoris/favoris';
 
 import { User } from '../models/user';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Facebook } from '@ionic-native/facebook';
 
 import * as firebase from 'firebase/app';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -19,7 +21,7 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string,icon: string, component: any}>;
 
   userData: User;
   deconnected: any;
@@ -45,7 +47,8 @@ export class MyApp {
     this.deconnected = true;
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Horaires', component: HomePage }
+      { title: 'Horaires', icon:'md-alarm', component: HomePage },
+      { title: 'Favoris', icon:'star', component: FavorisPage }
     ];
 
   }
