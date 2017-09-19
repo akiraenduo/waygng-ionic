@@ -1,15 +1,13 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-item class="item-inner-without-border" *ngIf="userData">
-        <ion-avatar item-start>
-          <img [src]="userData.picture" />
-        </ion-avatar>
-        {{ userData.username }}
-        <button ion-button round class="float-right" (click)="logout()">
-            <ion-icon name="power"></ion-icon>
-          </button>
-      </ion-item>
+        <ion-item class="item-inner-without-border" *ngIf="userData">
+            <ion-avatar item-start>
+                <img [src]="userData.picture" />
+              </ion-avatar>
+            <ion-label>{{ userData.username }}</ion-label>
+            <button ion-button outline clear large item-end (click)="logout()"><ion-icon name="power"></ion-icon></button>
+        </ion-item >
       <button ion-button *ngIf="deconnected" (click)="signInWithFacebook()">connexion</button>
     </ion-toolbar>
   </ion-header>

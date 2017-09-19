@@ -38,8 +38,8 @@ export class HomePage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public  geolocation: Geolocation, 
-              public ginkoProvider: GinkoProvider, 
-              public favorisProvider: FavorisProvider,
+              public ginkoProvider: GinkoProvider,
+              public favorisProvider: FavorisProvider, 
               private afAuth: AngularFireAuth) {
     this.title = navParams.get("title");
     if(!this.title){

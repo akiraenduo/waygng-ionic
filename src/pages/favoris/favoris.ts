@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
-import { User } from '../../models/user';
 import { HomePage } from '../home/home';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
@@ -16,7 +15,6 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class FavorisPage {
 
   title: any;
-  userData: User;
   searchFavoris: any;
   favoris: FirebaseListObservable<any>;
   userUid: any;
@@ -35,6 +33,9 @@ export class FavorisPage {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavoris(user.uid);
         this.searchFavoris = false;
+      }else{
+        this.searchFavoris = false;
+        this.userUid = null;
       }
     });
   }
@@ -48,6 +49,14 @@ export class FavorisPage {
   removeFavoris(nomStation, event: Event){
     event.stopPropagation();
     this.favorisProvider.removeFavoris(this.userUid,nomStation);
+  }
+
+  isNotConnected(){
+    if(this.userUid == null){
+      return true;
+    }else{
+      return false;
+    }
   }
 
 }
