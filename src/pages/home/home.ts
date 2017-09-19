@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {AngularFireAuth,} from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -10,6 +9,7 @@ import { Station } from '../../models/station';
 import { User } from '../../models/user';
 import { TempsAttente } from '../../models/tempsattente';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
+import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
 
 @Component({
@@ -39,8 +39,8 @@ export class HomePage {
               public navParams: NavParams, 
               public  geolocation: Geolocation, 
               public ginkoProvider: GinkoProvider, 
-              private afAuth: AngularFireAuth,
-              private db: AngularFireDatabase) {
+              public favorisProvider: FavorisProvider,
+              private afAuth: AngularFireAuth) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Horaires";
@@ -110,10 +110,7 @@ export class HomePage {
   }
 
   addFavoris(){
-    const items = this.db.list('/users/'+this.userData.uid+'/stations');
-    let stations = [];
-    stations.push(this.nomExact);
-    items.push(this.nomExact);
+    this.favorisProvider.addFavoris(this.userData.uid,this.nomExact);
   }
   
 

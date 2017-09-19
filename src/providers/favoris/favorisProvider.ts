@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import * as firebase from 'firebase/app';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 /*
   Generated class for the FavorisProvider provider.
@@ -12,18 +12,17 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class FavorisProvider {
 
-  constructor(public http: Http) {
+  constructor(public http: Http,
+              public db: AngularFireDatabase) {
   }
 
-  getFavoris(userUid): string[] {
-    let stations = [];
-    firebase.database().ref("/users/"+userUid+"/stations").on('value', snapshot => {
-      snapshot.forEach(snap  => {
-        stations.push(snap.val());
-        return false;
-      });
-    });
-    return stations;
+  getFavoris(userUid): FirebaseListObservable<any>{
+   return this.db.list('/users/'+userUid+'/stations');
+  }
+
+  addFavoris(userUid,nomStation){
+    const items = this.db.list('/users/'+userUid+'/stations');
+    items.push({name:nomStation});
   }
 
 }
