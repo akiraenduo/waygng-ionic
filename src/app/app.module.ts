@@ -27,11 +27,13 @@ import {FavorisPage} from '../pages/favoris/favoris';
 //PROVIDER
 import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { UserProvider } from '../providers/user/userProvider';
+import { FavorisProvider } from '../providers/favoris/favorisProvider';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule,JsonpModule } from '@angular/http';
 import { FIREBASE_CONFIG } from './app.firebase.config';
+
 
 
 @NgModule({
@@ -71,7 +73,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
-    UserProvider
+    UserProvider,
+    FavorisProvider
   ]
 })
 export class AppModule {}

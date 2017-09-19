@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {AngularFireAuth,} from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
 
 import { User } from '../../models/user';
 import { HomePage } from '../home/home';
 import { Station } from '../../models/station';
+import { FavorisProvider } from '../../providers/favoris/favorisProvider';
+
+import * as firebase from 'firebase/app';
 
 
 @Component({
@@ -21,25 +22,17 @@ export class FavorisPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              private afAuth: AngularFireAuth,
-              private db: AngularFireDatabase) {
+              public favorisProvider: FavorisProvider) {
     this.title = navParams.get("title");
   }
 
   ionViewDidLoad() {
     this.searchFavoris = true;
-    this.afAuth.authState.subscribe(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       this.favoris = [];
-      if(user && user.uid){
-        this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
-        const favoris = this.db.list('/users/'+user.uid+'/stations', { preserveSnapshot: true });
-        favoris
-          .subscribe(snapshots => {
-            snapshots.forEach(snapshot => {
-              this.favoris.push(snapshot.val());
-            });
-            this.searchFavoris = false;
-          })
+      if (user) {
+        this.favoris = this.favorisProvider.getFavoris(user.uid);
+        this.searchFavoris = false;
       }
     });
   }
