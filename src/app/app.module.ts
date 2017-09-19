@@ -24,11 +24,15 @@ import { RegisterPage } from '../pages/register/register';
 import {StationSearchPage} from '../pages/station-search/station-search';
 import {FavorisPage} from '../pages/favoris/favoris';
 
+//PROVIDER
+import { GinkoProvider } from '../providers/ginko/ginkoProvider';
+import { UserProvider } from '../providers/user/userProvider';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { HttpModule,JsonpModule } from '@angular/http';
 import { FIREBASE_CONFIG } from './app.firebase.config';
+
 
 @NgModule({
   declarations: [
@@ -66,7 +70,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     Geolocation,
     Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    GinkoProvider
+    GinkoProvider,
+    UserProvider
   ]
 })
 export class AppModule {}

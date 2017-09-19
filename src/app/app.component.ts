@@ -7,9 +7,8 @@ import { HomePage } from '../pages/home/home';
 import { FavorisPage } from '../pages/favoris/favoris';
 
 import { User } from '../models/user';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Facebook } from '@ionic-native/facebook';
+
+import { UserProvider } from '../providers/user/userProvider';
 
 import * as firebase from 'firebase/app';
 
@@ -30,21 +29,8 @@ export class MyApp {
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
-              private afAuth: AngularFireAuth,
-              private db: AngularFireDatabase, 
-              private fb: Facebook) {
+              public userProvider: UserProvider) {
     this.initializeApp();
-
-
-    this.afAuth.authState.subscribe(user => {
-      if(user && user.uid){
-        this.deconnected = false;
-        this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
-      }else{
-        this.deconnected = true;
-      }
-    });
-
 
     this.deconnected = true;
     // used for an example of ngFor and navigation
@@ -61,6 +47,16 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          this.deconnected = true;
+        } else { 
+          this.deconnected = false;
+          this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
+        }
+      });
+
     });
   }
 
@@ -71,47 +67,12 @@ export class MyApp {
   }
 
   signInWithFacebook() {
-    if (this.platform.is('cordova')) {
-      return this.fb.login(['email', 'public_profile']).then(res => {
-        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        return firebase.auth().signInWithCredential(facebookCredential).then(res => this.getFacebookUser());
-      })
-    }
-    else {
-      var provider = new firebase.auth.FacebookAuthProvider();
-      // You can add additional scopes to the provider:
-      provider.addScope('email');
-      provider.addScope('public_profile');
-      return this.afAuth.auth
-        .signInWithPopup(provider)
-        .then(result =>{
-          var user = result.user;
-          this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
-          this.deconnected = false;
-          this.addUser();
-        });
-    }
+    this.userProvider.login();
   }
 
-  getFacebookUser(){
-    this.fb.getLoginStatus()
-    .then((response) => {
-      if(response && response.status == 'connected'){
-        this.fb.api('me?fields=id,name,email,first_name,picture.width(100).height(100).as(picture_small)', []).then(profile => {
-          this.userData = new User(profile['uid'],profile['email'],profile['first_name'],profile['name'],profile['picture_small']['data']['url']);
-          this.deconnected = false;
-        });
-      }
-    });
-  }
-
-  addUser(){
-    const items = this.db.list('/users');
-    items.set( this.userData.uid, {'user': this.userData});
-  }
 
   logout() {
-    this.afAuth.auth.signOut();
+    this.userProvider.logout();
     this.userData = null;
   }
 

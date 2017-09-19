@@ -49,7 +49,11 @@ export class FavorisPage {
     this.navCtrl.push(HomePage, {
       station:station
     });
+  }
 
+  removeFavoris(nomStation, event: Event){
+    event.stopPropagation();
+    console.log(nomStation);
   }
 
 }

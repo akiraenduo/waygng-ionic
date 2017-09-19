@@ -13,9 +13,9 @@
         <ion-spinner name="ios"></ion-spinner>
     </div>
     <button ion-item *ngFor="let fav of favoris"  (click)="itemSelected(fav)">
-        <ion-row>
-            <ion-col col-9>{{fav}}</ion-col>
-        </ion-row>
+        <ion-icon name="ionic" item-start color="primary"></ion-icon>
+        <ion-label>{{fav}}</ion-label>
+        <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon name="trash"></ion-icon></button>
     </button>
 
 </ion-content>
