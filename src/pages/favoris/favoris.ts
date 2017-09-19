@@ -4,8 +4,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
-import * as firebase from 'firebase/app';
 import { FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @Component({
@@ -21,19 +21,21 @@ export class FavorisPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public favorisProvider: FavorisProvider) {
+              public favorisProvider: FavorisProvider,
+              private afAuth: AngularFireAuth) {
     this.title = navParams.get("title");
     this.favoris = null;
   }
 
   ionViewDidLoad() {
     this.searchFavoris = true;
-    firebase.auth().onAuthStateChanged((user) => {
+    this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavoris(user.uid);
         this.searchFavoris = false;
       }else{
+        this.favoris = null;
         this.searchFavoris = false;
         this.userUid = null;
       }

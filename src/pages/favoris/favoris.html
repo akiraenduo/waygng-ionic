@@ -19,7 +19,6 @@
         <ion-label>Aucune station en favoris</ion-label>
     </div>
     <button ion-item *ngFor="let fav of favoris | async"  (click)="itemSelected(fav)">
-        <ion-icon name="ionic" item-start color="primary"></ion-icon>
         <ion-label>{{fav.name}}</ion-label>
         <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon name="trash"></ion-icon></button>
     </button>

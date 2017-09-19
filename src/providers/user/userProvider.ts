@@ -7,6 +7,7 @@ import { Facebook } from '@ionic-native/facebook';
 import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /*
   Generated class for the UserProvider provider.
@@ -19,7 +20,8 @@ export class UserProvider {
 
   constructor(public http: Http,
               public platform: Platform,
-              public db: AngularFireDatabase, 
+              public db: AngularFireDatabase,
+              private afAuth: AngularFireAuth, 
               private fb: Facebook) {
     console.log('Hello UserProvider Provider');
   }
@@ -44,8 +46,8 @@ export class UserProvider {
     }
   }
 
-  logout(): firebase.Promise<void> {
-    return firebase.auth().signOut();
+  logout() {
+   this.afAuth.auth.signOut();
   }
 
   private getFacebookUser(){
