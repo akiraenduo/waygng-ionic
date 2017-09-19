@@ -25,4 +25,9 @@ export class FavorisProvider {
     items.push({name:nomStation});
   }
 
+  removeFavoris(userUid,nomStation){
+    const items = this.db.list('/users/'+userUid+'/stations');
+    items.remove(nomStation);
+  }
+
 }

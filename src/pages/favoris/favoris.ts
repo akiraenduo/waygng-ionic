@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { User } from '../../models/user';
 import { HomePage } from '../home/home';
-import { Station } from '../../models/station';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
 import * as firebase from 'firebase/app';
@@ -20,6 +19,7 @@ export class FavorisPage {
   userData: User;
   searchFavoris: any;
   favoris: FirebaseListObservable<any>;
+  userUid: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -32,6 +32,7 @@ export class FavorisPage {
     this.searchFavoris = true;
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavoris(user.uid);
         this.searchFavoris = false;
       }
@@ -46,7 +47,7 @@ export class FavorisPage {
 
   removeFavoris(nomStation, event: Event){
     event.stopPropagation();
-    console.log(nomStation);
+    this.favorisProvider.removeFavoris(this.userUid,nomStation);
   }
 
 }
