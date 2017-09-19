@@ -57,7 +57,7 @@ export class HomePage {
     });
 
     if(this.station){
-      this.searchModel = this.station.nom;
+      this.searchModel = this.station.name;
       this.getTempsLieu(this.station,null);
     }
     
@@ -70,7 +70,7 @@ export class HomePage {
       if(this.listeTemps.length > 0){
         this.listeTemps = [];
       }
-      this.ginkoProvider.fetchTempsLieu(station.nom)
+      this.ginkoProvider.fetchTempsLieu(station.name)
       .subscribe((stationAttente) => {
           this.nomExact = stationAttente.nomExact;
           if(stationAttente.listeTemps.length == 0){

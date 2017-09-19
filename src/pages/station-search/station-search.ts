@@ -75,7 +75,7 @@ export class StationSearchPage {
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.stations = this.stations.filter((station) => {
-        return (station.nom.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (station.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }

@@ -18,7 +18,7 @@ export class RemoveDuplicateStationPipe implements PipeTransform {
    */
   transform(stations: Station[], ...args) {
     return _.uniqWith(stations, function(first, second){
-      return first.nom === second.nom;
+      return first.name === second.name;
     });
   }
 }

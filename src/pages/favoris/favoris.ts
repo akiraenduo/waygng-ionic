@@ -38,8 +38,7 @@ export class FavorisPage {
     });
   }
 
-  itemSelected(nomStation){
-    let station = new Station("",nomStation,"","");
+  itemSelected(station){
     this.navCtrl.push(HomePage, {
       station:station
     });

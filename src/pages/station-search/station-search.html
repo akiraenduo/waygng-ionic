@@ -31,7 +31,7 @@
     </div>
     <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
       <ion-row>
-          <ion-col col-9>{{station.nom}}</ion-col>
+          <ion-col col-9>{{station.name}}</ion-col>
           <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
       </ion-row>
     </button>
@@ -43,7 +43,7 @@
     </div>
     <button ion-item *ngFor="let station of stations | removeDuplicateStation"  (click)="itemSelected(station)">
         <ion-row>
-          <ion-col col-9>{{station.nom}}</ion-col>
+          <ion-col col-9>{{station.name}}</ion-col>
       </ion-row>
     </button>
   </ion-list>
