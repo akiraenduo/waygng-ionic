@@ -9,11 +9,13 @@
 
 
 <ion-content padding>
-
-    <ion-list>
-        <ion-row *ngFor="let fav of items">
+    <div *ngIf="searchFavoris" class="spinner-container">
+        <ion-spinner name="ios"></ion-spinner>
+    </div>
+    <button ion-item *ngFor="let fav of favoris"  (click)="itemSelected(fav)">
+        <ion-row>
             <ion-col col-9>{{fav}}</ion-col>
         </ion-row>
-      </ion-list>
+    </button>
 
 </ion-content>
