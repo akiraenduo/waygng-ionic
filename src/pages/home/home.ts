@@ -5,11 +5,11 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 import {StationSearchPage} from '../station-search/station-search';
 import { Station } from '../../models/station';
-import { User } from '../../models/user';
 import { TempsAttente } from '../../models/tempsattente';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class HomePage {
   listeTemps: TempsAttente[] = [];
   nomExact: string;
   searchModel: string;
-  userData: User;
+  userUid: any;
   isInfavoris: any;
 
 
@@ -40,7 +40,8 @@ export class HomePage {
               public  geolocation: Geolocation,
               public userProvider: UserProvider, 
               public ginkoProvider: GinkoProvider,
-              public favorisProvider: FavorisProvider) {
+              public favorisProvider: FavorisProvider,
+              private afAuth: AngularFireAuth) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Horaires";
@@ -50,19 +51,21 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-
-    this.userData  = this.userProvider.getUser();
     this.isInfavoris = false;
-    if(this.userData && this.station){
-      this.favorisProvider.getFavoris(this.userData.uid, this.station.name).subscribe(snapshot => {
-        snapshot.forEach(station => {
-          if(station && station.name){
-            this.isInfavoris = true;
-          }
-        });
-      })
-
-    }
+    this.afAuth.authState.subscribe(user => {
+      if (user && this.station) {
+        this.userUid = user.uid;
+          this.favorisProvider.getFavoris(this.userUid, this.station.name).subscribe(snapshot => {
+            snapshot.forEach(station => {
+              if(station && station.name){
+                this.isInfavoris = true;
+              }
+            });
+          })
+      }else{
+        this.userUid = null;
+      }
+    });
 
     if(this.station){
       this.searchModel = this.station.name;
@@ -120,9 +123,9 @@ export class HomePage {
   eventFavoris(){
     if(this.isInfavoris){
       this.isInfavoris = false;
-      this.favorisProvider.removeFavoris(this.userData.uid,this.nomExact);
+      this.favorisProvider.removeFavoris(this.userUid,this.nomExact);
     }else{
-      this.favorisProvider.addFavoris(this.userData.uid,this.nomExact);
+      this.favorisProvider.addFavoris(this.userUid,this.nomExact);
     }
   }
   

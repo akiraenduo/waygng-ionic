@@ -65,7 +65,7 @@ export class MyApp {
   }
 
 
-  logout() {
+  logout() { 
     this.userProvider.logout();
     this.userData = null;
   }

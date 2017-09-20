@@ -53,6 +53,7 @@ export class UserProvider {
   }
 
   logout() {
+   firebase.database().goOffline();
    this.afAuth.auth.signOut();
   }
   
@@ -76,6 +77,7 @@ export class UserProvider {
   }
 
   private addUser(user){
+    firebase.database().goOnline();
     const items = this.db.list('/users/'+user.uid);
     items.set('user', user);
     return user;

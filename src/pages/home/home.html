@@ -22,7 +22,7 @@
     <ion-label>Aucun passage prévu à cette station dans l'heure qui vient</ion-label>
   </div>
 
-  <ion-fab top right edge *ngIf="userData">
+  <ion-fab top right edge *ngIf="userUid">
     <button ion-fab mini (click)="eventFavoris()"><ion-icon [color]="isInfavoris ? 'yellown' : 'light'" name="ios-star"></ion-icon></button>
   </ion-fab>
 
