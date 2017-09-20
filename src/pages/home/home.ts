@@ -10,6 +10,7 @@ import { User } from '../../models/user';
 import { TempsAttente } from '../../models/tempsattente';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
+import { UserProvider } from '../../providers/user/userProvider';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
-              public  geolocation: Geolocation, 
+              public  geolocation: Geolocation,
+              public userProvider: UserProvider, 
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider, 
               private afAuth: AngularFireAuth) {
@@ -50,12 +52,8 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    this.afAuth.authState.subscribe(user => {
-      if(user && user.uid){
-        this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
-      }
-    });
-
+    this.userData  = this.userProvider.getUser();
+    
     if(this.station){
       this.searchModel = this.station.name;
       this.getTempsLieu(this.station,null);

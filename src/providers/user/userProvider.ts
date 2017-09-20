@@ -8,6 +8,7 @@ import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
 
 /*
   Generated class for the UserProvider provider.
@@ -18,12 +19,18 @@ import { AngularFireAuth } from 'angularfire2/auth';
 @Injectable()
 export class UserProvider {
 
+  authState: any = null;
+
   constructor(public http: Http,
               public platform: Platform,
               public db: AngularFireDatabase,
               private afAuth: AngularFireAuth, 
               private fb: Facebook) {
-    console.log('Hello UserProvider Provider');
+
+                this.afAuth.authState.subscribe((auth) => {
+                  this.authState = auth
+                });
+
   }
 
   login(): firebase.Promise<any> {
@@ -48,6 +55,13 @@ export class UserProvider {
 
   logout() {
    this.afAuth.auth.signOut();
+  }
+  
+  getUser():User{
+    if(this.authState){
+      return new User(this.authState.uid,this.authState.email,"",this.authState.displayName,this.authState.photoURL); 
+    }
+    return null;
   }
 
   private getFacebookUser(){
