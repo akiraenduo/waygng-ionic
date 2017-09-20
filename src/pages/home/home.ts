@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {AngularFireAuth,} from 'angularfire2/auth';
 
 import { Geolocation } from '@ionic-native/geolocation';
 
@@ -41,8 +40,7 @@ export class HomePage {
               public  geolocation: Geolocation,
               public userProvider: UserProvider, 
               public ginkoProvider: GinkoProvider,
-              public favorisProvider: FavorisProvider, 
-              private afAuth: AngularFireAuth) {
+              public favorisProvider: FavorisProvider) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Horaires";
@@ -53,7 +51,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.userData  = this.userProvider.getUser();
-    
+
     if(this.station){
       this.searchModel = this.station.name;
       this.getTempsLieu(this.station,null);
