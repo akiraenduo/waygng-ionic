@@ -12,12 +12,17 @@
     <div *ngIf="searchFavoris" class="spinner-container">
         <ion-spinner name="ios"></ion-spinner>
     </div>
-    <div *ngIf="isNotConnected()" class="warning-container">
-        <ion-label>Veuillez vous connecter pour accéder aux favoris</ion-label>
-    </div>
-    <div *ngIf="(favoris | async)?.length==0" class="warning-container">
-        <ion-label>Aucune station en favoris</ion-label>
-    </div>
+    <ion-row *ngIf="isNotConnected()" class="warning-container">
+        <ion-col col-12>
+                Veuillez vous connecter pour accéder aux favoris
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="(favoris | async)?.length==0" class="warning-container">
+        <ion-col col-12>
+            Aucune station en favoris
+        </ion-col>
+    </ion-row>
+
     <button ion-item *ngFor="let fav of favoris | async"  (click)="itemSelected(fav)">
         <ion-label>{{fav.name}}</ion-label>
         <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon name="trash"></ion-icon></button>

@@ -18,9 +18,11 @@
   <div *ngIf="searchPosition" class="spinner-container">
     <ion-spinner name="ios"></ion-spinner>
   </div>
-  <div *ngIf="noResult" class="warning-container">
-    <ion-label>Aucun passage prévu à cette station dans l'heure qui vient</ion-label>
-  </div>
+  <ion-row *ngIf="noResult" class="warning-container">
+      <ion-col col-12>
+          Aucun passage prévu à cette station dans l'heure qui vient
+      </ion-col>
+  </ion-row>
 
   <ion-fab top right edge *ngIf="userUid">
     <button ion-fab mini (click)="eventFavoris()"><ion-icon [color]="isInfavoris ? 'yellown' : 'light'" name="ios-star"></ion-icon></button>
