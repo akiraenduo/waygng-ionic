@@ -33,6 +33,7 @@ export class HomePage {
   searchModel: string;
   userData: User;
   fbProfile: any;
+  favoris: any;
 
 
   constructor(public navCtrl: NavController, 
@@ -50,8 +51,18 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    
+
     this.userData  = this.userProvider.getUser();
+    if(this.userData && this.station){
+      this.favorisProvider.getFavoris(this.userData.uid, this.station.name).subscribe(snapshot => {
+        snapshot.forEach(station => {
+          if(station && station.name){
+            console.log(station.name);
+          }
+        });
+      })
+
+    }
 
     if(this.station){
       this.searchModel = this.station.name;

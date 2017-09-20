@@ -32,7 +32,7 @@ export class FavorisPage {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        this.favoris = this.favorisProvider.getFavoris(user.uid);
+        this.favoris = this.favorisProvider.getFavorisList(user.uid);
         this.searchFavoris = false;
       }else{
         this.favoris = null;

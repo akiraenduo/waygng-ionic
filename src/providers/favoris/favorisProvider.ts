@@ -16,16 +16,25 @@ export class FavorisProvider {
               public db: AngularFireDatabase) {
   }
 
-  getFavoris(userUid): FirebaseListObservable<any>{
+  getFavorisList(userUid): FirebaseListObservable<any>{
    return this.db.list('/users/'+userUid+'/stations');
   }
 
-  addFavoris(userUid,nomStation){
+  getFavoris(userUid, nomStation): FirebaseListObservable<any> {
+    return this.db.list('/users/'+userUid+'/stations',{ 
+      query: {
+        orderByChild: 'name',
+        equalTo: nomStation 
+      }
+     });
+   }
+
+  addFavoris(userUid, nomStation){
     const items = this.db.list('/users/'+userUid+'/stations');
     items.push({name:nomStation});
   }
 
-  removeFavoris(userUid,nomStation){
+  removeFavoris(userUid, nomStation){
     const items = this.db.list('/users/'+userUid+'/stations');
     items.remove(nomStation);
   }

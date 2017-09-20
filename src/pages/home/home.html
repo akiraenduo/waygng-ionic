@@ -23,7 +23,7 @@
   </div>
 
   <ion-fab top right edge *ngIf="userData">
-    <button ion-fab mini (click)="addFavoris()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab mini (click)="addFavoris()"><ion-icon name="ios-star"></ion-icon></button>
   </ion-fab>
 
   <ion-list>
@@ -32,7 +32,7 @@
           <ion-row>
               <ion-col col-1 class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">{{tempsAttente.numLignePublic}}</ion-col>
               <ion-col col-6>{{tempsAttente.destination}} <span *ngIf="tempsAttente.precisionDestination" class="precision-destination"><br> ({{tempsAttente.precisionDestination}})</span></ion-col>
-              <ion-col col-5>{{tempsAttente.lstTemps | showTwoTime}}</ion-col>
+              <ion-col col-5 class="text-right">{{tempsAttente.lstTemps | showTwoTime}}</ion-col>
           </ion-row>
         </ion-grid>
     </ion-item>
