@@ -48,9 +48,9 @@ export class FavorisPage {
     });
   }
 
-  removeFavoris(nomStation, event: Event){
+  removeFavoris(station, event: Event){
     event.stopPropagation();
-    this.favorisProvider.removeFavoris(this.userUid,nomStation);
+    this.favorisProvider.removeFavoris(this.userUid,station.name);
   }
 
   isNotConnected(){

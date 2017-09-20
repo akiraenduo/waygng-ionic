@@ -35,8 +35,18 @@ export class FavorisProvider {
   }
 
   removeFavoris(userUid, nomStation){
-    const items = this.db.list('/users/'+userUid+'/stations');
-    items.remove(nomStation);
+    const items = this.db.list('/users/'+userUid+'/stations', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'name',
+        equalTo: nomStation
+      }
+    });
+    items.subscribe(snapshots=>{
+      snapshots.forEach(snapshot => {
+        snapshot.ref.remove();
+      });
+    })
   }
 
 }

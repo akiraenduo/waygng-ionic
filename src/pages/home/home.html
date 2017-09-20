@@ -23,7 +23,7 @@
   </div>
 
   <ion-fab top right edge *ngIf="userData">
-    <button ion-fab mini (click)="addFavoris()"><ion-icon name="ios-star"></ion-icon></button>
+    <button ion-fab mini (click)="eventFavoris()"><ion-icon [color]="isInfavoris ? 'yellown' : 'light'" name="ios-star"></ion-icon></button>
   </ion-fab>
 
   <ion-list>

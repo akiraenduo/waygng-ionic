@@ -32,8 +32,7 @@ export class HomePage {
   nomExact: string;
   searchModel: string;
   userData: User;
-  fbProfile: any;
-  favoris: any;
+  isInfavoris: any;
 
 
   constructor(public navCtrl: NavController, 
@@ -53,11 +52,12 @@ export class HomePage {
   ionViewDidLoad() {
 
     this.userData  = this.userProvider.getUser();
+    this.isInfavoris = false;
     if(this.userData && this.station){
       this.favorisProvider.getFavoris(this.userData.uid, this.station.name).subscribe(snapshot => {
         snapshot.forEach(station => {
           if(station && station.name){
-            console.log(station.name);
+            this.isInfavoris = true;
           }
         });
       })
@@ -117,8 +117,13 @@ export class HomePage {
     this.getTempsLieu(this.station,refresher);
   }
 
-  addFavoris(){
-    this.favorisProvider.addFavoris(this.userData.uid,this.nomExact);
+  eventFavoris(){
+    if(this.isInfavoris){
+      this.isInfavoris = false;
+      this.favorisProvider.removeFavoris(this.userData.uid,this.nomExact);
+    }else{
+      this.favorisProvider.addFavoris(this.userData.uid,this.nomExact);
+    }
   }
   
 
