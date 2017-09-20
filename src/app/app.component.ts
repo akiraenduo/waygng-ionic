@@ -9,8 +9,7 @@ import { FavorisPage } from '../pages/favoris/favoris';
 import { User } from '../models/user';
 
 import { UserProvider } from '../providers/user/userProvider';
-
-import * as firebase from 'firebase/app';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @Component({
@@ -24,15 +23,14 @@ export class MyApp {
   pages: Array<{title: string,icon: string, component: any}>;
 
   userData: User;
-  deconnected: any;
 
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
+              private afAuth: AngularFireAuth, 
               public userProvider: UserProvider) {
     this.initializeApp();
 
-    this.deconnected = true;
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Horaires', icon:'md-alarm', component: HomePage },
@@ -47,16 +45,12 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      firebase.auth().onAuthStateChanged((user) => {
-        if (!user) {
-          this.deconnected = true;
-        } else { 
-          this.deconnected = false;
-          this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
+      this.userData = this.userProvider.getUser();
+      this.afAuth.authState.subscribe((auth) => {
+        if(auth){
+          this.userData = new User(auth.uid,auth.email,"",auth.displayName,auth.photoURL); 
         }
       });
-
     });
   }
 
@@ -74,6 +68,14 @@ export class MyApp {
   logout() {
     this.userProvider.logout();
     this.userData = null;
+  }
+
+  isDeconnected(){
+    if(this.userData && this.userData.uid){
+      return false;
+    }else{
+      return true;
+    }
   }
 
 }

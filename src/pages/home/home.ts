@@ -50,6 +50,7 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    
     this.userData  = this.userProvider.getUser();
 
     if(this.station){

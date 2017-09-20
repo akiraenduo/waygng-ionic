@@ -8,7 +8,7 @@
             <ion-label>{{ userData.username }}</ion-label>
             <button ion-button outline clear large item-end (click)="logout()"><ion-icon name="power"></ion-icon></button>
         </ion-item >
-      <button ion-button full icon-left *ngIf="deconnected"  (click)="signInWithFacebook()">
+      <button ion-button full icon-left *ngIf="isDeconnected()"  (click)="signInWithFacebook()">
           <ion-icon name="logo-facebook"></ion-icon>
           connexion
         </button>

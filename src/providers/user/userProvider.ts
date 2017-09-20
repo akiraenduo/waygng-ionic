@@ -8,7 +8,6 @@ import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
 
 /*
   Generated class for the UserProvider provider.
