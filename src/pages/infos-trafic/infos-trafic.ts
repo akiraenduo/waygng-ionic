@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 
 /**
  * Generated class for the InfosTraficPage page.
@@ -14,11 +15,27 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class InfosTraficPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  title: any;
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              public ginkoProvider: GinkoProvider,) {
+
+              this.title = navParams.get("title");
+
+              this. getInfosTrafic();
+
+
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad InfosTraficPage');
+
+  }
+
+  getInfosTrafic(){
+    this.ginkoProvider.fetchInfosTrafic().subscribe(response =>{
+      console.log(response);
+    });
   }
 
 }

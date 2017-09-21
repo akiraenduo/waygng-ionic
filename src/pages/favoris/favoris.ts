@@ -53,12 +53,8 @@ export class FavorisPage {
     this.favorisProvider.removeFavoris(this.userUid,station.name);
   }
 
-  isNotConnected(){
-    if(this.userUid == null){
-      return true;
-    }else{
-      return false;
-    }
+  isNotConnected():boolean{
+    return this.userUid == null;
   }
 
 }

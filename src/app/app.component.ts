@@ -5,11 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { FavorisPage } from '../pages/favoris/favoris';
+import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
 
 import { User } from '../models/user';
 
 import { UserProvider } from '../providers/user/userProvider';
 import { AngularFireAuth } from 'angularfire2/auth';
+
 
 
 @Component({
@@ -34,7 +36,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Horaires', icon:'md-alarm', component: HomePage },
-      { title: 'Favoris', icon:'star', component: FavorisPage }
+      { title: 'Favoris', icon:'star', component: FavorisPage },
+      { title: 'Infos trafic', icon:'information-circle', component: InfosTraficPage }
     ];
 
   }
