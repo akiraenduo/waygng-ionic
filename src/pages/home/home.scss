@@ -7,6 +7,8 @@ page-home {
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        min-width: 40px;
+        min-height: 40px;
     }
 
     .precision-destination{
@@ -15,6 +17,5 @@ page-home {
 
     .home-searchbar{
         background: none;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
     }
 }

@@ -27,16 +27,15 @@
   <ion-fab top right edge *ngIf="userUid">
     <button ion-fab mini (click)="eventFavoris()"><ion-icon [color]="isInfavoris ? 'yellown' : 'light'" name="ios-star"></ion-icon></button>
   </ion-fab>
-
+  
   <ion-list>
     <ion-item *ngFor="let tempsAttente of listeTemps">
-        <ion-grid>
-          <ion-row>
-              <ion-col col-1 class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">{{tempsAttente.numLignePublic}}</ion-col>
-              <ion-col col-6>{{tempsAttente.destination}} <span *ngIf="tempsAttente.precisionDestination" class="precision-destination"><br> ({{tempsAttente.precisionDestination}})</span></ion-col>
-              <ion-col col-5 class="text-right">{{tempsAttente.lstTemps | showTwoTime}}</ion-col>
-          </ion-row>
-        </ion-grid>
+      <ion-thumbnail item-start class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">
+        {{tempsAttente.numLignePublic}}
+      </ion-thumbnail>
+      <h2>{{tempsAttente.destination}}</h2>
+      <p>({{tempsAttente.precisionDestination}})</p>
+      <button ion-button clear item-end>{{tempsAttente.lstTemps | showTwoTime}}</button>
     </ion-item>
   </ion-list>
 
