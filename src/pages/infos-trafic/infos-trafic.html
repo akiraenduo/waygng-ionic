@@ -10,4 +10,10 @@
 
 <ion-content padding>
 
+
+
+      <button ion-item *ngFor="let fav of infosTrafic.infosAnticipees | async">
+          {{fav.id}}
+      </button>
+
 </ion-content>

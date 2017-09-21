@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
+import { InfosTrafic } from '../../models/infosTrafic';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Generated class for the InfosTraficPage page.
@@ -16,6 +18,7 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 export class InfosTraficPage {
 
   title: any;
+  infosTrafic: Observable<InfosTrafic>;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -33,9 +36,7 @@ export class InfosTraficPage {
   }
 
   getInfosTrafic(){
-    this.ginkoProvider.fetchInfosTrafic().subscribe(response =>{
-      console.log(response);
-    });
+    this.infosTrafic = this.ginkoProvider.fetchInfosTrafic();
   }
 
 }
