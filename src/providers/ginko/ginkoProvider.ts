@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 
 import { Station } from '../../models/station';
 import { StationAttente } from '../../models/stationAttente';
+import { InfosTrafic } from '../../models/infosTrafic';
 /*
   Generated class for the RestProvider provider.
 
@@ -62,6 +63,16 @@ export class GinkoProvider {
         .map(response => {
             var data = response.json().objets;
             return new StationAttente(data.nomExact, data.listeTemps);
+        })
+        .catch(this.handleError);
+  }
+
+  fetchInfosTrafic(): Observable<InfosTrafic> {
+    return this.http
+        .get(this.urlGinko+"/TR/getInfosTrafic.do")
+        .map(response => {
+            var data = response.json().objets;
+            return new InfosTrafic(data);
         })
         .catch(this.handleError);
   }
