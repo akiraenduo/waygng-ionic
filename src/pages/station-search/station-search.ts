@@ -29,6 +29,7 @@ export class StationSearchPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ginkoProvider: GinkoProvider, public geolocation: Geolocation) {
+    this.searchPosition = true;
     this.getStationProches(null);
   }
 

@@ -1,10 +1,16 @@
 <ion-header>
-  <ion-toolbar hideBackButton>
+  <ion-toolbar color="blue" hideBackButton>
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
       <ion-title>{{title}}</ion-title>
+      <ion-buttons end *ngIf="userUid">
+          <button ion-fab mini color="light"  (click)="eventFavoris()"><ion-icon [color]="isInfavoris ? 'yellown' : 'dark'" [name]="isInfavoris ? 'ios-star' : 'ios-star-outline'"></ion-icon></button>
+        </ion-buttons>
   </ion-toolbar>
+  <button ion-button full color="blue" class="button-margin" (click)="searchStation()">
+    <ion-searchbar class="home-searchbar" [(ngModel)] = "searchModel" placeholder="Station" > </ion-searchbar>
+  </button> 
 </ion-header>
 
 <ion-content padding>
@@ -12,9 +18,6 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-<button ion-button full color="light" (click)="searchStation()">
-  <ion-searchbar class="home-searchbar" [(ngModel)] = "searchModel" placeholder="Station" > </ion-searchbar>
-</button>
   <div *ngIf="searchPosition" class="spinner-container">
     <ion-spinner name="ios"></ion-spinner>
   </div>
@@ -24,17 +27,13 @@
       </ion-col>
   </ion-row>
 
-  <ion-fab top right edge *ngIf="userUid">
-    <button ion-fab mini (click)="eventFavoris()"><ion-icon [color]="isInfavoris ? 'yellown' : 'light'" name="ios-star"></ion-icon></button>
-  </ion-fab>
-
   <ion-list>
     <ion-item *ngFor="let tempsAttente of listeTemps">
       <ion-thumbnail item-start class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">
         {{tempsAttente.numLignePublic}}
       </ion-thumbnail>
       <h2>{{tempsAttente.destination}}</h2>
-      <p>({{tempsAttente.precisionDestination}})</p>
+      <p>{{tempsAttente.precisionDestination}}</p>
       <button ion-button clear item-end>{{tempsAttente.lstTemps | showTwoTime}}</button>
     </ion-item>
   </ion-list>

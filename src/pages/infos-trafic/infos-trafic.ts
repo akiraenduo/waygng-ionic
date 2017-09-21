@@ -26,13 +26,13 @@ export class InfosTraficPage {
 
               this.title = navParams.get("title");
 
-              this. getInfosTrafic();
+        
 
 
   }
 
   ionViewDidLoad() {
-
+    this. getInfosTrafic();
   }
 
   getInfosTrafic(){

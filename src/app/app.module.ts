@@ -54,7 +54,11 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     HttpModule,
     JsonpModule,
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp,{
+      backButtonText: '',
+      iconMode: 'ios',
+      pageTransition: 'ios-transition'
+    }),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule

@@ -87,17 +87,31 @@ export class HomePage {
           if(stationAttente.listeTemps.length == 0){
             this.noResult = true;
           }else{
-            for (var i = 0; i < stationAttente.listeTemps.length - 1; i++) {
-                let lstTemps = [];
-                let currentStation = stationAttente.listeTemps[i];
-                let nextStation = stationAttente.listeTemps[i+1];
-                if(currentStation.idArret == nextStation.idArret && currentStation.idLigne == nextStation.idLigne){
-                  lstTemps.push(currentStation.temps);
-                  lstTemps.push(nextStation.temps); 
-                  currentStation.lstTemps = lstTemps; 
-                  this.listeTemps.push(currentStation);
-                }
+
+            let map = new Map;
+            for (var i = 0; i < stationAttente.listeTemps.length; i++) {
+              let currentStation = stationAttente.listeTemps[i];
+              if(map.get(currentStation.idLigne) == null){
+                map.set(currentStation.idLigne,[currentStation]);
+              }else{
+                let lstStation = map.get(currentStation.idLigne);
+                lstStation.push(currentStation);
+                map.set(currentStation.idLigne,lstStation);
+              }
             }
+
+            map.forEach(lstStation => {
+              let lstTemps = [];
+              let currentStation = lstStation[0];
+              for (var i = 0; i < lstStation.length; i++) {
+                lstTemps.push(lstStation[i].temps);
+              }
+              currentStation.lstTemps = lstTemps;
+              this.listeTemps.push(currentStation);
+
+            });
+
+  
 
           }
           this.searchPosition = false;
