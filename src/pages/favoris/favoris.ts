@@ -33,7 +33,7 @@ export class FavorisPage {
       if (user) {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavorisList(user.uid);
-        this.searchFavoris = false;
+        this.favoris.subscribe(() => this.searchFavoris = false);
       }else{
         this.favoris = null;
         this.searchFavoris = false;
