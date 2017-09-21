@@ -91,7 +91,7 @@ export class HomePage {
                 let lstTemps = [];
                 let currentStation = stationAttente.listeTemps[i];
                 let nextStation = stationAttente.listeTemps[i+1];
-                if(currentStation.idArret == nextStation.idArret){
+                if(currentStation.idArret == nextStation.idArret && currentStation.idLigne == nextStation.idLigne){
                   lstTemps.push(currentStation.temps);
                   lstTemps.push(nextStation.temps); 
                   currentStation.lstTemps = lstTemps; 
