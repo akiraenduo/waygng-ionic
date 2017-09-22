@@ -25,7 +25,7 @@
 
     <button ion-item *ngFor="let fav of favoris | async"  (click)="itemSelected(fav)">
         <ion-label>{{fav.name}}</ion-label>
-        <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon name="trash"></ion-icon></button>
+        <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon color="danger" name="md-trash"></ion-icon></button>
     </button>
 
 </ion-content>
