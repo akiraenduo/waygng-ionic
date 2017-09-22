@@ -91,12 +91,13 @@ export class HomePage {
             let map = new Map;
             for (var i = 0; i < stationAttente.listeTemps.length; i++) {
               let currentStation = stationAttente.listeTemps[i];
-              if(map.get(currentStation.idLigne) == null){
-                map.set(currentStation.idLigne,[currentStation]);
+              let key = currentStation.idLigne+currentStation.idArret;
+              if(map.get(key) == null){
+                map.set(key,[currentStation]);
               }else{
-                let lstStation = map.get(currentStation.idLigne);
+                let lstStation = map.get(key);
                 lstStation.push(currentStation);
-                map.set(currentStation.idLigne,lstStation);
+                map.set(key,lstStation);
               }
             }
 

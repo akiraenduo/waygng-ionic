@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar >
-      <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+      <ion-searchbar [(ngModel)]="searchBarModel" (ionInput)="getItems($event)"></ion-searchbar>
     </ion-navbar>
 </ion-header>
 

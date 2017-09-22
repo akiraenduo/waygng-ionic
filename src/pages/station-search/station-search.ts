@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { NavController, NavParams } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Searchbar } from 'ionic-angular';
 
 import { Station } from '../../models/station';
 import { HomePage } from '../home/home';
@@ -19,6 +20,9 @@ import { HomePage } from '../home/home';
 })
 export class StationSearchPage {
 
+  @ViewChild("searchbar") searchBarModel:Searchbar;
+  
+
    latitude: number;
    longitude: number
    allStations: Station[] = [];
@@ -34,6 +38,7 @@ export class StationSearchPage {
   }
 
   ionViewDidLoad() {
+    this.searchBarModel.setFocus();
     this.searchStation = true;
     this.ginkoProvider.fetchStations()
         .subscribe((stations) => {
