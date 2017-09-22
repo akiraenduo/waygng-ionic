@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 //MODULE NATIF
 import { Geolocation } from '@ionic-native/geolocation';
+import { Keyboard } from '@ionic-native/keyboard';
 import { Facebook } from '@ionic-native/facebook';
 
 //PIPE
@@ -77,6 +78,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     StatusBar,
     SplashScreen,
     Geolocation,
+    Keyboard,
     Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
