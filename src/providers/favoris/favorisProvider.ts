@@ -42,9 +42,10 @@ export class FavorisProvider {
         equalTo: nomStation
       }
     });
-    items.subscribe(snapshots=>{
+    const deleteSubscribe = items.subscribe(snapshots=>{
       snapshots.forEach(snapshot => {
         snapshot.ref.remove();
+        deleteSubscribe.unsubscribe();
       });
     })
   }
