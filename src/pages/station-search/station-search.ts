@@ -36,20 +36,25 @@ export class StationSearchPage {
               public ginkoProvider: GinkoProvider, 
               public geolocation: Geolocation,
               public Keyboard: Keyboard) {
-    this.searchPosition = true;
-    this.getStationProches(null);
+    
   }
 
+
+
   ionViewDidLoad() {
-    
+    this.doFocus();
+    this.getStations();
+  }
+
+
+  getStations(){
     this.searchStation = true;
     this.ginkoProvider.fetchStations()
-        .subscribe((stations) => {
-          this.allStations = stations;
-          this.searchStation = false;
-        });
-        this.searchBar.setFocus();
-        this.Keyboard.show();
+    .subscribe((stations) => {
+      this.allStations = stations;
+      this.searchStation = false;
+      this.getStationProches(null);
+    });
   }
 
   getStationProches(refresher){
@@ -70,6 +75,18 @@ export class StationSearchPage {
      }).catch((error) => {
        console.log('Error getting location', error);
      });
+  }
+
+  doFocus(){
+    setTimeout(()=>{
+      this.searchBar.setFocus();
+      this.Keyboard.show();
+    },1000);
+
+
+    this.Keyboard.onKeyboardShow().subscribe((data)=>{
+      this.searchBar.setFocus();
+    })
   }
 
   doRefresh(refresher) {

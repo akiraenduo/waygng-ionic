@@ -79,7 +79,7 @@ export class UserProvider {
   private addUser(user){
     firebase.database().goOnline();
     const items = this.db.list('/users/'+user.uid);
-    items.set('user', user);
+    items.update('user', user);
     return user;
   }
 
