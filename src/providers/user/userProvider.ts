@@ -36,7 +36,9 @@ export class UserProvider {
     if (this.platform.is('cordova')) {
       return this.fb.login(['email', 'public_profile']).then(res => {
         const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        return firebase.auth().signInWithCredential(facebookCredential).then(res => this.getFacebookUser());
+        return firebase.auth().signInWithCredential(facebookCredential).then(user => {
+          this.getFacebookUser(user.uid)
+        });
       })
     }
     else {
@@ -64,12 +66,18 @@ export class UserProvider {
     return null;
   }
 
-  private getFacebookUser(){
+  updateUser(user:User){
+    const items = this.db.object('/users/'+user.uid);
+    items.update({user: user});
+    this.afAuth.auth.currentUser.updateProfile({displayName: user.username,photoURL:user.picture});
+  }
+
+  private getFacebookUser(uid:string){
     this.fb.getLoginStatus()
     .then((response) => {
       if(response && response.status == 'connected'){
         this.fb.api('me?fields=id,name,email,first_name,picture.width(100).height(100).as(picture_small)', []).then(profile => {
-          let user = new User(profile['uid'],profile['email'],profile['first_name'],profile['name'],profile['picture_small']['data']['url']);
+          let user = new User(uid,profile['email'],profile['first_name'],profile['name'],profile['picture_small']['data']['url']);
           return this.addUser(user);
         });
       }

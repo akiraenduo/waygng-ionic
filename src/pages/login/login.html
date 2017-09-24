@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar color="primary">
-    <ion-title>login</ion-title>
+  <ion-navbar color="blue">
+    <ion-title>Login</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,11 +15,16 @@
 
 <ion-content padding>
 
-  <button block ion-button (click)="signInWithFacebook()">Login Facebook</button>
+  
+  <button ion-button full icon-left (click)="signInWithFacebook()">
+      <ion-icon name="logo-facebook"></ion-icon>
+      connexion
+    </button>
+
 
   <ion-item>
     <ion-label floating>Email</ion-label>
-    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+    <ion-input type="email" [(ngModel)]="user.email"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -27,7 +32,9 @@
     <ion-input type="password" [(ngModel)]="user.password"></ion-input>
   </ion-item>
 
-  <button ion-button (click)="login(user)">Login</button>
-  <button ion-button color="light" (click)="register()">Register</button>
+  <div padding>
+    <button ion-button color="blue" (click)="login(user)">Login</button>
+    <button ion-button color="light" class="float-right" (click)="register()">Register</button>
+  </div>
 
 </ion-content>

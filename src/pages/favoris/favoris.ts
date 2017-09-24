@@ -24,6 +24,9 @@ export class FavorisPage {
               public favorisProvider: FavorisProvider,
               private afAuth: AngularFireAuth) {
     this.title = navParams.get("title");
+    if(!this.title){
+      this.title = "Favoris";
+    }
     this.favoris = null;
   }
 

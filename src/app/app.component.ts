@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -11,6 +11,8 @@ import { User } from '../models/user';
 
 import { UserProvider } from '../providers/user/userProvider';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { LoginPage } from '../pages/login/login';
+import { ProfilePage } from '../pages/profile/profile';
 
 
 
@@ -26,11 +28,12 @@ export class MyApp {
 
   userData: User;
 
-  constructor(public platform: Platform, 
+  constructor(public platform: Platform,
+              public menu: MenuController,
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
               private afAuth: AngularFireAuth, 
-              public userProvider: UserProvider) {
+              public userProvider: UserProvider,) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -48,11 +51,14 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.userData = this.userProvider.getUser();
-      this.afAuth.authState.subscribe((auth) => {
-        if(auth){
-          this.userData = new User(auth.uid,auth.email,"",auth.displayName,auth.photoURL); 
+      this.afAuth.auth.onAuthStateChanged(user => {
+        if(user){
+          this.rootPage = FavorisPage;
+          this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL); 
+        }else{
+          this.userData = null;
         }
+        
       });
     });
   }
@@ -63,14 +69,14 @@ export class MyApp {
     this.nav.setRoot(page.component, {title : page.title });
   }
 
-  signInWithFacebook() {
-    this.userProvider.login();
+  signIn(){
+    this.menu.close();
+    this.nav.push(LoginPage);
   }
 
-
-  logout() { 
-    this.userProvider.logout();
-    this.userData = null;
+  goProfile(){
+    this.menu.close();
+    this.nav.push(ProfilePage);
   }
 
   isDeconnected(){

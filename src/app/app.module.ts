@@ -11,11 +11,13 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Facebook } from '@ionic-native/facebook';
+import { PhotoLibrary } from '@ionic-native/photo-library';
 
 //PIPE
 import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remove-duplicate-station';
 import {CalculateDistancePipe} from '../pipes/calculate-distance/calculate-distance';
 import {ShowTwoTimePipe} from '../pipes/show-two-time/show-two-time';
+import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -25,6 +27,7 @@ import { RegisterPage } from '../pages/register/register';
 import {StationSearchPage} from '../pages/station-search/station-search';
 import {FavorisPage} from '../pages/favoris/favoris';
 import {InfosTraficPage} from '../pages/infos-trafic/infos-trafic';
+import {ProfilePage} from '../pages/profile/profile';
 
 //PROVIDER
 import { GinkoProvider } from '../providers/ginko/ginkoProvider';
@@ -47,9 +50,11 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     StationSearchPage,
     FavorisPage,
     InfosTraficPage,
+    ProfilePage,
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
-    ShowTwoTimePipe
+    ShowTwoTimePipe,
+    SafeHtmlPipe
   ],
   imports: [
     HttpModule,
@@ -72,7 +77,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     RegisterPage,
     StationSearchPage,
     FavorisPage,
-    InfosTraficPage
+    InfosTraficPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
@@ -80,6 +86,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     Geolocation,
     Keyboard,
     Facebook,
+    PhotoLibrary,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,

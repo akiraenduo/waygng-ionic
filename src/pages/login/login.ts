@@ -5,9 +5,9 @@ import { User } from '../../models/user';
 import { RegisterPage } from '../register/register';
 import { HomePage } from '../home/home';
 
-import { Platform } from 'ionic-angular';
+import { ToastController, MenuController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
+import { UserProvider } from '../../providers/user/userProvider';
 
 
 /**
@@ -25,19 +25,36 @@ export class LoginPage {
 
   user = {} as User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform) {
+  constructor(public navCtrl: NavController,
+              public menu: MenuController,  
+              public toastCtrl: ToastController,
+              public navParams: NavParams,
+              public userProvider: UserProvider, 
+              private afAuth: AngularFireAuth, 
+              private fb: Facebook) {
+
+                const authSubscribe = this.afAuth.authState.subscribe(user => {
+                if (user) {
+                  this.menu.open();
+                  this.navCtrl.setRoot(HomePage);
+                  authSubscribe.unsubscribe();
+                }
+              });
   }
 
-  async login(user: User){
-    try{
+  login(user: User){
+    let isOk = this.verifLogin(user);
+    if(isOk){
       const result = this.afAuth.auth.signInWithEmailAndPassword(user.email,user.password);
-      if(result){
-        this.navCtrl.setRoot(HomePage);
-      }
-    }catch(e){
-      console.error(e);
+      result.catch( e => {
+        this.showToast(e.message);
+      });
+      result.then(res => 
+        this.navCtrl.setRoot(HomePage)
+      );
     }
   }
+  
 
   async doFacebookLogin() {
     this.fb.login(['public_profile','user_friends','email'])
@@ -51,17 +68,35 @@ export class LoginPage {
 
 
   signInWithFacebook() {
-    if (this.platform.is('cordova')) {
-      return this.fb.login(['email', 'public_profile']).then(res => {
-        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        return firebase.auth().signInWithCredential(facebookCredential).then(res => this.navCtrl.setRoot(HomePage));
-      })
+    this.userProvider.login();
+  }
+
+  verifLogin(user: User):boolean{
+    if(!user.email){
+      this.showToast("L'adresse email ne peut être vide");
+      return false;
+    }else{
+      var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
+      if (!emailPattern.test(user.email)) {
+        this.showToast(" Le format de l'adresse email est incorrecte");
+        return false;
+      }
     }
-    else {
-      return this.afAuth.auth
-        .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-        .then(res => console.log(res));
+    if(!user.password){
+      this.showToast("Le mot de passe ne peut être vide");
+      return false;
     }
+    return true;
+  }
+
+  showToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: "bottom"
+    });
+
+    toast.present(toast);
   }
 
 

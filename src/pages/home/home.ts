@@ -52,7 +52,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.isInfavoris = false;
-    this.afAuth.authState.subscribe(user => {
+    this.afAuth.auth.onAuthStateChanged(user => {
       if (user && this.station) {
         this.userUid = user.uid;
           this.favorisProvider.getFavoris(this.userUid, this.station.name).subscribe(snapshot => {
@@ -65,8 +65,8 @@ export class HomePage {
       }else{
         this.userUid = null;
       }
+      
     });
-
     if(this.station){
       this.searchModel = this.station.name;
       this.getTempsLieu(this.station,null);

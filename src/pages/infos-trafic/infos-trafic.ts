@@ -26,9 +26,6 @@ export class InfosTraficPage {
 
               this.title = navParams.get("title");
 
-        
-
-
   }
 
   ionViewDidLoad() {
