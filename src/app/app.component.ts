@@ -6,13 +6,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { FavorisPage } from '../pages/favoris/favoris';
 import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
+import { LoginPage } from '../pages/login/login';
+import { ProfilePage } from '../pages/profile/profile';
+import { SpotPage } from '../pages/spot/spot';
 
 import { User } from '../models/user';
 
 import { UserProvider } from '../providers/user/userProvider';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { LoginPage } from '../pages/login/login';
-import { ProfilePage } from '../pages/profile/profile';
+
 
 
 
@@ -40,7 +42,8 @@ export class MyApp {
     this.pages = [
       { title: 'Horaires', icon:'md-alarm', component: HomePage },
       { title: 'Infos trafic', icon:'information-circle', component: InfosTraficPage },
-      { title: 'Favoris', icon:'star', component: FavorisPage }
+      { title: 'Favoris', icon:'star', component: FavorisPage },
+      { title: 'Spots', icon:'star', component: SpotPage }
     ];
 
   }

@@ -28,16 +28,19 @@ import {StationSearchPage} from '../pages/station-search/station-search';
 import {FavorisPage} from '../pages/favoris/favoris';
 import {InfosTraficPage} from '../pages/infos-trafic/infos-trafic';
 import {ProfilePage} from '../pages/profile/profile';
+import {SpotPage} from '../pages/spot/spot';
 
 //PROVIDER
 import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { UserProvider } from '../providers/user/userProvider';
 import { FavorisProvider } from '../providers/favoris/favorisProvider';
+import { SpotProvider } from '../providers/spot/spotProvider';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule,JsonpModule } from '@angular/http';
 import { FIREBASE_CONFIG } from './app.firebase.config';
+
 
 
 
@@ -51,6 +54,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     FavorisPage,
     InfosTraficPage,
     ProfilePage,
+    SpotPage,
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
     ShowTwoTimePipe,
@@ -78,7 +82,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     StationSearchPage,
     FavorisPage,
     InfosTraficPage,
-    ProfilePage
+    ProfilePage,
+    SpotPage
   ],
   providers: [
     StatusBar,
@@ -90,7 +95,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,
-    FavorisProvider
+    FavorisProvider,
+    SpotProvider
   ]
 })
 export class AppModule {}
