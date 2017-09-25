@@ -1,0 +1,51 @@
+<!--
+  Generated template for the AddSpotPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Envoyé un spot</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list padding>
+
+    <ion-item>
+      <ion-label>Destiné à</ion-label>
+      <ion-select [(ngModel)]="spot.gender">
+        <ion-option value="femme">Femme</ion-option>
+        <ion-option value="homme">Homme</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon item-start name="ios-calendar-outline"></ion-icon>
+      <ion-label floating>Date</ion-label>
+      <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="spot.date"></ion-datetime>
+    </ion-item>
+    
+    <ion-item>
+      <ion-icon item-start name="ios-mail-outline"></ion-icon>
+      <ion-label floating>Message</ion-label>
+      <ion-textarea type="text" [(ngModel)]="spot.message"></ion-textarea>
+    </ion-item>
+
+
+
+  </ion-list>
+
+
+  <ion-footer no-shadow>
+      <button ion-button item-end full color="green" (click)="addSpot()">
+          Envoyé
+      </button>
+    </ion-footer>
+
+</ion-content>

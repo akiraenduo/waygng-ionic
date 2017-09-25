@@ -9,8 +9,25 @@
 
 
 <ion-content padding>
+
+
+    <div *ngIf="searchSpots" class="spinner-container">
+        <ion-spinner name="ios"></ion-spinner>
+    </div>
+
+    <ion-row *ngIf="(spots | async)?.length==0" class="warning-container">
+        <ion-col col-12>
+            Aucun spot
+        </ion-col>
+    </ion-row>
+
+    <button ion-item *ngFor="let spot of spots | async"  (click)="itemSelected(fav)">
+        <ion-label>{{spot.message}}</ion-label>
+    </button>
+
+
     <ion-fab right bottom>
-    <button ion-fab (click)="addSpot()"><ion-icon name="add"></ion-icon></button>
+    <button ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
 
 </ion-content>

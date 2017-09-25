@@ -29,6 +29,7 @@ import {FavorisPage} from '../pages/favoris/favoris';
 import {InfosTraficPage} from '../pages/infos-trafic/infos-trafic';
 import {ProfilePage} from '../pages/profile/profile';
 import {SpotPage} from '../pages/spot/spot';
+import {AddSpotPage} from '../pages/add-spot/add-spot';
 
 //PROVIDER
 import { GinkoProvider } from '../providers/ginko/ginkoProvider';
@@ -55,6 +56,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     InfosTraficPage,
     ProfilePage,
     SpotPage,
+    AddSpotPage,
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
     ShowTwoTimePipe,
@@ -83,7 +85,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     FavorisPage,
     InfosTraficPage,
     ProfilePage,
-    SpotPage
+    SpotPage,
+    AddSpotPage
   ],
   providers: [
     StatusBar,
