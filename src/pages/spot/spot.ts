@@ -38,4 +38,8 @@ export class SpotPage {
     this.navCtrl.push(AddSpotPage);
   }
 
+  fetchSpot(){
+    this.spotProvider.fetchSpot("allende");
+  }
+
 }
