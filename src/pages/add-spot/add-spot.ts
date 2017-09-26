@@ -40,4 +40,8 @@ export class AddSpotPage {
     this.navCtrl.pop();
   }
 
+  eventInputMessage(){
+    console.log(this.spot.message);
+  }
+
 }

@@ -34,7 +34,7 @@
     <ion-item>
       <ion-icon item-start name="ios-mail-outline"></ion-icon>
       <ion-label floating>Message</ion-label>
-      <ion-textarea type="text" [(ngModel)]="spot.message"></ion-textarea>
+      <ion-textarea type="text" [(ngModel)]="spot.message" (keypress)="eventInputMessage()"></ion-textarea>
     </ion-item>
 
 
