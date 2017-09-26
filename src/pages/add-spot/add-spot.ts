@@ -42,6 +42,7 @@ export class AddSpotPage {
 
   eventInputMessage(){
     console.log(this.spot.message);
+    
   }
 
 }
