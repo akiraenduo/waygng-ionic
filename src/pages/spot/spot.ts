@@ -39,7 +39,12 @@ export class SpotPage {
   }
 
   fetchSpot(){
-    this.spotProvider.fetchSpot("allende");
+    //this.spotProvider.fetchSpot("allende");
+    this.spotProvider.fetchHashtag("ga").subscribe(snapshots =>{
+      snapshots.forEach(snapshot => {
+        console.log(snapshot.val().name);
+      });
+    })
   }
 
 }

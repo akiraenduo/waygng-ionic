@@ -89,6 +89,17 @@ export class SpotProvider {
     })
    }
 
+  fetchHashtag(name:string): FirebaseListObservable<any[]> {
+    return this.db.list('/hashtags', {
+      preserveSnapshot: true,
+      query: {
+        orderByChild: 'name',
+        startAt: { value: name},
+        endAt: { value: name+"\uf8ff"}
+      }
+    });
+  }
+
    private searchHashtag(name): FirebaseListObservable<any[]> {
     return this.db.list('/hashtags', {
       preserveSnapshot: true,

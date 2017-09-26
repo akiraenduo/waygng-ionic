@@ -43,7 +43,7 @@ export class MyApp {
       { title: 'Horaires', icon:'md-alarm', component: HomePage },
       { title: 'Infos trafic', icon:'information-circle', component: InfosTraficPage },
       { title: 'Favoris', icon:'star', component: FavorisPage },
-      { title: 'Spots', icon:'star', component: SpotPage }
+      { title: 'Spots', icon:'md-eye', component: SpotPage }
     ];
 
   }

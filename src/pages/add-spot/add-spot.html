@@ -16,7 +16,6 @@
 <ion-content padding>
 
   <ion-list padding>
-
     <ion-item>
       <ion-label>Destiné à</ion-label>
       <ion-select [(ngModel)]="spot.gender">
@@ -36,16 +35,16 @@
       <ion-label floating>Message</ion-label>
       <ion-textarea type="text" [(ngModel)]="spot.message" (keypress)="eventInputMessage()"></ion-textarea>
     </ion-item>
-
-
-
   </ion-list>
 
+  <button ion-item *ngFor="let tag of hashtags">
+      <ion-label>{{tag.name}}</ion-label>
+  </button>
 
-  <ion-footer no-shadow>
-      <button ion-button item-end full color="green" (click)="addSpot()">
-          Envoyé
-      </button>
-    </ion-footer>
+
+  <ion-fab right bottom> 
+    <button ion-fab (click)="addSpot()" color="green" ><ion-icon name="md-send"></ion-icon></button>
+  </ion-fab>
+
 
 </ion-content>
