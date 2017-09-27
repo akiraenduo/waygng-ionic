@@ -6,6 +6,8 @@ import { Spot } from '../../models/spot';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { FirebaseListObservable } from 'angularfire2/database';
 
+import * as _ from 'lodash';
+
 /**
  * Generated class for the AddSpotPage page.
  *
@@ -49,13 +51,21 @@ export class AddSpotPage {
       let m, hashtagList =[];
       while ((m = rx.exec(value)) !== null) {
         if (m[1]) hashtagList.push(m[1]);
-     }
+      }
      if(hashtagList.length > 0){
-      console.log("param "+hashtagList[hashtagList.length-1]);
       this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]);
      }
     }
-    
+  }
+
+  hashtagSelected(tag){
+    let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
+    let m, hashtagList =[];
+    while ((m = rx.exec(this.spot.message)) !== null) {
+      if (m[1]) hashtagList.push(m[1]);
+    }
+
+    this.spot.message = _.replace(this.spot.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
   }
 
 }
