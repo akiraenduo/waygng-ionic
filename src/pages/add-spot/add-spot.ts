@@ -47,11 +47,7 @@ export class AddSpotPage {
   eventInputMessage(ev){
     let value = ev.target.value;
     if(value.length > 0){
-      let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
-      let m, hashtagList =[];
-      while ((m = rx.exec(value)) !== null) {
-        if (m[1]) hashtagList.push(m[1]);
-      }
+     let hashtagList = this.parseHashtagList(value);
      if(hashtagList.length > 0 && _.endsWith(value, hashtagList[hashtagList.length-1])){
       this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]);
      }
@@ -59,13 +55,17 @@ export class AddSpotPage {
   }
 
   hashtagSelected(tag){
-    let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
+    let hashtagList = this.parseHashtagList(this.spot.message);
+    this.spot.message = _.replace(this.spot.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
+  }
+
+  parseHashtagList(message):string[]{
     let m, hashtagList =[];
-    while ((m = rx.exec(this.spot.message)) !== null) {
+    let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
+    while ((m = rx.exec(message)) !== null) {
       if (m[1]) hashtagList.push(m[1]);
     }
-
-    this.spot.message = _.replace(this.spot.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
+    return hashtagList;
   }
 
 }
