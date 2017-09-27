@@ -4,7 +4,7 @@ import { UserProvider } from '../../providers/user/userProvider';
 import { User } from '../../models/user';
 import { Spot } from '../../models/spot';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import { Hashtag } from '../../models/hashtag';
+import { FirebaseListObservable } from 'angularfire2/database';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -20,7 +20,7 @@ export class AddSpotPage {
 
   user: User;
   spot: Spot;
-  hashtags: Hashtag[];
+  hashtags: FirebaseListObservable<any>;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -29,7 +29,6 @@ export class AddSpotPage {
 
                this.user = this.userProvider.getUser();
                this.spot = new Spot("","","",new Date().getTime(),"");
-               this.hashtags = [];
   }
 
   ionViewDidLoad() {
@@ -43,25 +42,17 @@ export class AddSpotPage {
     this.navCtrl.pop();
   }
 
-  eventInputMessage(){
-    this.hashtags = [];
-    if(this.spot.message.length > 0){
+  eventInputMessage(ev){
+    let value = ev.target.value;
+    if(value.length > 0){
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
       let m, hashtagList =[];
-      while ((m = rx.exec(this.spot.message)) !== null) {
+      while ((m = rx.exec(value)) !== null) {
         if (m[1]) hashtagList.push(m[1]);
      }
      if(hashtagList.length > 0){
       console.log("param "+hashtagList[hashtagList.length-1]);
-      const fetch = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]);
-      const sub = fetch.subscribe(tags =>{
-        tags.forEach(tag =>{
-          console.log("res "+tag.val().name);
-          this.hashtags.push(new Hashtag(tag.val().name,null))
-        })
-        sub.unsubscribe();
-      })
-
+      this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]);
      }
     }
     
