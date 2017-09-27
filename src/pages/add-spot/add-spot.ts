@@ -52,7 +52,7 @@ export class AddSpotPage {
       while ((m = rx.exec(value)) !== null) {
         if (m[1]) hashtagList.push(m[1]);
       }
-     if(hashtagList.length > 0){
+     if(hashtagList.length > 0 && _.endsWith(value, hashtagList[hashtagList.length-1])){
       this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]);
      }
     }
