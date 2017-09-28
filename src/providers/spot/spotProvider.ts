@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Spot } from '../../models/spot';
 import { Hashtag } from '../../models/hashtag';
+import { Observable } from 'rxjs/Observable';
 
 /*
   Generated class for the SpotProvider provider.
@@ -60,8 +61,39 @@ export class SpotProvider {
     })
   }
 
-  getSpotList(): FirebaseListObservable<any>{
-    return this.db.list('/spots');
+  getSpotList(key:string): Observable<any>{
+    if(key){
+      return this.db.list('/spots', {
+        query: {
+          orderByKey: true,
+          limitToFirst: 15,
+          startAt: key
+        }
+      }).map((items) => {
+        return items.map(item => {
+          item.user = this.db.object(`/users/${item.userUid}`);
+          return item;
+        })
+      })
+
+    }else{
+      return this.db.list('/spots', {
+        query: {
+          orderByKey: true,
+          limitToFirst: 15
+        }
+      }).map((items) => {
+        return items.map(item => {
+          item.user = this.db.object(`/users/${item.userUid}` );
+          console.log(item.user);
+          return item;
+        })
+      })
+
+    }
+
+
+    
    }
 
    fetchSpot(hashtagName:string){

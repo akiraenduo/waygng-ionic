@@ -1,13 +1,12 @@
 import { User } from "./user";
 
 export class Spot {
-    id: string;
     message:  string;
     dateUpdate: number;
     userUid: string;
+    user: User;
 
-    constructor(id:string, message:string, userUid:string, dateUpdate:number) {
-       this.id = id;
+    constructor(message:string, userUid:string, dateUpdate:number) {
        this.message = message;
        this.userUid = userUid;
        this.dateUpdate = dateUpdate;

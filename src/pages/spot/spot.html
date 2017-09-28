@@ -20,23 +20,29 @@
         <ion-spinner name="ios"></ion-spinner>
     </div>
 
-    <ion-row *ngIf="(spots | async)?.length==0" class="warning-container">
+    <ion-row *ngIf="(spots)?.length==0 && (searchSpots) == false" class="warning-container">
         <ion-col col-12>
             Aucun spot
         </ion-col>
     </ion-row>
 
-    <button ion-item *ngFor="let spot of spots | async"  (click)="itemSelected(fav)">
-        <ion-label>{{spot.message}}</ion-label>
-    </button>
+    <ion-list>
+        <ion-item *ngFor="let spot of spots | async" >
+            <ion-label>{{spot.message}}</ion-label>
+            <ion-label> {{ (spot.user | async)?.user.uid}}</ion-label>
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 
     <ion-fab right bottom>
       <button ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
-
-    <ion-fab left bottom>
-        <button ion-fab (click)="fetchSpot()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
 
 </ion-content>
