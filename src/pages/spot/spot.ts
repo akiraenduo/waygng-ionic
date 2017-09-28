@@ -3,6 +3,8 @@ import {NavController, NavParams } from 'ionic-angular';
 import { AddSpotPage } from '../add-spot/add-spot';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { SpotProvider } from '../../providers/spot/spotProvider';
+import { UserProvider } from '../../providers/user/userProvider';
+import { Spot } from '../../models/spot';
 
 /**
  * Generated class for the SpotPage page.
@@ -18,19 +20,31 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 export class SpotPage {
 
   title:any
-  spots: FirebaseListObservable<any>;
+  spots: Spot[];
   searchSpots: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public spotProvider: SpotProvider) {
+              public spotProvider: SpotProvider,
+              public userProvider: UserProvider) {
     this.title = navParams.get("title");
     this.searchSpots = true;
-    this.spots = this.spotProvider.getSpotList();
-    this.spots.subscribe(() => this.searchSpots = false);
+    this.spotProvider.getSpotList().subscribe(spots => {
+      spots.forEach(spotSnapshot => {
+        userProvider.fetchUser(spotSnapshot.userUid).subscribe(user => {
+          let spot = new Spot("",spotSnapshot.message,"",spotSnapshot.dateUpdate);
+          console.log(spot);
+        })
+      });
+    })
   }
 
   ionViewDidLoad() {
+
+  }
+
+
+  goFiltreSpot(){
 
   }
 
@@ -39,7 +53,6 @@ export class SpotPage {
   }
 
   fetchSpot(){
-    //this.spotProvider.fetchSpot("allende");
     this.spotProvider.fetchHashtag("ga").subscribe(snapshots =>{
       snapshots.forEach(snapshot => {
         console.log(snapshot.val().name);

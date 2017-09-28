@@ -33,15 +33,12 @@
     <ion-item>
       <ion-icon item-start name="ios-mail-outline"></ion-icon>
       <ion-label floating>Message</ion-label>
-      <ion-textarea type="text" [(ngModel)]="spot.message" (keyup)="eventInputMessage($event)"></ion-textarea>
+      <ion-textarea #inputMessage autofocus type="text" [(ngModel)]="spot.message" (keyup)="eventInputMessage($event)"></ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-footer>
     <button ion-item *ngFor="let tag of hashtags | async" (click)="hashtagSelected(tag)">
         <ion-label>{{tag.name}}</ion-label>
     </button>
-  </ion-footer>
-
 
   <ion-fab right bottom> 
     <button ion-fab (click)="addSpot()" color="green" ><ion-icon name="md-send"></ion-icon></button>

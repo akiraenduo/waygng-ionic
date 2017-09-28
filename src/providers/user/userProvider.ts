@@ -6,7 +6,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 /*
@@ -59,11 +59,15 @@ export class UserProvider {
    this.afAuth.auth.signOut();
   }
   
-  getUser():User{
+  getCurrentUser():User{
     if(this.authState){
       return new User(this.authState.uid,this.authState.email,"",this.authState.displayName,this.authState.photoURL); 
     }
     return null;
+  }
+
+  fetchUser(uid:string):FirebaseObjectObservable<User>{
+    return this.db.object('/users/'+uid);
   }
 
   updateUser(user:User){

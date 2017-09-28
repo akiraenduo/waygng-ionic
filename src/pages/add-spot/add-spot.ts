@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import { User } from '../../models/user';
@@ -7,6 +7,7 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { FirebaseListObservable } from 'angularfire2/database';
 
 import * as _ from 'lodash';
+import { Keyboard } from '@ionic-native/keyboard';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -20,6 +21,8 @@ import * as _ from 'lodash';
 })
 export class AddSpotPage {
 
+  @ViewChild('inputMessage') inputMessage: any;  
+
   user: User;
   spot: Spot;
   hashtags: FirebaseListObservable<any>;
@@ -27,10 +30,11 @@ export class AddSpotPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public userProvider: UserProvider,
-              public spotProvider: SpotProvider) {
+              public spotProvider: SpotProvider,
+              public Keyboard: Keyboard) {
 
-               this.user = this.userProvider.getUser();
-               this.spot = new Spot("","","",new Date().getTime(),"");
+               this.user = this.userProvider.getCurrentUser();
+               this.spot = new Spot("","",null,null);
   }
 
   ionViewDidLoad() {
@@ -57,6 +61,7 @@ export class AddSpotPage {
   hashtagSelected(tag){
     let hashtagList = this.parseHashtagList(this.spot.message);
     this.spot.message = _.replace(this.spot.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
+    this.doFocus();
   }
 
   parseHashtagList(message):string[]{
@@ -66,6 +71,16 @@ export class AddSpotPage {
       if (m[1]) hashtagList.push(m[1]);
     }
     return hashtagList;
+  }
+
+  doFocus(){
+    setTimeout(()=>{
+      this.inputMessage.setFocus();
+      this.Keyboard.show();
+    },500);
+    this.Keyboard.onKeyboardShow().subscribe((data)=>{
+      this.inputMessage.setFocus();
+    })
   }
 
 }

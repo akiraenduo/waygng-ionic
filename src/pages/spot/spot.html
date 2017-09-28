@@ -1,9 +1,14 @@
 <ion-header>
-  <ion-toolbar color="blue" hideBackButton>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{title}}</ion-title>
+  <ion-toolbar color="blue" no-border-top>
+      <button  ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{title}}</ion-title>
+      <ion-buttons end>
+        <button  ion-button icon-only (click)="goFiltreSpot()">
+          <ion-icon name="ios-search"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
