@@ -66,7 +66,7 @@ export class UserProvider {
     return null;
   }
 
-  fetchUser(uid:string):FirebaseObjectObservable<User>{
+  fetchUser(uid:string):FirebaseObjectObservable<any>{
     return this.db.object('/users/'+uid);
   }
 
