@@ -8,6 +8,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
 
 import * as _ from 'lodash';
 import { Keyboard } from '@ionic-native/keyboard';
+import { SpotPage } from '../spot/spot';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -43,7 +44,7 @@ export class AddSpotPage {
 
   addSpot(){
     this.spotProvider.addSpot(this.spot);
-    this.navCtrl.pop();
+    this.navCtrl.setRoot(SpotPage);
   }
 
   eventInputMessage(ev){

@@ -13,7 +13,11 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="bacground-light">
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
 
     <div *ngIf="searchSpots" class="spinner-container">
@@ -27,10 +31,39 @@
     </ion-row>
 
     <ion-list>
-        <ion-item *ngFor="let spot of spots | async" >
-            <ion-label>{{spot.message}}</ion-label>
-            <ion-label> {{ (spot.user | async)?.user.uid}}</ion-label>
-        </ion-item>
+
+        <ion-card *ngFor="let spot of spots | async">
+            
+              <ion-item>
+                <ion-avatar item-start>
+                    <img [src]="(spot.user | async)?.user.picture" />
+                </ion-avatar>
+                <h3>{{ (spot.user | async)?.user.username }}</h3>
+                <p>{{spot.dateUpdate | formatDate}}</p>  
+              </ion-item>
+        
+            
+              <ion-card-content>
+                <p>{{spot.message}}</p>
+              </ion-card-content>
+            
+              <ion-row>
+                <ion-col>
+                  <button ion-button icon-left clear small>
+                    <ion-icon name="thumbs-up"></ion-icon>
+                    <div>12 Likes</div>
+                  </button>
+                </ion-col>
+                <ion-col>
+                  <button ion-button icon-left clear small>
+                    <ion-icon name="text"></ion-icon>
+                    <div>4 Comments</div>
+                  </button>
+                </ion-col>
+              </ion-row>
+            
+            </ion-card>
+
     </ion-list>
 
     <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">

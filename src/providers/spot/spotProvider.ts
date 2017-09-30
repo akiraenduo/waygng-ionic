@@ -25,6 +25,7 @@ export class SpotProvider {
 
   addSpot(spot:Spot){
     let message = spot.message;
+    spot.dateUpdate = -spot.dateUpdate ;
     const spots = this.db.list('/spots');
     spots.push(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
@@ -40,7 +41,7 @@ export class SpotProvider {
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
             let hastag = new Hashtag(snapshot.val().name,snapshot.val().spotKeyList);
-            hastag.spotKeyList.push(spot.getKey());
+            hastag.spotKeyList.push(spot.key);
             const hashtags = this.db.list('/hashtags/');
             hashtags.update(snapshot.key,hastag);
             subscribe.unsubscribe();
@@ -61,40 +62,24 @@ export class SpotProvider {
     })
   }
 
-  getSpotList(key:string): Observable<any>{
-    if(key){
-      return this.db.list('/spots', {
-        query: {
-          orderByKey: true,
-          limitToFirst: 15,
-          startAt: key
-        }
-      }).map((items) => {
-        return items.map(item => {
-          item.user = this.db.object(`/users/${item.userUid}`);
-          return item;
-        })
-      })
-
-    }else{
-      return this.db.list('/spots', {
-        query: {
-          orderByKey: true,
-          limitToFirst: 15
-        }
-      }).map((items) => {
-        return items.map(item => {
-          item.user = this.db.object(`/users/${item.userUid}` );
-          console.log(item.user);
-          return item;
-        })
-      })
-
+  getSpotList(batch, lastDate): Observable<any>{
+    let query =  {
+      orderByChild: 'dateUpdate',
+      limitToFirst: batch
     }
 
+    if (lastDate) query['startAt'] = lastDate;
 
-    
-   }
+    return this.db.list('/spots', {
+      query
+    }).map((items) => {
+      return items.map(item => {
+        item.user = this.db.object(`/users/${item.userUid}`);
+        return item;
+      })
+    })
+  }
+
 
    fetchSpot(hashtagName:string){
 

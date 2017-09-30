@@ -18,6 +18,7 @@ import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remo
 import {CalculateDistancePipe} from '../pipes/calculate-distance/calculate-distance';
 import {ShowTwoTimePipe} from '../pipes/show-two-time/show-two-time';
 import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
+import {FormatDatePipe} from '../pipes/format-date/format-date';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -62,7 +63,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
     ShowTwoTimePipe,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    FormatDatePipe
   ],
   imports: [
     HttpModule,

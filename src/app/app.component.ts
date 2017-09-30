@@ -15,6 +15,8 @@ import { User } from '../models/user';
 import { UserProvider } from '../providers/user/userProvider';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+import * as moment from 'moment'
+
 
 
 
@@ -52,6 +54,7 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      moment.locale('fr-fr');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.afAuth.auth.onAuthStateChanged(user => {
