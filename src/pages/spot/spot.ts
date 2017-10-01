@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 import * as _ from 'lodash'
+import { SpotDetailPage } from '../spot-detail/spot-detail';
+import { SpotFilterPage } from '../spot-filter/spot-filter';
 
 
 /**
@@ -23,9 +25,8 @@ import * as _ from 'lodash'
 })
 export class SpotPage {
 
-  title:any
   searchSpots: any;
-
+  filters:string[];
   spots = new BehaviorSubject([]);
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
@@ -37,7 +38,8 @@ export class SpotPage {
               public userProvider: UserProvider,
               public db: AngularFireDatabase) {
 
-    this.title = navParams.get("title");
+    this.filters = navParams.get("filters");            
+    console.log(this.filters);            
     this.searchSpots = true;
 
   }
@@ -56,6 +58,10 @@ export class SpotPage {
 
   doInfinite(infiniteScroll) {
       this.getSpots(infiniteScroll,null);
+  }
+
+  goDetailSpot(spot){
+    this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
   }
 
 
@@ -97,7 +103,7 @@ export class SpotPage {
 
 
   goFiltreSpot(){
-
+    this.navCtrl.push(SpotFilterPage);
   }
 
   goAddSpot(){

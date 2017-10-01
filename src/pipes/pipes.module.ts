@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { SafeHtmlPipe } from './../pipes/safe-html/safe-html';
 import { FormatDatePipe } from './../pipes/format-date/format-date';
+import { FormatHashtagPipe } from './../pipes/format-hashtag/format-hashtag';
 @NgModule({
 	declarations: [SafeHtmlPipe,
-    FormatDatePipe],
+    FormatDatePipe,
+    FormatHashtagPipe],
 	imports: [],
 	exports: [SafeHtmlPipe,
-    FormatDatePipe]
+    FormatDatePipe,
+    FormatHashtagPipe]
 })
 export class PipesModule {}

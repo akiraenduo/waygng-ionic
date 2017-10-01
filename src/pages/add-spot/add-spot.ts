@@ -4,11 +4,11 @@ import { UserProvider } from '../../providers/user/userProvider';
 import { User } from '../../models/user';
 import { Spot } from '../../models/spot';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import { FirebaseListObservable } from 'angularfire2/database';
 
 import * as _ from 'lodash';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SpotPage } from '../spot/spot';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -26,7 +26,7 @@ export class AddSpotPage {
 
   user: User;
   spot: Spot;
-  hashtags: FirebaseListObservable<any>;
+  hashtags: Observable<any>;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,

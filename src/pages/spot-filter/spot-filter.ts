@@ -1,5 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Keyboard } from '@ionic-native/keyboard';
+import { SpotProvider } from '../../providers/spot/spotProvider';
+import { Hashtag } from '../../models/hashtag';
+
+import * as _ from 'lodash';
+import { Observable } from 'rxjs/Observable';
+import { SpotPage } from '../spot/spot';
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -14,11 +21,68 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class SpotFilterPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  @ViewChild('searchBar') searchBar: any; 
+  searchHashtag: any = false; 
+  hashtags:Observable<any>;
+  filterList:Hashtag[] = [];
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              public Keyboard: Keyboard,
+              public spotProvider: SpotProvider) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SpotFilterPage');
+    this.doFocus();
+  }
+
+  fetchHashtag(hashtag:string){
+    this.searchHashtag = true;
+    this.hashtags = this.spotProvider.fetchHashtag(hashtag);
+  }
+
+  onClear(ev){ 
+
+  }
+
+  getItems(ev) {
+    // set val to the value of the ev target
+    var val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.fetchHashtag(val);
+    }
+  }
+
+  hashtagSelected(hashtag){
+    let index = _.indexOf(this.filterList, hashtag);
+    if(index < 0){
+      this.filterList.push(hashtag);
+    }
+  }
+
+  removeFilter(hashtag){
+    _.pull(this.filterList, hashtag);
+  }
+
+  doSearch(){
+    if(this.filterList.length > 0){
+      let filters = _.map(this.filterList,'name');
+      this.navCtrl.setRoot(SpotPage, {filters : filters });
+    }
+  }
+
+  doFocus(){
+    setTimeout(()=>{
+      this.searchBar.setFocus();
+      this.Keyboard.show();
+    },1000);
+
+
+    this.Keyboard.onKeyboardShow().subscribe((data)=>{
+      this.searchBar.setFocus();
+    })
   }
 
 }

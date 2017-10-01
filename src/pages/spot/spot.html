@@ -3,7 +3,7 @@
       <button  ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title>{{title}}</ion-title>
+      <ion-title>Spots</ion-title>
       <ion-buttons end>
         <button  ion-button icon-only (click)="goFiltreSpot()">
           <ion-icon name="ios-search"></ion-icon>
@@ -32,7 +32,7 @@
 
     <ion-list>
 
-        <ion-card *ngFor="let spot of spots | async">
+        <ion-card (click)="goDetailSpot(spot)" *ngFor="let spot of spots | async">
             
               <ion-item>
                 <ion-avatar item-start>
@@ -44,7 +44,7 @@
         
             
               <ion-card-content>
-                <p>{{spot.message}}</p>
+                <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
               </ion-card-content>
             
               <ion-row>
@@ -54,11 +54,13 @@
                     <div>12 Likes</div>
                   </button>
                 </ion-col>
-                <ion-col>
-                  <button ion-button icon-left clear small>
-                    <ion-icon name="text"></ion-icon>
-                    <div>4 Comments</div>
-                  </button>
+                <ion-col> 
+                    <ion-item>
+                        <button ion-button item-end icon-left clear small>
+                            <ion-icon name="text"></ion-icon>
+                            <div>4 Comments</div>
+                        </button>
+                    </ion-item> 
                 </ion-col>
               </ion-row>
             

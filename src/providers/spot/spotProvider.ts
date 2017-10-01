@@ -5,6 +5,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { Spot } from '../../models/spot';
 import { Hashtag } from '../../models/hashtag';
 import { Observable } from 'rxjs/Observable';
+import {EmptyObservable} from 'rxjs/Observable/EmptyObservable';
 
 /*
   Generated class for the SpotProvider provider.
@@ -62,6 +63,13 @@ export class SpotProvider {
     })
   }
 
+  getSpot(key:string):Observable<any>{
+    return this.db.object('/spots/'+key).map((item) => {
+        item.user = this.db.object(`/users/${item.userUid}`);
+        return item;
+    })
+  }
+
   getSpotList(batch, lastDate): Observable<any>{
     let query =  {
       orderByChild: 'dateUpdate',
@@ -81,7 +89,7 @@ export class SpotProvider {
   }
 
 
-   fetchSpot(hashtagName:string){
+   fetchSpots(hashtagName:string){
 
     let spotKeyList = [];
     const searchHashtag = this.searchHashtag(hashtagName);
@@ -106,14 +114,21 @@ export class SpotProvider {
     })
    }
 
-  fetchHashtag(name:string): FirebaseListObservable<any[]> {
-    return this.db.list('/hashtags', {
-      query: {
-        orderByChild: 'name',
-        startAt: { value: name},
-        endAt: { value: name+"\uf8ff"}
-      }
-    });
+
+  fetchHashtag(name:string): Observable<any[]> {
+    if(name){
+      return this.db.list('/hashtags', {
+        query: {
+          orderByChild: 'name',
+          limitToFirst: 4,
+          startAt: { value: name},
+          endAt: { value: name+"\uf8ff"}
+        }
+      });
+    }
+    else{
+      return new EmptyObservable();
+    }
   }
 
    private searchHashtag(name): FirebaseListObservable<any[]> {

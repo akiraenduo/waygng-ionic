@@ -19,6 +19,7 @@ import {CalculateDistancePipe} from '../pipes/calculate-distance/calculate-dista
 import {ShowTwoTimePipe} from '../pipes/show-two-time/show-two-time';
 import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
 import {FormatDatePipe} from '../pipes/format-date/format-date';
+import {FormatHashtagPipe} from '../pipes/format-hashtag/format-hashtag';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -32,6 +33,7 @@ import {ProfilePage} from '../pages/profile/profile';
 import {SpotPage} from '../pages/spot/spot';
 import {AddSpotPage} from '../pages/add-spot/add-spot';
 import {SpotFilterPage} from '../pages/spot-filter/spot-filter';
+import {SpotDetailPage} from '../pages/spot-detail/spot-detail';
 
 //PROVIDER
 import { GinkoProvider } from '../providers/ginko/ginkoProvider';
@@ -60,11 +62,13 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     SpotPage,
     AddSpotPage,
     SpotFilterPage,
+    SpotDetailPage,
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
     ShowTwoTimePipe,
     SafeHtmlPipe,
-    FormatDatePipe
+    FormatDatePipe,
+    FormatHashtagPipe
   ],
   imports: [
     HttpModule,
@@ -91,7 +95,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     ProfilePage,
     SpotPage,
     AddSpotPage,
-    SpotFilterPage
+    SpotFilterPage,
+    SpotDetailPage
   ],
   providers: [
     StatusBar,
