@@ -4,7 +4,6 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { Hashtag } from '../../models/hashtag';
 
-import * as _ from 'lodash';
 import { Observable } from 'rxjs/Observable';
 import { SpotPage } from '../spot/spot';
 
@@ -55,22 +54,8 @@ export class SpotFilterPage {
     }
   }
 
-  hashtagSelected(hashtag){
-    let index = _.indexOf(this.filterList, hashtag);
-    if(index < 0){
-      this.filterList.push(hashtag);
-    }
-  }
-
-  removeFilter(hashtag){
-    _.pull(this.filterList, hashtag);
-  }
-
-  doSearch(){
-    if(this.filterList.length > 0){
-      let filters = _.map(this.filterList,'name');
-      this.navCtrl.setRoot(SpotPage, {filters : filters });
-    }
+  doSearch(hashtag){
+    this.navCtrl.setRoot(SpotPage, {filter : hashtag.name });
   }
 
   doFocus(){

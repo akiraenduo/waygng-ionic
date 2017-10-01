@@ -8,22 +8,9 @@
 <ion-content padding>
 
   <ion-list>
-    <ion-list-header>
-      Liste des filtres
-    </ion-list-header>
-    <ion-item ion-item *ngFor="let hashtag of filterList">
-        <ion-label>{{hashtag.name}}</ion-label>
-        <button ion-button outline clear large item-end (click)="removeFilter(hashtag,$event)"><ion-icon color="danger" name="md-trash"></ion-icon></button>
-    </ion-item>
+      <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">
+          <ion-label>{{tag.name}}</ion-label>
+      </button>
   </ion-list>
-
-  <ion-footer>
-    <button ion-item *ngFor="let tag of hashtags | async" (click)="hashtagSelected(tag)">
-        <ion-label>{{tag.name}}</ion-label>
-    </button>
-    <button color="green" ion-button full (click)="doSearch()">Recherche</button>    
-  </ion-footer>
-
-
 
 </ion-content>

@@ -88,31 +88,48 @@ export class SpotProvider {
     })
   }
 
+  fetchSpots(hashtagName:string):Observable<any>{
+    let query =  {
+      orderByChild: 'name',
+      equalTo: hashtagName
+    }
 
-   fetchSpots(hashtagName:string){
-
-    let spotKeyList = [];
-    const searchHashtag = this.searchHashtag(hashtagName);
-
-    const subscribe = searchHashtag.subscribe(snapshots=>{
-      if(snapshots.length > 0){
-        snapshots.forEach(snapshot => {
-          if(snapshot.val().spotKeyList.length > 0){
-            snapshot.val().spotKeyList.forEach(key =>{
-              spotKeyList.push(key);
-            })
-          }
-        });
-        spotKeyList.map(key =>{
-          const spots = this.db.object('/spots/'+key);
-          spots.subscribe(snapshot=>{
-              console.log(snapshot);
-          })
-        });
-      }
-      subscribe.unsubscribe();
+    return this.db.list('/hashtags', {
+      query
+    }).map((items) => {
+      return items.map(item => {
+        return item.spotKeyList.map(spotKey => {
+          return this.db.object("/spots/"+spotKey);
+        })
+      })
     })
+
    }
+
+  fetchSpots2(hashtagName:string){
+    
+        let spotKeyList = [];
+        const searchHashtag = this.searchHashtag(hashtagName);
+    
+        const subscribe = searchHashtag.subscribe(snapshots=>{
+          if(snapshots.length > 0){
+            snapshots.forEach(snapshot => {
+              if(snapshot.val().spotKeyList.length > 0){
+                snapshot.val().spotKeyList.forEach(key =>{
+                  spotKeyList.push(key);
+                })
+              }
+            });
+            spotKeyList.map(key =>{
+              const spots = this.db.object('/spots/'+key);
+              spots.subscribe(snapshot=>{
+                  console.log(snapshot);
+              })
+            });
+          }
+          subscribe.unsubscribe();
+        })
+    }
 
 
   fetchHashtag(name:string): Observable<any[]> {

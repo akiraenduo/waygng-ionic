@@ -10,6 +10,8 @@ import 'rxjs/add/operator/take';
 import * as _ from 'lodash'
 import { SpotDetailPage } from '../spot-detail/spot-detail';
 import { SpotFilterPage } from '../spot-filter/spot-filter';
+import { Observable } from 'rxjs/Observable';
+import { Spot } from '../../models/spot';
 
 
 /**
@@ -26,11 +28,12 @@ import { SpotFilterPage } from '../spot-filter/spot-filter';
 export class SpotPage {
 
   searchSpots: any;
-  filters:string[];
+  filter:string;
   spots = new BehaviorSubject([]);
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
+  spotsFiltered:Spot[];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -38,8 +41,23 @@ export class SpotPage {
               public userProvider: UserProvider,
               public db: AngularFireDatabase) {
 
-    this.filters = navParams.get("filters");            
-    console.log(this.filters);            
+    this.filter = navParams.get("filter"); 
+    if(this.filter){
+      this.spotsFiltered = [];
+      const fetchSpots = this.spotProvider.fetchSpots(this.filter);
+      fetchSpots.subscribe(spots => {
+        spots[0].forEach(item => {
+          item.subscribe(spotSnap =>{
+            let spot = new Spot(spotSnap.message,spotSnap.userUid,spotSnap.dateUpdate);
+            const user = this.db.object(`/users/${spotSnap.userUid}`);
+            user.subscribe(user => {
+              spot.user = user;
+              this.spotsFiltered.push(spot);
+            })
+          })
+        })
+      })
+    }                  
     this.searchSpots = true;
 
   }
@@ -108,14 +126,6 @@ export class SpotPage {
 
   goAddSpot(){
     this.navCtrl.push(AddSpotPage);
-  }
-
-  fetchSpot(){
-    this.spotProvider.fetchHashtag("ga").subscribe(snapshots =>{
-      snapshots.forEach(snapshot => {
-        console.log(snapshot.val().name);
-      });
-    })
   }
 
 }
