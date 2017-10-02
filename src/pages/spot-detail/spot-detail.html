@@ -13,9 +13,9 @@
         
           <ion-item>
             <ion-avatar item-start>
-                <img [src]="(spot.user | async)?.user.picture" />
+                <img [src]="(spot.userPicture)" />
             </ion-avatar>
-            <h3>{{ (spot.user | async)?.user.username }}</h3>
+            <h3>{{ spot.userName }}</h3>
             <p>{{spot.dateUpdate | formatDate}}</p>  
           </ion-item>
     

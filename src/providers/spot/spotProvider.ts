@@ -91,7 +91,8 @@ export class SpotProvider {
     }).map((items) => {
       return items.map(item => {
         return item.spotKeyList.map(spotKey => {
-          return this.db.object("/spots/"+spotKey);
+          item.spots = this.db.object("/spots/"+spotKey);
+          return item;
         })
       })
     })

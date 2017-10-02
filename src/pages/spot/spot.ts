@@ -10,8 +10,8 @@ import 'rxjs/add/operator/take';
 import * as _ from 'lodash'
 import { SpotDetailPage } from '../spot-detail/spot-detail';
 import { SpotFilterPage } from '../spot-filter/spot-filter';
-import { Observable } from 'rxjs/Observable';
 import { Spot } from '../../models/spot';
+import { Observable } from 'rxjs/Observable';
 
 
 /**
@@ -33,7 +33,7 @@ export class SpotPage {
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
-  spotsFiltered:Spot[];
+  spotsFiltered: Observable<any>;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -43,8 +43,8 @@ export class SpotPage {
 
     this.filter = navParams.get("filter"); 
     if(this.filter){
-      this.spotsFiltered = [];
-      const fetchSpots = this.spotProvider.fetchSpots(this.filter);
+      this.spotsFiltered = this.spotProvider.fetchSpots(this.filter);
+      this.spotsFiltered.subscribe(res => console.log(res)); 
     }                  
     this.searchSpots = true;
  

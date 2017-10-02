@@ -30,9 +30,13 @@
         </ion-col>
     </ion-row>
 
-    <ion-list>
-              <ion-card *ngFor="let t of spotsFiltered">
-                  <h3>{{t.message}}</h3>
+    <ion-list> 
+        
+              <ion-card *ngFor="let spot of spotsFiltered | async">
+                    <ion-card *ngFor="let s of (spot | async)?.spots">
+                            test
+                    </ion-card>
+             
               </ion-card>
     </ion-list>
 
