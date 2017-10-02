@@ -45,21 +45,9 @@ export class SpotPage {
     if(this.filter){
       this.spotsFiltered = [];
       const fetchSpots = this.spotProvider.fetchSpots(this.filter);
-      fetchSpots.subscribe(spots => {
-        spots[0].forEach(item => {
-          item.subscribe(spotSnap =>{
-            let spot = new Spot(spotSnap.message,spotSnap.userUid,spotSnap.dateUpdate);
-            const user = this.db.object(`/users/${spotSnap.userUid}`);
-            user.subscribe(user => {
-              spot.user = user;
-              this.spotsFiltered.push(spot);
-            })
-          })
-        })
-      })
     }                  
     this.searchSpots = true;
-
+ 
   }
 
   ionViewDidLoad() {

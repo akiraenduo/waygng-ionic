@@ -64,10 +64,7 @@ export class SpotProvider {
   }
 
   getSpot(key:string):Observable<any>{
-    return this.db.object('/spots/'+key).map((item) => {
-        item.user = this.db.object(`/users/${item.userUid}`);
-        return item;
-    })
+    return this.db.object('/spots/'+key);
   }
 
   getSpotList(batch, lastDate): Observable<any>{
@@ -80,12 +77,7 @@ export class SpotProvider {
 
     return this.db.list('/spots', {
       query
-    }).map((items) => {
-      return items.map(item => {
-        item.user = this.db.object(`/users/${item.userUid}`);
-        return item;
-      })
-    })
+    });
   }
 
   fetchSpots(hashtagName:string):Observable<any>{
