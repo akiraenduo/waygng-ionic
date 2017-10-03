@@ -24,6 +24,12 @@
         <ion-spinner name="ios"></ion-spinner>
     </div>
 
+    <ion-row *ngIf="isNotConnected()" class="warning-container">
+        <ion-col col-12>
+                Veuillez vous connecter pour accéder aux spots
+        </ion-col>
+    </ion-row>
+
     <ion-row *ngIf="(spots)?.length==0 && (searchSpots) == false" class="warning-container">
         <ion-col col-12>
             Aucun spot
