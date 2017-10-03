@@ -20,6 +20,7 @@ import {ShowTwoTimePipe} from '../pipes/show-two-time/show-two-time';
 import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
 import {FormatDatePipe} from '../pipes/format-date/format-date';
 import {FormatHashtagPipe} from '../pipes/format-hashtag/format-hashtag';
+import {SortSpotsPipe} from '../pipes/sort-spots/sort-spots';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -68,7 +69,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     ShowTwoTimePipe,
     SafeHtmlPipe,
     FormatDatePipe,
-    FormatHashtagPipe
+    FormatHashtagPipe,
+    SortSpotsPipe
   ],
   imports: [
     HttpModule,

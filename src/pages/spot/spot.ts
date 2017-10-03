@@ -30,6 +30,7 @@ export class SpotPage {
   searchSpots: any;
   filter:string;
   spots = new BehaviorSubject([]);
+  spotsFiltered = new BehaviorSubject([]);
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
@@ -52,9 +53,11 @@ export class SpotPage {
       if (user) {
         this.userUid = user.uid;
         if(this.filter){
-          this.spotProvider.fetchSpots(this.filter).do(spots => {
-            this.spots.next(spots.spots);
-          }).take(1).subscribe(() => this.searchSpots = false);
+          this.spotProvider.fetchSpots(this.filter).do(item => {
+            this.spotsFiltered.next(item.spots);
+          }).subscribe((res) => {
+            this.searchSpots = false}
+          );
         }else{
           this.getSpots(null,null);
         } 

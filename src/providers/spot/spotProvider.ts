@@ -81,7 +81,7 @@ export class SpotProvider {
   }
 
   fetchSpots(hashtagKey:string):Observable<any>{
-    return this.db.object('/hashtags/'+hashtagKey).do((item) => {
+    return this.db.object('/hashtags/'+hashtagKey).do((item) => { 
       item.spots = [];
       return item.spotKeyList.map(key => {
         item.spots.push(this.db.object("/spots/"+key));
