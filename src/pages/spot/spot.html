@@ -20,7 +20,7 @@
     </ion-refresher>
 
 
-    <div *ngIf="searchSpots" class="spinner-container">
+    <div *ngIf="searchSpots && !isNotConnected()" class="spinner-container">
         <ion-spinner name="ios"></ion-spinner>
     </div>
 
