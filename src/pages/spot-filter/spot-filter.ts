@@ -55,7 +55,7 @@ export class SpotFilterPage {
   }
 
   doSearch(hashtag){
-    this.navCtrl.setRoot(SpotPage, {filter : hashtag.name });
+    this.navCtrl.setRoot(SpotPage, {filter : hashtag.$key });
   }
 
   doFocus(){

@@ -31,16 +31,6 @@
     </ion-row>
 
     <ion-list> 
-        
-              <ion-card *ngFor="let spot of spotsFiltered | async">
-                    <ion-card *ngFor="let s of (spot | async)?.spots">
-                            test
-                    </ion-card>
-             
-              </ion-card>
-    </ion-list>
-
-    <ion-list>
 
         <ion-card (click)="goDetailSpot(spot)" *ngFor="let spot of spots | async">
             

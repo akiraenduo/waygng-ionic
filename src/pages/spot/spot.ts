@@ -5,13 +5,13 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/take';
-import * as _ from 'lodash'
 import { SpotDetailPage } from '../spot-detail/spot-detail';
 import { SpotFilterPage } from '../spot-filter/spot-filter';
-import { Spot } from '../../models/spot';
-import { Observable } from 'rxjs/Observable';
+import { AngularFireAuth } from 'angularfire2/auth';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/take';
+
+import * as _ from 'lodash'
 
 
 /**
@@ -33,25 +33,35 @@ export class SpotPage {
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
-  spotsFiltered: Observable<any>;
+  userUid: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public spotProvider: SpotProvider,
               public userProvider: UserProvider,
-              public db: AngularFireDatabase) {
+              public db: AngularFireDatabase,
+              private afAuth: AngularFireAuth) {
 
-    this.filter = navParams.get("filter"); 
-    if(this.filter){
-      this.spotsFiltered = this.spotProvider.fetchSpots(this.filter);
-      this.spotsFiltered.subscribe(res => console.log(res)); 
-    }                  
+    this.filter = navParams.get("filter");                  
     this.searchSpots = true;
  
   }
 
   ionViewDidLoad() {
-    this.getSpots(null,null);
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userUid = user.uid;
+        if(this.filter){
+          this.spotProvider.fetchSpots(this.filter).do(spots => {
+            this.spots.next(spots.spots);
+          }).take(1).subscribe(() => this.searchSpots = false);
+        }else{
+          this.getSpots(null,null);
+        } 
+      }else{
+        this.userUid = null;
+      }
+    });
   }
 
   doRefresh(refresher) {
@@ -114,6 +124,10 @@ export class SpotPage {
 
   goAddSpot(){
     this.navCtrl.push(AddSpotPage);
+  }
+
+  isNotConnected():boolean{
+    return this.userUid == null;
   }
 
 }
