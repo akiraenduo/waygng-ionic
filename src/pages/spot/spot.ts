@@ -83,7 +83,11 @@ export class SpotPage {
   }
 
   goDetailSpot(spot){
-    this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
+    if(spot.$ref){
+      this.navCtrl.push(SpotDetailPage, {spotKey : spot.$ref.key});
+    }else{
+      this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
+    }
   }
 
   private getSpotsFiltered(infiniteScroll,refresher){
