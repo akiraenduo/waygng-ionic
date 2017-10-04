@@ -37,7 +37,7 @@
     </ion-row>
 
     <ion-list> 
-        <ion-card (click)="goDetailSpot(spot)" *ngFor="let spot of spotsFiltered | async | sortSpots">     
+        <ion-card (click)="goDetailSpot(spot)" *ngFor="let spot of spotsFiltered | async">     
             <ion-item>
                 <ion-avatar item-start>
                     <img [src]="((spot|async)?.userPicture)" />

@@ -82,16 +82,17 @@ export class SpotProvider {
     });
   }
 
-  fetchSpots(hashtagKey:string, lastKey:string):Observable<any>{
+  fetchSpots(hashtagKey:string, lastKey:string, batch:number):Observable<any>{
     return this.db.object('/hashtags/'+hashtagKey).do((item) => { 
       item.spots = [];
-      console.log(item.spotKeyList);
-      //if(lastKey){
-        let index = _.findIndex(item.spotKeyList, function(o) { return o == "-KvQhZWNaslivjQPSfqg" });
-        console.log(index);
-      //}
-
-      return item.spotKeyList.map(key => {
+      let spotKeyList = item.spotKeyList.reverse();
+      let index = 0;
+      if(lastKey){
+        index = _.findIndex(spotKeyList, function(key) { return key == lastKey });
+      }
+      let endIndex = index + batch;
+      spotKeyList = _.slice(spotKeyList, index, endIndex);
+      return spotKeyList.map(key => {
         item.spots.push(this.db.object("/spots/"+key));
           return item;
         })

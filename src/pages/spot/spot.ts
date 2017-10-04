@@ -87,14 +87,35 @@ export class SpotPage {
   }
 
   private getSpotsFiltered(infiniteScroll,refresher){
-    this.spotProvider.fetchSpots(this.filter,this.lastKey).do(item => {
+    if (this.finished){
+      if(infiniteScroll){
+        infiniteScroll.complete();
+      }
+      return
+    } 
+    const getSpotList = this.spotProvider.fetchSpots(this.filter,this.lastKey,this.batch+1).do(item => {
       let lastSpot = _.last(item.spots);
       this.lastKey = lastSpot.$ref.key;
-      console.log(this.lastKey);
-      this.spotsFiltered.next(item.spots);
-    }).subscribe((res) => {
-      this.searchSpots = false}
-    );
+
+      const newSpots = _.slice(item.spots, 0, this.batch);
+      const currentSpots = this.spotsFiltered.getValue();
+      let lastNewSpot = _.last(newSpots);
+
+      if (this.lastKey == lastNewSpot.$ref.key) {
+        this.finished = true
+      }
+      this.spotsFiltered.next(_.concat(currentSpots,newSpots));
+    });
+    if(infiniteScroll){
+      getSpotList.subscribe(() => infiniteScroll.complete())
+    }else{
+      getSpotList.subscribe(() => {
+        this.searchSpots = false
+        if(refresher){
+          refresher.complete();
+        }
+      });
+    }
   }
 
 
