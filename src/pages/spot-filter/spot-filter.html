@@ -1,7 +1,14 @@
-<ion-header>
-    <ion-navbar>
-      <ion-searchbar [(ngModel)] = "searchBarModel" placeholder="Recherche des #" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>
-    </ion-navbar>
+<ion-header no-border>
+    <ion-toolbar color="blue">
+        <ion-navbar>
+            <ion-searchbar [(ngModel)] = "searchBarModel" placeholder="Recherche des #" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>        
+        </ion-navbar>
+        <ion-buttons end>
+            <button  ion-button icon-only (click)="goFiltreSpot()">
+            <ion-icon name="md-close"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 
