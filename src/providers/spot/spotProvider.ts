@@ -7,6 +7,8 @@ import { Hashtag } from '../../models/hashtag';
 import { Observable } from 'rxjs/Observable';
 import {EmptyObservable} from 'rxjs/Observable/EmptyObservable';
 
+import * as _ from 'lodash'
+
 /*
   Generated class for the SpotProvider provider.
 
@@ -80,9 +82,15 @@ export class SpotProvider {
     });
   }
 
-  fetchSpots(hashtagKey:string):Observable<any>{
+  fetchSpots(hashtagKey:string, lastKey:string):Observable<any>{
     return this.db.object('/hashtags/'+hashtagKey).do((item) => { 
       item.spots = [];
+      console.log(item.spotKeyList);
+      //if(lastKey){
+        let index = _.findIndex(item.spotKeyList, function(o) { return o == "-KvQhZWNaslivjQPSfqg" });
+        console.log(index);
+      //}
+
       return item.spotKeyList.map(key => {
         item.spots.push(this.db.object("/spots/"+key));
           return item;

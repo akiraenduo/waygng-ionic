@@ -36,6 +36,8 @@ export class SpotPage {
   finished = false  // boolean when end of database is reached
   userUid: any;
 
+  lastKey = null;
+
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public spotProvider: SpotProvider,
@@ -53,11 +55,7 @@ export class SpotPage {
       if (user) {
         this.userUid = user.uid;
         if(this.filter){
-          this.spotProvider.fetchSpots(this.filter).do(item => {
-            this.spotsFiltered.next(item.spots);
-          }).subscribe((res) => {
-            this.searchSpots = false}
-          );
+          this.getSpotsFiltered(null,null);
         }else{
           this.getSpots(null,null);
         } 
@@ -76,11 +74,27 @@ export class SpotPage {
 
 
   doInfinite(infiniteScroll) {
+    if(this.filter){
+      this.getSpotsFiltered(infiniteScroll,null);
+    }else{
       this.getSpots(infiniteScroll,null);
+    }
+      
   }
 
   goDetailSpot(spot){
     this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
+  }
+
+  private getSpotsFiltered(infiniteScroll,refresher){
+    this.spotProvider.fetchSpots(this.filter,this.lastKey).do(item => {
+      let lastSpot = _.last(item.spots);
+      this.lastKey = lastSpot.$ref.key;
+      console.log(this.lastKey);
+      this.spotsFiltered.next(item.spots);
+    }).subscribe((res) => {
+      this.searchSpots = false}
+    );
   }
 
 
