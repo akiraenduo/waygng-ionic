@@ -30,13 +30,10 @@ export class SpotPage {
   searchSpots: any;
   filter:string;
   spots = new BehaviorSubject([]);
-  spotsFiltered = new BehaviorSubject([]);
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
   userUid: any;
-
-  lastKey = null;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -54,11 +51,7 @@ export class SpotPage {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        if(this.filter){
-          this.getSpotsFiltered(null,null);
-        }else{
           this.getSpots(null,null);
-        } 
       }else{
         this.userUid = null;
       }
@@ -74,12 +67,7 @@ export class SpotPage {
 
 
   doInfinite(infiniteScroll) {
-    if(this.filter){
-      this.getSpotsFiltered(infiniteScroll,null);
-    }else{
-      this.getSpots(infiniteScroll,null);
-    }
-      
+    this.getSpots(infiniteScroll,null);
   }
 
   goDetailSpot(spot){
@@ -87,38 +75,6 @@ export class SpotPage {
       this.navCtrl.push(SpotDetailPage, {spotKey : spot.$ref.key});
     }else{
       this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
-    }
-  }
-
-  private getSpotsFiltered(infiniteScroll,refresher){
-    if (this.finished){
-      if(infiniteScroll){
-        infiniteScroll.complete();
-      }
-      return
-    } 
-    const getSpotList = this.spotProvider.fetchSpots(this.filter,this.lastKey,this.batch+1).do(item => {
-      let lastSpot = _.last(item.spots);
-      this.lastKey = lastSpot.$ref.key;
-
-      const newSpots = _.slice(item.spots, 0, this.batch);
-      const currentSpots = this.spotsFiltered.getValue();
-      let lastNewSpot = _.last(newSpots);
-
-      if (this.lastKey == lastNewSpot.$ref.key) {
-        this.finished = true
-      }
-      this.spotsFiltered.next(_.concat(currentSpots,newSpots));
-    });
-    if(infiniteScroll){
-      getSpotList.subscribe(() => infiniteScroll.complete())
-    }else{
-      getSpotList.subscribe(() => {
-        this.searchSpots = false
-        if(refresher){
-          refresher.complete();
-        }
-      });
     }
   }
 

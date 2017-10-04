@@ -5,7 +5,9 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { Hashtag } from '../../models/hashtag';
 
 import { Observable } from 'rxjs/Observable';
-import { SpotPage } from '../spot/spot';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import * as _ from 'lodash'
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -24,6 +26,16 @@ export class SpotFilterPage {
   searchHashtag: any = false; 
   hashtags:Observable<any>;
   filterList:Hashtag[] = [];
+  hashtagKeySelected: any;
+  searchBarModel: string;
+
+  searchSpots: any;
+  spotsFiltered = new BehaviorSubject([]);
+  batch = 15        // size of each query
+  finished = false  // boolean when end of database is reached
+  userUid: any;
+
+  lastKey = null;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -41,8 +53,10 @@ export class SpotFilterPage {
   }
 
   onClear(ev){ 
-
-  }
+    this.hashtagKeySelected = null;
+    this.lastKey = null;
+    this.spotsFiltered = new BehaviorSubject([]);
+  } 
 
   getItems(ev) {
     // set val to the value of the ev target
@@ -55,7 +69,46 @@ export class SpotFilterPage {
   }
 
   doSearch(hashtag){
-    this.navCtrl.setRoot(SpotPage, {filter : hashtag.$key });
+    this.finished = false;
+    this.searchBarModel = hashtag.name;
+    this.hashtagKeySelected = hashtag.$key;
+    this.getSpotsFiltered(null);
+  }
+
+  doInfinite(infiniteScroll) {
+    if(this.hashtagKeySelected){
+      this.getSpotsFiltered(infiniteScroll);
+    }
+  }
+
+
+  private getSpotsFiltered(infiniteScroll){
+    if (this.finished){
+      if(infiniteScroll){
+        infiniteScroll.complete();
+      }
+      return
+    } 
+    const getSpotList = this.spotProvider.fetchSpots(this.hashtagKeySelected,this.lastKey,this.batch+1).do(item => {
+      let lastSpot = _.last(item.spots);
+      this.lastKey = lastSpot.$ref.key;
+
+      const newSpots = _.slice(item.spots, 0, this.batch);
+      const currentSpots = this.spotsFiltered.getValue();
+      let lastNewSpot = _.last(newSpots);
+
+      if (this.lastKey == lastNewSpot.$ref.key) {
+        this.finished = true
+      }
+      this.spotsFiltered.next(_.concat(currentSpots,newSpots));
+    });
+    if(infiniteScroll){
+      getSpotList.subscribe(() => infiniteScroll.complete())
+    }else{
+      getSpotList.subscribe(() => {
+        this.searchSpots = false
+      });
+    }
   }
 
   doFocus(){
