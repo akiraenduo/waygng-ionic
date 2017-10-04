@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export class Spot {
     message:  string;
     dateUpdate: number;
