@@ -95,4 +95,10 @@ export class UserProvider {
     return user;
   }
 
+  addHistoryHashtag(userUid:string, hashtagKey:string){
+    const items = this.db.object('/users/'+userUid+'/history/hashtags/'+hashtagKey);
+    items.set(true);
+
+  }
+
 }

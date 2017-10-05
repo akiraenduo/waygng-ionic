@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as _ from 'lodash'
+import { UserProvider } from '../../providers/user/userProvider';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -40,10 +42,19 @@ export class SpotFilterPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public Keyboard: Keyboard,
-              public spotProvider: SpotProvider) {
+              public spotProvider: SpotProvider,
+              public userProvider: UserProvider,
+              private afAuth: AngularFireAuth) {
   }
 
   ionViewDidLoad() {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.userUid = user.uid;
+      }else{
+        this.userUid = null;
+      }
+    });
     this.doFocus();
   }
 
@@ -65,6 +76,12 @@ export class SpotFilterPage {
     this.spotsFiltered = new BehaviorSubject([]);
   }
 
+  onClickSearchBar(){
+    if(this.hashtagKeySelected != null){
+
+    }
+  }
+
   getItems(ev) {
     // set val to the value of the ev target
     this.searchBarVal = ev.target.value;
@@ -79,6 +96,7 @@ export class SpotFilterPage {
     this.finished = false;
     this.searchBarModel = hashtag.name;
     this.hashtagKeySelected = hashtag.$key;
+    this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected);
     this.getSpotsFiltered(null);
   }
 

@@ -1,6 +1,6 @@
 <ion-header no-border>
     <ion-toolbar color="blue">
-        <ion-navbar>
+        <ion-navbar (click)="onClickSearchBar()">
             <ion-searchbar [(ngModel)] = "searchBarModel" debounce=500 placeholder="Recherche des #" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>        
         </ion-navbar>
         <ion-buttons *ngIf="searchBarVal && searchBarVal.length > 0" end>
