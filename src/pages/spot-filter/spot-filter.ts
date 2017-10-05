@@ -23,7 +23,7 @@ import * as _ from 'lodash'
 export class SpotFilterPage {
 
   @ViewChild('searchBar') searchBar: any; 
-  searchHashtag: any = false; 
+  searchBarVal: string;
   hashtags:Observable<any>;
   filterList:Hashtag[] = [];
   hashtagKeySelected: any;
@@ -48,7 +48,6 @@ export class SpotFilterPage {
   }
 
   fetchHashtag(hashtag:string){
-    this.searchHashtag = true;
     this.hashtags = this.spotProvider.fetchHashtag(hashtag);
   }
 
@@ -58,13 +57,21 @@ export class SpotFilterPage {
     this.spotsFiltered = new BehaviorSubject([]);
   } 
 
+  clearSearchBar(){
+    this.searchBarModel = null;
+    this.searchBarVal = null;
+    this.hashtagKeySelected = null;
+    this.lastKey = null;
+    this.spotsFiltered = new BehaviorSubject([]);
+  }
+
   getItems(ev) {
     // set val to the value of the ev target
-    var val = ev.target.value;
+    this.searchBarVal = ev.target.value;
 
     // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.fetchHashtag(val);
+    if (this.searchBarVal && this.searchBarVal.trim() != '') {
+      this.fetchHashtag(this.searchBarVal);
     }
   }
 
