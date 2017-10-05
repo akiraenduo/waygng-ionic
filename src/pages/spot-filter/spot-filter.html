@@ -3,7 +3,7 @@
         <ion-navbar (click)="onClickSearchBar()">
             <ion-searchbar [(ngModel)] = "searchBarModel" debounce=500 placeholder="Recherche des #" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>        
         </ion-navbar>
-        <ion-buttons *ngIf="searchBarVal && searchBarVal.length > 0" end>
+        <ion-buttons *ngIf="searchBarModel && searchBarModel.length > 0" end>
             <button ion-button icon-only (click)="clearSearchBar()">
             <ion-icon name="md-close"></ion-icon> 
             </button>
@@ -14,9 +14,10 @@
 
 <ion-content class="bacground-light"> 
 
-  <ion-list *ngIf="!hashtagKeySelected && searchBarVal && searchBarVal.length > 0">
+  <ion-list *ngIf="!searchBarModel || searchBarModel.length == 0">
       <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">
-          <ion-label>{{tag.name}}</ion-label>
+            <ion-icon *ngIf="isHistorySearch" name="md-time" item-start></ion-icon>
+            <ion-label>{{tag.name}}</ion-label>
       </button>
   </ion-list>
 

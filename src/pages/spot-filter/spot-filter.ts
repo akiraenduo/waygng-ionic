@@ -36,6 +36,7 @@ export class SpotFilterPage {
   batch = 15        // size of each query
   finished = false  // boolean when end of database is reached
   userUid: any;
+  isHistorySearch: boolean = false;
 
   lastKey = null;
 
@@ -45,12 +46,15 @@ export class SpotFilterPage {
               public spotProvider: SpotProvider,
               public userProvider: UserProvider,
               private afAuth: AngularFireAuth) {
+                
   }
 
   ionViewDidLoad() {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
+        this.isHistorySearch = true;
+        this.getHistoryHashtags(this.userUid);
       }else{
         this.userUid = null;
       }
@@ -58,15 +62,13 @@ export class SpotFilterPage {
     this.doFocus();
   }
 
+  getHistoryHashtags(userUid:string){
+    this.hashtags = this.userProvider.getHistoryHashtags(userUid).map((items) => items.reverse());
+  }
+
   fetchHashtag(hashtag:string){
     this.hashtags = this.spotProvider.fetchHashtag(hashtag);
   }
-
-  onClear(ev){ 
-    this.hashtagKeySelected = null;
-    this.lastKey = null;
-    this.spotsFiltered = new BehaviorSubject([]);
-  } 
 
   clearSearchBar(){
     this.searchBarModel = null;
@@ -74,6 +76,8 @@ export class SpotFilterPage {
     this.hashtagKeySelected = null;
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
+    this.isHistorySearch = true;
+    this.hashtags = this.userProvider.getHistoryHashtags(this.userUid).map((items) => items.reverse());
   }
 
   onClickSearchBar(){
@@ -83,6 +87,7 @@ export class SpotFilterPage {
   }
 
   getItems(ev) {
+    this.isHistorySearch = false;
     // set val to the value of the ev target
     this.searchBarVal = ev.target.value;
 
@@ -96,7 +101,7 @@ export class SpotFilterPage {
     this.finished = false;
     this.searchBarModel = hashtag.name;
     this.hashtagKeySelected = hashtag.$key;
-    this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected);
+    this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);
     this.getSpotsFiltered(null);
   }
 

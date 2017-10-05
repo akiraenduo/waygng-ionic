@@ -6,7 +6,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
-import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 /*
@@ -95,10 +95,13 @@ export class UserProvider {
     return user;
   }
 
-  addHistoryHashtag(userUid:string, hashtagKey:string){
+  addHistoryHashtag(userUid:string, hashtagKey:string, hashtagName:string){
     const items = this.db.object('/users/'+userUid+'/history/hashtags/'+hashtagKey);
-    items.set(true);
+    items.set({"name":hashtagName});
+  }
 
+  getHistoryHashtags(userUid:string):FirebaseListObservable<any>{
+    return this.db.list('/users/'+userUid+'/history/hashtags');
   }
 
 }
