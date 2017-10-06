@@ -14,10 +14,10 @@
 
 <ion-content class="bacground-light"> 
 
-  <ion-list *ngIf="!searchBarModel || searchBarModel.length == 0">
+  <ion-list *ngIf="!hashtagKeySelected">
       <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">
             <ion-icon *ngIf="isHistorySearch" name="md-time" item-start></ion-icon>
-            <ion-label>{{tag.name}}</ion-label>
+            <ion-label>{{tag.tag}}</ion-label>
       </button>
   </ion-list>
 

@@ -25,7 +25,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class SpotFilterPage {
 
   @ViewChild('searchBar') searchBar: any; 
-  searchBarVal: string;
   hashtags:Observable<any>;
   filterList:Hashtag[] = [];
   hashtagKeySelected: any;
@@ -67,12 +66,11 @@ export class SpotFilterPage {
   }
 
   fetchHashtag(hashtag:string){
-    this.hashtags = this.spotProvider.fetchHashtag(hashtag);
+    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase());
   }
 
   clearSearchBar(){
     this.searchBarModel = null;
-    this.searchBarVal = null;
     this.hashtagKeySelected = null;
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
@@ -82,18 +80,21 @@ export class SpotFilterPage {
 
   onClickSearchBar(){
     if(this.hashtagKeySelected != null){
-
+      this.hashtagKeySelected = null;
+      this.searchBarModel = null;
+      this.isHistorySearch = true;
+      this.hashtags = this.userProvider.getHistoryHashtags(this.userUid).map((items) => items.reverse());
     }
   }
 
   getItems(ev) {
     this.isHistorySearch = false;
     // set val to the value of the ev target
-    this.searchBarVal = ev.target.value;
+    let value = ev.target.value;
 
     // if the value is an empty string don't filter the items
-    if (this.searchBarVal && this.searchBarVal.trim() != '') {
-      this.fetchHashtag(this.searchBarVal);
+    if (value && value.trim() != '') {
+      this.fetchHashtag(value);
     }
   }
 
@@ -101,6 +102,8 @@ export class SpotFilterPage {
     this.finished = false;
     this.searchBarModel = hashtag.name;
     this.hashtagKeySelected = hashtag.$key;
+    this.lastKey = null;
+    this.spotsFiltered = new BehaviorSubject([]);
     this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);
     this.getSpotsFiltered(null);
   }

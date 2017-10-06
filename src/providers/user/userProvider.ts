@@ -97,7 +97,7 @@ export class UserProvider {
 
   addHistoryHashtag(userUid:string, hashtagKey:string, hashtagName:string){
     const items = this.db.object('/users/'+userUid+'/history/hashtags/'+hashtagKey);
-    items.set({"name":hashtagName});
+    items.set({"name":hashtagName.toLowerCase(), "tag":hashtagName});
   }
 
   getHistoryHashtags(userUid:string):FirebaseListObservable<any>{

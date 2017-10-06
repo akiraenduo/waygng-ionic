@@ -32,7 +32,7 @@ export class SpotProvider {
     const spots = this.db.list('/spots');
     spots.push(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
-      let m, hashtagList =[];
+      let m, hashtagList:string[] =[];
       while ((m = rx.exec(message)) !== null) {
         if (m[1]) hashtagList.push(m[1]);
      }
@@ -43,7 +43,7 @@ export class SpotProvider {
       const subscribe = searchHashtag.subscribe(snapshots=>{
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
-            let hastag = new Hashtag(snapshot.val().name,snapshot.val().spotKeyList);
+            let hastag = new Hashtag(snapshot.val().name,snapshot.val().tag,snapshot.val().spotKeyList);
             hastag.spotKeyList.push(spot.key);
             const hashtags = this.db.list('/hashtags/');
             hashtags.update(snapshot.key,hastag);
@@ -52,7 +52,7 @@ export class SpotProvider {
         }else{
           let spotKeyList = [];
           spotKeyList.push(spot.key);
-          let hastag = new Hashtag(hashtag,spotKeyList);
+          let hastag = new Hashtag(hashtag.toLowerCase(),hashtag,spotKeyList);
           const hashtags = this.db.list('/hashtags');
           hashtags.push(hastag);
           subscribe.unsubscribe();
