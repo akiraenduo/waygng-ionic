@@ -5,7 +5,6 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { Spot } from '../../models/spot';
 import { Hashtag } from '../../models/hashtag';
 import { Observable } from 'rxjs/Observable';
-import {EmptyObservable} from 'rxjs/Observable/EmptyObservable';
 
 import * as _ from 'lodash'
 
@@ -100,7 +99,6 @@ export class SpotProvider {
    }
 
   fetchHashtag(name:string): Observable<any[]> {
-    if(name){
       return this.db.list('/hashtags', {
         query: {
           orderByChild: 'name',
@@ -109,10 +107,11 @@ export class SpotProvider {
           endAt: { value: name+"\uf8ff"}
         }
       });
-    }
-    else{
-      return new EmptyObservable();
-    }
+  }
+
+  incrementLikes(spotUid:string, userUid:string){
+    const items = this.db.object('/spots/'+spotUid+'/likes/'+userUid);
+    items.set(true);
   }
 
    private searchHashtag(name): FirebaseListObservable<any[]> {

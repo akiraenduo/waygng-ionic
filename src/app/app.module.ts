@@ -21,6 +21,7 @@ import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
 import {FormatDatePipe} from '../pipes/format-date/format-date';
 import {FormatHashtagPipe} from '../pipes/format-hashtag/format-hashtag';
 import {SortSpotsPipe} from '../pipes/sort-spots/sort-spots';
+import {FormatLikesPipe} from '../pipes/format-likes/format-likes';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -70,7 +71,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     SafeHtmlPipe,
     FormatDatePipe,
     FormatHashtagPipe,
-    SortSpotsPipe
+    SortSpotsPipe,
+    FormatLikesPipe
   ],
   imports: [
     HttpModule,

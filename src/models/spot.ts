@@ -4,6 +4,7 @@ export class Spot {
     userUid: string;
     userName: string;
     userPicture: string;
+    likes:string[];
 
     constructor(message:string, userUid:string, userName:string, userPicture:string, dateUpdate:number) {
        this.message = message;

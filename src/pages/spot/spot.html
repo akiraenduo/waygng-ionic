@@ -38,7 +38,7 @@
 
     <ion-list> 
 
-        <ion-card (click)="goDetailSpot(spot)" *ngFor="let spot of spots | async">
+        <ion-card *ngFor="let spot of spots | async">
             
               <ion-item>
                 <ion-avatar item-start>
@@ -55,9 +55,9 @@
             
               <ion-row>
                 <ion-col>
-                  <button ion-button icon-left clear small>
+                  <button (click)="incrementLike(spot)" ion-button icon-left clear small>
                     <ion-icon name="thumbs-up"></ion-icon>
-                    <div>12 Likes</div>
+                    <div>{{spot.likes | formatLikes}}  Likes</div>
                   </button>
                 </ion-col>
                 <ion-col> 

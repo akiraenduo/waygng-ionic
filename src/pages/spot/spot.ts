@@ -71,11 +71,11 @@ export class SpotPage {
   }
 
   goDetailSpot(spot){
-    if(spot.$ref){
-      this.navCtrl.push(SpotDetailPage, {spotKey : spot.$ref.key});
-    }else{
-      this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
-    }
+    this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
+  }
+
+  incrementLike(spot){
+    this.spotProvider.incrementLikes(spot.$key,this.userUid);
   }
 
 
@@ -100,12 +100,14 @@ export class SpotPage {
           }
           /// Concatenate new spots to current spots
           this.spots.next( _.concat(currentSpots, newSpots) )
-        })
-        .take(1);
+        });
         if(infiniteScroll){
-          getSpotList.subscribe(() => infiniteScroll.complete())
-        }else{
           getSpotList.subscribe(() => {
+            infiniteScroll.complete();
+          })
+        }else{
+          getSpotList.subscribe((spots) => {
+            this.spots.next(spots);
             this.searchSpots = false
             if(refresher){
               refresher.complete();
