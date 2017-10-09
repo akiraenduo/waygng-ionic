@@ -12,6 +12,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Facebook } from '@ionic-native/facebook';
 import { PhotoLibrary } from '@ionic-native/photo-library';
+import { FCM } from '@ionic-native/fcm';
 
 //PIPE
 import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remove-duplicate-station';
@@ -109,6 +110,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     Keyboard,
     Facebook,
     PhotoLibrary,
+    FCM,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,

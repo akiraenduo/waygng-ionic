@@ -11,6 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
+
 import * as _ from 'lodash'
 
 
@@ -44,7 +45,6 @@ export class SpotPage {
 
     this.filter = navParams.get("filter");                  
     this.searchSpots = true;
- 
   }
 
   ionViewDidLoad() {
@@ -75,7 +75,7 @@ export class SpotPage {
   }
 
   incrementLike(spot){
-    this.spotProvider.incrementLikes(spot.$key,this.userUid);
+    this.spotProvider.incrementLikes(spot.$key,spot.userUid,this.userUid);
   }
 
 

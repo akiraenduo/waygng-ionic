@@ -109,9 +109,11 @@ export class SpotProvider {
       });
   }
 
-  incrementLikes(spotUid:string, userUid:string){
-    const items = this.db.object('/spots/'+spotUid+'/likes/'+userUid);
-    items.set(true);
+  incrementLikes(spotUid:string, spotUserUid:string, userUid:string){
+    const items = this.db.object('/spots/'+spotUid+'/likes/'+spotUserUid);
+    let like = {};
+    like[userUid] = true;
+    items.update(like);
   }
 
    private searchHashtag(name): FirebaseListObservable<any[]> {

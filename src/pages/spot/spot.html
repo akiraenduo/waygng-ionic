@@ -57,7 +57,7 @@
                 <ion-col>
                   <button (click)="incrementLike(spot)" ion-button icon-left clear small>
                     <ion-icon name="thumbs-up"></ion-icon>
-                    <div>{{spot.likes | formatLikes}}  Likes</div>
+                    <div>{{spot.likes | formatLikes:spot.userUid}}  Likes</div>
                   </button>
                 </ion-col>
                 <ion-col> 

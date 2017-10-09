@@ -8,6 +8,7 @@ import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { FCM } from '@ionic-native/fcm';
 
 /*
   Generated class for the UserProvider provider.
@@ -24,7 +25,8 @@ export class UserProvider {
               public platform: Platform,
               public db: AngularFireDatabase,
               private afAuth: AngularFireAuth, 
-              private fb: Facebook) {
+              private fb: Facebook,
+              private fcm: FCM) {
 
                 this.afAuth.authState.subscribe((auth) => {
                   this.authState = auth
@@ -88,10 +90,18 @@ export class UserProvider {
     });
   }
 
-  private addUser(user){
+  private addUser(user:User){
     firebase.database().goOnline();
-    const items = this.db.list('/users/'+user.uid);
-    items.update('user', user);
+    if (this.platform.is('cordova')) {
+      this.fcm.getToken().then(token=>{
+        const items = this.db.list('/users/'+user.uid);
+        user.token = token;
+        items.update('user', user);
+      })
+    }else{
+      const items = this.db.list('/users/'+user.uid);
+      items.update('user', user);
+    }
     return user;
   }
 
@@ -102,6 +112,10 @@ export class UserProvider {
 
   getHistoryHashtags(userUid:string):FirebaseListObservable<any>{
     return this.db.list('/users/'+userUid+'/history/hashtags');
+  }
+
+  storeToken(userUid:string,token:string){
+    this.db.list('tokens').push({userUid:userUid, token:token});
   }
 
 }

@@ -14,6 +14,7 @@ import { User } from '../models/user';
 
 import { UserProvider } from '../providers/user/userProvider';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { FCM } from '@ionic-native/fcm';
 
 import * as moment from 'moment'
 
@@ -37,8 +38,19 @@ export class MyApp {
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
               private afAuth: AngularFireAuth, 
-              public userProvider: UserProvider,) {
-    this.initializeApp();
+              public userProvider: UserProvider,
+              private fcm: FCM) {
+
+    this.afAuth.auth.onAuthStateChanged(user => {
+      if(user){
+        this.rootPage = FavorisPage;
+        this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
+        this.initializeApp();
+      }else{
+        this.userData = null;
+      }
+      
+    });           
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -55,17 +67,23 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       moment.locale('fr-fr');
-      this.statusBar.styleDefault();
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.backgroundColorByHexString("#0091D4");
       this.splashScreen.hide();
-      this.afAuth.auth.onAuthStateChanged(user => {
-        if(user){
-          this.rootPage = FavorisPage;
-          this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL); 
-        }else{
-          this.userData = null;
-        }
-        
-      });
+
+      if(this.platform.is('cordova')){
+        this.fcm.onNotification().subscribe(data=>{
+          if(data.wasTapped){
+            alert( JSON.stringify(data));
+          } else {
+            alert( JSON.stringify(data));
+          };
+        })
+    
+        this.fcm.onTokenRefresh().subscribe(token=>{
+          alert( JSON.stringify(token));
+        })
+      }
     });
   }
 

@@ -5,6 +5,7 @@ export class User {
     firstName: string;
     username: string;
     picture: string;
+    token:string;
 
     constructor(
         uid: string,

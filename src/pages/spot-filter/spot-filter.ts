@@ -30,7 +30,7 @@ export class SpotFilterPage {
   hashtagKeySelected: any;
   searchBarModel: string;
 
-  searchSpots: any;
+  loading: any;
   spotsFiltered = new BehaviorSubject([]);
   batch = 15        // size of each query
   finished = false  // boolean when end of database is reached
@@ -49,6 +49,7 @@ export class SpotFilterPage {
   }
 
   ionViewDidLoad() {
+    this.loading = true;
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
@@ -62,7 +63,9 @@ export class SpotFilterPage {
   }
 
   getHistoryHashtags(userUid:string){
+    this.loading = true;
     this.hashtags = this.userProvider.getHistoryHashtags(userUid).map((items) => items.reverse());
+    this.hashtags.subscribe(() => this.loading = false);
   }
 
   fetchHashtag(hashtag:string){
@@ -75,7 +78,7 @@ export class SpotFilterPage {
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
     this.isHistorySearch = true;
-    this.hashtags = this.userProvider.getHistoryHashtags(this.userUid).map((items) => items.reverse());
+    this.getHistoryHashtags(this.userUid);
   }
 
   onClickSearchBar(){
@@ -83,7 +86,7 @@ export class SpotFilterPage {
       this.hashtagKeySelected = null;
       this.searchBarModel = null;
       this.isHistorySearch = true;
-      this.hashtags = this.userProvider.getHistoryHashtags(this.userUid).map((items) => items.reverse());
+      this.getHistoryHashtags(this.userUid);
     }
   }
 
@@ -95,6 +98,8 @@ export class SpotFilterPage {
     // if the value is an empty string don't filter the items
     if (value && value.trim() != '') {
       this.fetchHashtag(value);
+    }else{
+      this.clearSearchBar();
     }
   }
 
@@ -116,7 +121,9 @@ export class SpotFilterPage {
 
 
   private getSpotsFiltered(infiniteScroll){
+    this.loading = true;
     if (this.finished){
+      this.loading = false;
       if(infiniteScroll){
         infiniteScroll.complete();
       }
@@ -136,10 +143,13 @@ export class SpotFilterPage {
       this.spotsFiltered.next(_.concat(currentSpots,newSpots));
     });
     if(infiniteScroll){
-      getSpotList.subscribe(() => infiniteScroll.complete())
+      getSpotList.subscribe(() => {
+        this.loading = false;
+        infiniteScroll.complete();
+      })
     }else{
       getSpotList.subscribe(() => {
-        this.searchSpots = false
+        this.loading = false;
       });
     }
   }

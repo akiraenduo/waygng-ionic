@@ -1,7 +1,9 @@
 <ion-header no-border>
     <ion-toolbar color="blue">
-        <ion-navbar (click)="onClickSearchBar()">
-            <ion-searchbar [(ngModel)] = "searchBarModel" debounce=500 placeholder="Recherche des #" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>        
+        <ion-navbar>
+            <button ion-button color="blue" full class="button-margin" (click)="clearSearchBar()">
+                <ion-searchbar class="home-searchbar" [(ngModel)] = "searchBarModel" debounce=500 placeholder="Recherche des #" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>
+            </button>        
         </ion-navbar>
         <ion-buttons *ngIf="searchBarModel && searchBarModel.length > 0" end>
             <button ion-button icon-only (click)="clearSearchBar()">
@@ -13,6 +15,10 @@
 
 
 <ion-content class="bacground-light"> 
+
+    <div *ngIf="loading" class="spinner-container">
+        <ion-spinner name="ios"></ion-spinner>
+    </div>  
 
   <ion-list *ngIf="!hashtagKeySelected">
       <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">
