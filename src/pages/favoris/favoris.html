@@ -9,9 +9,9 @@
 
 
 <ion-content padding>
-    <div *ngIf="searchFavoris" class="spinner-container">
-        <ion-spinner name="ios"></ion-spinner>
-    </div>
+
+    <my-loader *ngIf="loading"></my-loader> 
+
     <ion-row *ngIf="isNotConnected()" class="warning-container">
         <ion-col col-12>
                 Veuillez vous connecter pour accéder aux favoris

@@ -88,7 +88,6 @@
         <variable name="APP_ID" value="1984306511807031" />
         <variable name="APP_NAME" value="waygng-ionic" />
     </plugin>
-    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
     <plugin name="cordova-plugin-photo-library" spec="^2.1.0">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
@@ -99,4 +98,5 @@
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="phonegap-plugin-push" spec="^2.0.0" />
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
 </widget>

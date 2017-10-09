@@ -19,10 +19,7 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-
-    <div *ngIf="searchSpots && !isNotConnected()" class="spinner-container">
-        <ion-spinner name="ios"></ion-spinner>
-    </div>
+    <my-loader *ngIf="searchSpots && !isNotConnected()"></my-loader> 
 
     <ion-row *ngIf="isNotConnected()" class="warning-container">
         <ion-col col-12>

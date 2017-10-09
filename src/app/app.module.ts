@@ -14,6 +14,9 @@ import { Facebook } from '@ionic-native/facebook';
 import { PhotoLibrary } from '@ionic-native/photo-library';
 import { FCM } from '@ionic-native/fcm';
 
+// MY COMPONENT
+import {MyLoaderComponent} from '../components/my-loader/my-loader'
+
 //PIPE
 import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remove-duplicate-station';
 import {CalculateDistancePipe} from '../pipes/calculate-distance/calculate-distance';
@@ -55,6 +58,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
 @NgModule({
   declarations: [
     MyApp,
+    MyLoaderComponent,
     HomePage,
     LoginPage,
     RegisterPage,

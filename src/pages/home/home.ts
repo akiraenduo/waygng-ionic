@@ -24,7 +24,7 @@ export class HomePage {
   longitude: number;
   title: any;
   errorMessage: string;
-  searchPosition: any = false;
+  loading: any = false;
   noResult: any = false;
   stationProches: Station[] = [];
   station: any;
@@ -76,7 +76,7 @@ export class HomePage {
 
   getTempsLieu(station,refresher){
     if(station){
-      this.searchPosition = true;
+      this.loading = true;
       this.noResult = false;
       if(this.listeTemps.length > 0){
         this.listeTemps = [];
@@ -115,7 +115,7 @@ export class HomePage {
   
 
           }
-          this.searchPosition = false;
+          this.loading = false;
           if(refresher != null){
             refresher.complete();
           }

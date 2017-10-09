@@ -15,7 +15,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class FavorisPage {
 
   title: any;
-  searchFavoris: any;
+  loading: any;
   favoris: FirebaseListObservable<any>;
   userUid: any;
 
@@ -31,15 +31,15 @@ export class FavorisPage {
   }
 
   ionViewDidLoad() {
-    this.searchFavoris = true;
+    this.loading = true;
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavorisList(user.uid);
-        this.favoris.subscribe(() => this.searchFavoris = false);
+        this.favoris.subscribe(() => this.loading = false);
       }else{
         this.favoris = null;
-        this.searchFavoris = false;
+        this.loading = false;
         this.userUid = null;
       }
     });

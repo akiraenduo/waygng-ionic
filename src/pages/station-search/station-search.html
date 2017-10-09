@@ -24,9 +24,9 @@
     <ion-list-header>
       <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;Stations les plus proches
     </ion-list-header>
-    <div *ngIf="searchPosition" class="spinner-container">
-      <ion-spinner name="ios"></ion-spinner>
-    </div>
+
+    <my-loader *ngIf="searchPosition"></my-loader> 
+    
     <ion-row *ngIf="isStationProchesEmpty()" class="warning-container">
         <ion-col col-12>
             Aucune station à proximité
@@ -41,9 +41,9 @@
     <ion-list-header>
       <ion-icon name="search"></ion-icon>&nbsp;&nbsp; Recherche station
     </ion-list-header>
-    <div *ngIf="searchStation" class="spinner-container">
-      <ion-spinner name="ios"></ion-spinner>
-    </div>
+
+    <my-loader *ngIf="searchStation"></my-loader> 
+
     <button ion-item *ngFor="let station of stations | removeDuplicateStation"  (click)="itemSelected(station)">
         <ion-row>
           <ion-col col-9>{{station.name}}</ion-col>

@@ -36,7 +36,6 @@
         "cordova-browser": "^4.1.0",
         "cordova-ios": "^4.0.0",
         "cordova-plugin-add-swift-support": "^1.7.0",
-        "cordova-plugin-app-event": "file:node_modules/cordova-plugin-app-event",
         "cordova-plugin-compat": "^1.2.0",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.6",

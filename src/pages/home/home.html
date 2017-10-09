@@ -20,9 +20,9 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <div *ngIf="searchPosition" class="spinner-container">
-    <ion-spinner name="ios"></ion-spinner>
-  </div>
+  
+  <my-loader *ngIf="loading"></my-loader> 
+
   <ion-row *ngIf="noResult" class="warning-container">
       <ion-col col-12>
           Aucun passage prévu à cette station dans l'heure qui vient
