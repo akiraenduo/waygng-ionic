@@ -6,7 +6,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
-import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FCM } from '@ionic-native/fcm';
 
@@ -34,7 +34,7 @@ export class UserProvider {
 
   }
 
-  login(): firebase.Promise<any> {
+  login() {
     if (this.platform.is('cordova')) {
       return this.fb.login(['email', 'public_profile']).then(res => {
         const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
@@ -68,7 +68,7 @@ export class UserProvider {
     return null;
   }
 
-  fetchUser(uid:string):FirebaseObjectObservable<any>{
+  fetchUser(uid:string):AngularFireObject<any>{
     return this.db.object('/users/'+uid);
   }
 
@@ -110,7 +110,7 @@ export class UserProvider {
     items.set({"name":hashtagName.toLowerCase(), "tag":hashtagName});
   }
 
-  getHistoryHashtags(userUid:string):FirebaseListObservable<any>{
+  getHistoryHashtags(userUid:string):AngularFireList<any>{
     return this.db.list('/users/'+userUid+'/history/hashtags');
   }
 

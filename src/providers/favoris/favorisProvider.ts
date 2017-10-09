@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase , AngularFireList} from 'angularfire2/database';
 
 /*
   Generated class for the FavorisProvider provider.
@@ -16,17 +16,12 @@ export class FavorisProvider {
               public db: AngularFireDatabase) {
   }
 
-  getFavorisList(userUid): FirebaseListObservable<any>{
+  getFavorisList(userUid): AngularFireList<any>{
    return this.db.list('/users/'+userUid+'/stations');
   }
 
-  getFavoris(userUid, nomStation): FirebaseListObservable<any> {
-    return this.db.list('/users/'+userUid+'/stations',{ 
-      query: {
-        orderByChild: 'name',
-        equalTo: nomStation 
-      }
-     });
+  getFavoris(userUid, nomStation): AngularFireList<any> {
+    return this.db.list('/users/'+userUid+'/stations', ref => ref.orderByChild('name').equalTo(nomStation));
    }
 
   addFavoris(userUid, nomStation){
@@ -35,19 +30,16 @@ export class FavorisProvider {
   }
 
   removeFavoris(userUid, nomStation){
-    const items = this.db.list('/users/'+userUid+'/stations', {
-      preserveSnapshot: true,
-      query: {
-        orderByChild: 'name',
-        equalTo: nomStation
-      }
-    });
-    const deleteSubscribe = items.subscribe(snapshots=>{
+
+
+    const items = this.db.list('/users/'+userUid+'/stations', ref => ref.orderByChild('name').equalTo(nomStation));
+
+    items.snapshotChanges().subscribe(snapshots => {
       snapshots.forEach(snapshot => {
-        snapshot.ref.remove();
-        deleteSubscribe.unsubscribe();
+        items.remove(snapshot.key);
       });
     })
+
   }
 
 }

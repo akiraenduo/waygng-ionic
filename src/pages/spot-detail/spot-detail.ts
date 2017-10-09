@@ -23,7 +23,7 @@ export class SpotDetailPage {
               public spotProvider: SpotProvider) {
 
               let spotKey = navParams.get("spotKey");
-              this.spot = spotProvider.getSpot(spotKey);
+              this.spot = spotProvider.getSpot(spotKey).valueChanges();
   }
 
   ionViewDidLoad() {

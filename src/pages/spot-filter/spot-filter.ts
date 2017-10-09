@@ -64,12 +64,12 @@ export class SpotFilterPage {
 
   getHistoryHashtags(userUid:string){
     this.loading = true;
-    this.hashtags = this.userProvider.getHistoryHashtags(userUid).map((items) => items.reverse());
+    this.hashtags = this.userProvider.getHistoryHashtags(userUid).valueChanges().map((items) => items.reverse());
     this.hashtags.subscribe(() => this.loading = false);
   }
 
   fetchHashtag(hashtag:string){
-    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase());
+    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase()).valueChanges();
   }
 
   clearSearchBar(){

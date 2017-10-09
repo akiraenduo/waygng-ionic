@@ -55,9 +55,9 @@ export class HomePage {
     this.afAuth.auth.onAuthStateChanged(user => {
       if (user && this.station) {
         this.userUid = user.uid;
-          this.favorisProvider.getFavoris(this.userUid, this.station.name).subscribe(snapshot => {
+          this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
             snapshot.forEach(station => {
-              if(station && station.name){
+             if(station && station["name"]){
                 this.isInfavoris = true;
               }
             });

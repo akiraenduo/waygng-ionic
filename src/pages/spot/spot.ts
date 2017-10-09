@@ -87,7 +87,7 @@ export class SpotPage {
       return
     } 
     const getSpotList = this.spotProvider
-        .getSpotList(this.batch+1, this.lastDate)
+        .getSpotList(this.batch+1, this.lastDate).valueChanges()
         .do(spots => {
           /// set the lastKey in preparation for next query
           this.lastDate = _.last(spots)['dateUpdate']
@@ -105,7 +105,7 @@ export class SpotPage {
           getSpotList.subscribe(() => {
             infiniteScroll.complete();
           })
-        }else{
+        }else{ 
           getSpotList.subscribe((spots) => {
             this.spots.next(spots);
             this.searchSpots = false

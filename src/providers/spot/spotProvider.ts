@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList,AngularFireObject } from 'angularfire2/database';
 import { Spot } from '../../models/spot';
 import { Hashtag } from '../../models/hashtag';
 import { Observable } from 'rxjs/Observable';
@@ -39,10 +39,10 @@ export class SpotProvider {
      hashtagList.forEach(hashtag =>{
       const searchHashtag = this.searchHashtag(hashtag);
       
-      const subscribe = searchHashtag.subscribe(snapshots=>{
+      const subscribe = searchHashtag.snapshotChanges().subscribe(snapshots=>{
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
-            let hastag = new Hashtag(snapshot.val().name,snapshot.val().tag,snapshot.val().spotKeyList);
+            let hastag = new Hashtag(snapshot.payload.val().name,snapshot.payload.val().tag,snapshot.payload.val().spotKeyList);
             hastag.spotKeyList.push(spot.key);
             const hashtags = this.db.list('/hashtags/');
             hashtags.update(snapshot.key,hastag);
@@ -64,26 +64,23 @@ export class SpotProvider {
     })
   }
 
-  getSpot(key:string):Observable<any>{
+  getSpot(key:string):AngularFireObject<any>{
     return this.db.object('/spots/'+key);
   }
 
-  getSpotList(batch, lastDate): Observable<any>{
-    let query =  {
-      orderByChild: 'dateUpdate',
-      limitToFirst: batch
+  getSpotList(batch, lastDate): AngularFireList<any>{
+    if(lastDate){
+      return this.db.list('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch).startAt(lastDate));
+    }else{
+      return this.db.list('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch));
     }
 
-    if (lastDate) query['startAt'] = lastDate;
-
-    return this.db.list('/spots', {
-      query
-    });
   }
 
   fetchSpots(hashtagKey:string, lastKey:string, batch:number):Observable<any>{
-    return this.db.object('/hashtags/'+hashtagKey).do((item) => { 
-      item.spots = [];
+    return this.db.object('/hashtags/'+hashtagKey).snapshotChanges().do((item) => { 
+      console.log(item);
+     /* item.spots = [];
       let spotKeyList = item.spotKeyList.reverse();
       let index = 0;
       if(lastKey){
@@ -94,19 +91,14 @@ export class SpotProvider {
       return spotKeyList.map(key => {
         item.spots.push(this.db.object("/spots/"+key));
           return item;
-        })
+        })*/
       })
    }
 
-  fetchHashtag(name:string): Observable<any[]> {
-      return this.db.list('/hashtags', {
-        query: {
-          orderByChild: 'name',
-          limitToFirst: 4,
-          startAt: { value: name},
-          endAt: { value: name+"\uf8ff"}
-        }
-      });
+  fetchHashtag(name:string): AngularFireList<any> {
+      return this.db.list('/hashtags', ref => 
+        ref.orderByChild('name').limitToFirst(4).startAt(name).endAt(name+"\uf8ff")
+      );
   }
 
   incrementLikes(spotUid:string, spotUserUid:string, userUid:string){
@@ -116,14 +108,8 @@ export class SpotProvider {
     items.update(like);
   }
 
-   private searchHashtag(name): FirebaseListObservable<any[]> {
-    return this.db.list('/hashtags', {
-      preserveSnapshot: true,
-      query: {
-        orderByChild: 'name',
-        equalTo: name
-      }
-    });
+   private searchHashtag(name): AngularFireList<any> {
+    return this.db.list('/hashtags', ref => ref.orderByChild('name').equalTo(name));
   }
 
 }

@@ -52,7 +52,7 @@ export class AddSpotPage {
     if(value.length > 0){
      let hashtagList = this.parseHashtagList(value);
      if(hashtagList.length > 0 && _.endsWith(value, hashtagList[hashtagList.length-1])){
-      this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]);
+      this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]).valueChanges();
      }
     }
   }

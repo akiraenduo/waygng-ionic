@@ -4,8 +4,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
-import { FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class FavorisPage {
 
   title: any;
   loading: any;
-  favoris: FirebaseListObservable<any>;
+  favoris: Observable<any[]>;
   userUid: any;
 
   constructor(public navCtrl: NavController, 
@@ -35,7 +35,7 @@ export class FavorisPage {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        this.favoris = this.favorisProvider.getFavorisList(user.uid);
+        this.favoris = this.favorisProvider.getFavorisList(user.uid).valueChanges();
         this.favoris.subscribe(() => this.loading = false);
       }else{
         this.favoris = null;
@@ -43,7 +43,7 @@ export class FavorisPage {
         this.userUid = null;
       }
     });
-  }
+  } 
 
   itemSelected(station){
     this.navCtrl.push(HomePage, {
