@@ -37,8 +37,7 @@ export class SpotProvider {
      }
 
      hashtagList.forEach(hashtag =>{
-      const searchHashtag = this.searchHashtag(hashtag);
-      
+      const searchHashtag = this.searchHashtag(hashtag);    
       const subscribe = searchHashtag.snapshotChanges().subscribe(snapshots=>{
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
@@ -78,10 +77,9 @@ export class SpotProvider {
   }
 
   fetchSpots(hashtagKey:string, lastKey:string, batch:number):Observable<any>{
-    return this.db.object('/hashtags/'+hashtagKey).snapshotChanges().do((item) => { 
-      console.log(item);
-     /* item.spots = [];
-      let spotKeyList = item.spotKeyList.reverse();
+    return this.db.object('/hashtags/'+hashtagKey).valueChanges().do((item) => { 
+      item["spots"] = [];
+      let spotKeyList = item["spotKeyList"].reverse();
       let index = 0;
       if(lastKey){
         index = _.findIndex(spotKeyList, function(key) { return key == lastKey });
@@ -89,9 +87,9 @@ export class SpotProvider {
       let endIndex = index + batch;
       spotKeyList = _.slice(spotKeyList, index, endIndex);
       return spotKeyList.map(key => {
-        item.spots.push(this.db.object("/spots/"+key));
+          item["spots"].push(this.db.object("/spots/"+key).valueChanges());
           return item;
-        })*/
+        })
       })
    }
 

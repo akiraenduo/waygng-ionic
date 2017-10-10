@@ -64,12 +64,12 @@ export class SpotFilterPage {
 
   getHistoryHashtags(userUid:string){
     this.loading = true;
-    this.hashtags = this.userProvider.getHistoryHashtags(userUid).valueChanges().map((items) => items.reverse());
+    this.hashtags = this.userProvider.getHistoryHashtags(userUid).snapshotChanges().map((items) => items.reverse());
     this.hashtags.subscribe(() => this.loading = false);
   }
 
   fetchHashtag(hashtag:string){
-    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase()).valueChanges();
+    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase()).snapshotChanges();
   }
 
   clearSearchBar(){
@@ -105,8 +105,8 @@ export class SpotFilterPage {
 
   doSearch(hashtag){
     this.finished = false;
-    this.searchBarModel = hashtag.name;
-    this.hashtagKeySelected = hashtag.$key;
+    this.searchBarModel = hashtag.payload.val().name;
+    this.hashtagKeySelected = hashtag.key;
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
     this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);
@@ -131,13 +131,13 @@ export class SpotFilterPage {
     } 
     const getSpotList = this.spotProvider.fetchSpots(this.hashtagKeySelected,this.lastKey,this.batch+1).do(item => {
       let lastSpot = _.last(item.spots);
-      this.lastKey = lastSpot.$ref.key;
+      this.lastKey = lastSpot.query.ref.key;
 
       const newSpots = _.slice(item.spots, 0, this.batch);
       const currentSpots = this.spotsFiltered.getValue();
       let lastNewSpot = _.last(newSpots);
 
-      if (this.lastKey == lastNewSpot.$ref.key) {
+      if (this.lastKey == lastNewSpot.query.ref.key) {
         this.finished = true
       }
       this.spotsFiltered.next(_.concat(currentSpots,newSpots));

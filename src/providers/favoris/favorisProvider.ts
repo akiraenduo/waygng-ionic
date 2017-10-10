@@ -31,12 +31,12 @@ export class FavorisProvider {
 
   removeFavoris(userUid, nomStation){
 
-
     const items = this.db.list('/users/'+userUid+'/stations', ref => ref.orderByChild('name').equalTo(nomStation));
 
-    items.snapshotChanges().subscribe(snapshots => {
+    const removeSub = items.snapshotChanges().subscribe(snapshots => {
       snapshots.forEach(snapshot => {
         items.remove(snapshot.key);
+        removeSub.unsubscribe();
       });
     })
 

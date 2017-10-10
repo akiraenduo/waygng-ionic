@@ -95,7 +95,7 @@ export class SpotPage {
           /// Get current spots in BehaviorSubject
           const currentSpots = this.spots.getValue()
           /// If data is identical, stop making queries
-          if (this.lastDate == _.last(newSpots)['$key']) {
+          if (this.lastDate == _.last(newSpots)['dateUpdate']) {
             this.finished = true
           }
           /// Concatenate new spots to current spots
