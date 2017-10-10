@@ -89,17 +89,19 @@ export class SpotPage {
     const getSpotList = this.spotProvider
         .getSpotList(this.batch+1, this.lastDate).valueChanges()
         .do(spots => {
-          /// set the lastKey in preparation for next query
-          this.lastDate = _.last(spots)['dateUpdate']
-          const newSpots = _.slice(spots, 0, this.batch)
-          /// Get current spots in BehaviorSubject
-          const currentSpots = this.spots.getValue()
-          /// If data is identical, stop making queries
-          if (this.lastDate == _.last(newSpots)['dateUpdate']) {
-            this.finished = true
+          if(spots.length > 0){
+            /// set the lastKey in preparation for next query
+            this.lastDate = _.last(spots)['dateUpdate']
+            const newSpots = _.slice(spots, 0, this.batch)
+            /// Get current spots in BehaviorSubject
+            const currentSpots = this.spots.getValue()
+            /// If data is identical, stop making queries
+            if (this.lastDate == _.last(newSpots)['dateUpdate']) {
+              this.finished = true
+            }
+            /// Concatenate new spots to current spots
+            this.spots.next( _.concat(currentSpots, newSpots) )
           }
-          /// Concatenate new spots to current spots
-          this.spots.next( _.concat(currentSpots, newSpots) )
         });
         if(infiniteScroll){
           getSpotList.subscribe(() => {

@@ -29,6 +29,7 @@ export class SpotProvider {
     let message = spot.message;
     spot.dateUpdate = -spot.dateUpdate ;
     const spots = this.afs.collection('/spots');
+    spot = Object.assign({}, spot);
     spots.add(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
       let m, hashtagList:string[] =[];
@@ -41,10 +42,13 @@ export class SpotProvider {
       const subscribe = searchHashtag.snapshotChanges().subscribe(snapshots=>{
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
-            let hastag = new Hashtag(snapshot.payload.val().name,snapshot.payload.val().tag,snapshot.payload.val().spotKeyList);
+            const data = snapshot.payload.doc.data();
+            const id = snapshot.payload.doc.id;
+            let hastag = new Hashtag(data.name,data.tag,data.spotKeyList);
             hastag.spotKeyList.push(spot.id);
-            const hashtags = this.afs.collection('/hashtags/');
-            hashtags.add(snapshot.key,hastag);
+            const hashtags = this.afs.doc('/hashtags/'+id);
+            hastag = Object.assign({}, hastag);
+            hashtags.update(hastag);
             subscribe.unsubscribe();
           });
         }else{
@@ -52,6 +56,7 @@ export class SpotProvider {
           spotKeyList.push(spot.id);
           let hastag = new Hashtag(hashtag.toLowerCase(),hashtag,spotKeyList);
           const hashtags = this.afs.collection('/hashtags');
+          hastag = Object.assign({}, hastag);
           hashtags.add(hastag);
           subscribe.unsubscribe();
         }
@@ -69,9 +74,9 @@ export class SpotProvider {
 
   getSpotList(batch, lastDate): AngularFirestoreCollection<any>{
     if(lastDate){
-      return this.afs.collection('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch).startAt(lastDate));
+      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate').limit(batch).startAt(lastDate));
     }else{
-      return this.afs.collection('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch));
+      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate').limit(batch));
     }
 
   }
@@ -87,16 +92,14 @@ export class SpotProvider {
       let endIndex = index + batch;
       spotKeyList = _.slice(spotKeyList, index, endIndex);
       return spotKeyList.map(key => {
-          item["spots"].push(this.db.object("/spots/"+key).valueChanges());
+          item["spots"].push(this.afs.doc("/spots/"+key).valueChanges());
           return item;
         })
       })
    }
 
   fetchHashtag(name:string): AngularFirestoreCollection<any> {
-      return this.afs.collection('/hashtags', ref => 
-        ref.orderByChild('name').limitToFirst(4).startAt(name).endAt(name+"\uf8ff")
-      );
+    return this.afs.collection('hashtags', ref => ref.orderBy('name').limit(4).startAt(name).endAt(name+"\uf8ff"));
   }
 
   incrementLikes(spotUid:string, spotUserUid:string, userUid:string){
@@ -107,7 +110,7 @@ export class SpotProvider {
   }
 
    private searchHashtag(name): AngularFirestoreCollection<any> {
-    return this.afs.collection('/hashtags', ref => ref.orderByChild('name').equalTo(name));
+    return this.afs.collection('/hashtags', ref => ref.where('name', '==', name));
   }
 
 }

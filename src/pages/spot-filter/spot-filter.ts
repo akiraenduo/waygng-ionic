@@ -105,8 +105,8 @@ export class SpotFilterPage {
 
   doSearch(hashtag){
     this.finished = false;
-    this.searchBarModel = hashtag.payload.val().name;
-    this.hashtagKeySelected = hashtag.key;
+    this.searchBarModel = hashtag.payload.doc.data().name;
+    this.hashtagKeySelected = hashtag.payload.doc.id;
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
     this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);

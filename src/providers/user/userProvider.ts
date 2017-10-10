@@ -95,10 +95,10 @@ export class UserProvider {
     user = Object.assign({}, user);
     if (this.platform.is('cordova')) {
       this.fcm.getToken().then(token=>{
-        const itemsCollection = this.afs.doc<User>('users/'+user.id);
+        const itemsCollection = this.afs.doc<any>('users/'+user.id);
         user["token"] = token;
         let infoUser = {infoUser: user};
-        itemsCollection.set(user);
+        itemsCollection.set(infoUser);
       })
     }else{
       const itemsCollection = this.afs.doc<any>('users/'+user.id);
@@ -109,12 +109,12 @@ export class UserProvider {
   }
 
   addHistoryHashtag(userUid:string, hashtagKey:string, hashtagName:string){
-    const items = this.afs.doc('/users/'+userUid+'/history/hashtags/'+hashtagKey);
+    const items = this.afs.doc('/users/'+userUid+'/hashtagsHisto/'+hashtagKey);
     items.set({"name":hashtagName.toLowerCase(), "tag":hashtagName});
   }
 
   getHistoryHashtags(userUid:string):AngularFirestoreCollection<any>{
-    return this.afs.collection('/users/'+userUid+'/history/hashtags');
+    return this.afs.collection('/users/'+userUid+'/hashtagsHisto');
   }
 
   storeToken(userUid:string,token:string){
