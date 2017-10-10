@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AngularFireDatabase, AngularFireList,AngularFireObject } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Spot } from '../../models/spot';
 import { Hashtag } from '../../models/hashtag';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,7 @@ import * as _ from 'lodash'
 export class SpotProvider {
 
   constructor(public http: Http,
-              public db: AngularFireDatabase) {
+              private afs: AngularFirestore) {
 
   }
 
@@ -28,8 +28,8 @@ export class SpotProvider {
   addSpot(spot:Spot){
     let message = spot.message;
     spot.dateUpdate = -spot.dateUpdate ;
-    const spots = this.db.list('/spots');
-    spots.push(spot).then(spot =>{
+    const spots = this.afs.collection('/spots');
+    spots.add(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
       let m, hashtagList:string[] =[];
       while ((m = rx.exec(message)) !== null) {
@@ -42,17 +42,17 @@ export class SpotProvider {
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
             let hastag = new Hashtag(snapshot.payload.val().name,snapshot.payload.val().tag,snapshot.payload.val().spotKeyList);
-            hastag.spotKeyList.push(spot.key);
-            const hashtags = this.db.list('/hashtags/');
-            hashtags.update(snapshot.key,hastag);
+            hastag.spotKeyList.push(spot.id);
+            const hashtags = this.afs.collection('/hashtags/');
+            hashtags.add(snapshot.key,hastag);
             subscribe.unsubscribe();
           });
         }else{
           let spotKeyList = [];
-          spotKeyList.push(spot.key);
+          spotKeyList.push(spot.id);
           let hastag = new Hashtag(hashtag.toLowerCase(),hashtag,spotKeyList);
-          const hashtags = this.db.list('/hashtags');
-          hashtags.push(hastag);
+          const hashtags = this.afs.collection('/hashtags');
+          hashtags.add(hastag);
           subscribe.unsubscribe();
         }
 
@@ -63,21 +63,21 @@ export class SpotProvider {
     })
   }
 
-  getSpot(key:string):AngularFireObject<any>{
-    return this.db.object('/spots/'+key);
+  getSpot(key:string):AngularFirestoreDocument<any>{
+    return this.afs.doc('/spots/'+key);
   }
 
-  getSpotList(batch, lastDate): AngularFireList<any>{
+  getSpotList(batch, lastDate): AngularFirestoreCollection<any>{
     if(lastDate){
-      return this.db.list('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch).startAt(lastDate));
+      return this.afs.collection('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch).startAt(lastDate));
     }else{
-      return this.db.list('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch));
+      return this.afs.collection('/spots', ref => ref.orderByChild('dateUpdate').limitToFirst(batch));
     }
 
   }
 
   fetchSpots(hashtagKey:string, lastKey:string, batch:number):Observable<any>{
-    return this.db.object('/hashtags/'+hashtagKey).valueChanges().do((item) => { 
+    return this.afs.doc('/hashtags/'+hashtagKey).valueChanges().do((item) => { 
       item["spots"] = [];
       let spotKeyList = item["spotKeyList"].reverse();
       let index = 0;
@@ -93,21 +93,21 @@ export class SpotProvider {
       })
    }
 
-  fetchHashtag(name:string): AngularFireList<any> {
-      return this.db.list('/hashtags', ref => 
+  fetchHashtag(name:string): AngularFirestoreCollection<any> {
+      return this.afs.collection('/hashtags', ref => 
         ref.orderByChild('name').limitToFirst(4).startAt(name).endAt(name+"\uf8ff")
       );
   }
 
   incrementLikes(spotUid:string, spotUserUid:string, userUid:string){
-    const items = this.db.object('/spots/'+spotUid+'/likes/'+spotUserUid);
+    const items = this.afs.collection('/spots/'+spotUid+'/likes/'+spotUserUid);
     let like = {};
     like[userUid] = true;
-    items.update(like);
+    items.add(like);
   }
 
-   private searchHashtag(name): AngularFireList<any> {
-    return this.db.list('/hashtags', ref => ref.orderByChild('name').equalTo(name));
+   private searchHashtag(name): AngularFirestoreCollection<any> {
+    return this.afs.collection('/hashtags', ref => ref.orderByChild('name').equalTo(name));
   }
 
 }
