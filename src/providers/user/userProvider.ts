@@ -6,7 +6,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
-import { AngularFireDatabase, AngularFireObject, AngularFireList} from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FCM } from '@ionic-native/fcm';
 
@@ -23,7 +23,7 @@ export class UserProvider {
 
   constructor(public http: Http,
               public platform: Platform,
-              public db: AngularFireDatabase,
+              private afs: AngularFirestore,
               private afAuth: AngularFireAuth, 
               private fb: Facebook,
               private fcm: FCM) {
@@ -68,12 +68,12 @@ export class UserProvider {
     return null;
   }
 
-  fetchUser(uid:string):AngularFireObject<any>{
-    return this.db.object('/users/'+uid);
+  fetchUser(uid:string):AngularFirestoreDocument<any>{
+    return this.afs.doc('/users/'+uid);
   }
 
   updateUser(user:User){
-    const items = this.db.object('/users/'+user.uid);
+    const items = this.afs.doc('/users/'+user.id);
     items.update({user: user});
     this.afAuth.auth.currentUser.updateProfile({displayName: user.username,photoURL:user.picture});
   }
@@ -92,30 +92,33 @@ export class UserProvider {
 
   private addUser(user:User){
     firebase.database().goOnline();
+    user = Object.assign({}, user);
     if (this.platform.is('cordova')) {
       this.fcm.getToken().then(token=>{
-        const items = this.db.list('/users/'+user.uid);
-        user.token = token;
-        items.update('user', user);
+        const itemsCollection = this.afs.doc<User>('users/'+user.id);
+        user["token"] = token;
+        let infoUser = {infoUser: user};
+        itemsCollection.set(user);
       })
     }else{
-      const items = this.db.list('/users/'+user.uid);
-      items.update('user', user);
+      const itemsCollection = this.afs.doc<any>('users/'+user.id);
+      let infoUser = {infoUser: user};
+      itemsCollection.set(infoUser);
     }
     return user;
   }
 
   addHistoryHashtag(userUid:string, hashtagKey:string, hashtagName:string){
-    const items = this.db.object('/users/'+userUid+'/history/hashtags/'+hashtagKey);
+    const items = this.afs.doc('/users/'+userUid+'/history/hashtags/'+hashtagKey);
     items.set({"name":hashtagName.toLowerCase(), "tag":hashtagName});
   }
 
-  getHistoryHashtags(userUid:string):AngularFireList<any>{
-    return this.db.list('/users/'+userUid+'/history/hashtags');
+  getHistoryHashtags(userUid:string):AngularFirestoreCollection<any>{
+    return this.afs.collection('/users/'+userUid+'/history/hashtags');
   }
 
   storeToken(userUid:string,token:string){
-    this.db.list('tokens').push({userUid:userUid, token:token});
+    this.afs.collection('tokens').add({userUid:userUid, token:token});
   }
 
 }

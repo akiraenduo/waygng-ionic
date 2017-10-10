@@ -1,5 +1,5 @@
 export class User {
-    uid: string;
+    id:string;
     email: string;
     password: string;
     firstName: string;
@@ -8,13 +8,13 @@ export class User {
     token:string;
 
     constructor(
-        uid: string,
+        id: string,
         email:string,
         firstName: string,
         username: string,
         picture: string
     ) {
-        this.uid = uid;
+        this.id = id;
         this.email = email;
         this.firstName = firstName;
         this.username = username;

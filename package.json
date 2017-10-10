@@ -20,6 +20,7 @@
         "@angular/http": "4.4.3",
         "@angular/platform-browser": "4.4.3",
         "@angular/platform-browser-dynamic": "4.4.3",
+        "@firebase/webchannel-wrapper": "0.2.1",
         "@ionic-native/core": "^4.3.1",
         "@ionic-native/facebook": "^4.2.1",
         "@ionic-native/fcm": "^4.3.1",

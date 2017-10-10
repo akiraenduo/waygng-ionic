@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AngularFireDatabase , AngularFireList} from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 /*
   Generated class for the FavorisProvider provider.
@@ -13,29 +13,29 @@ import { AngularFireDatabase , AngularFireList} from 'angularfire2/database';
 export class FavorisProvider {
 
   constructor(public http: Http,
-              public db: AngularFireDatabase) {
+              private afs: AngularFirestore) {
   }
 
-  getFavorisList(userUid): AngularFireList<any>{
-   return this.db.list('/users/'+userUid+'/stations');
+  getFavorisList(userUid): AngularFirestoreCollection<any>{
+   return this.afs.collection('/users/'+userUid+'/stations');
   }
 
-  getFavoris(userUid, nomStation): AngularFireList<any> {
-    return this.db.list('/users/'+userUid+'/stations', ref => ref.orderByChild('name').equalTo(nomStation));
-   }
+  getFavoris(userUid, nomStation): AngularFirestoreCollection<any> {
+    return this.afs.collection('/users/'+userUid+'/stations', ref => ref.where('name', '==', nomStation));
+  }
 
   addFavoris(userUid, nomStation){
-    const items = this.db.list('/users/'+userUid+'/stations');
-    items.push({name:nomStation});
+    const items = this.afs.collection('/users/'+userUid+'/stations/');
+    items.add({name:nomStation});
   }
 
   removeFavoris(userUid, nomStation){
 
-    const items = this.db.list('/users/'+userUid+'/stations', ref => ref.orderByChild('name').equalTo(nomStation));
+    const itemsCollection  = this.getFavoris(userUid, nomStation);
 
-    const removeSub = items.snapshotChanges().subscribe(snapshots => {
+    const removeSub = itemsCollection.snapshotChanges().subscribe(snapshots => {
       snapshots.forEach(snapshot => {
-        items.remove(snapshot.key);
+        itemsCollection.doc(snapshot.payload.doc.id).delete();
         removeSub.unsubscribe();
       });
     })

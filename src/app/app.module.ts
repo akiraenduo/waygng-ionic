@@ -6,6 +6,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 //MODULE NATIF
 import { Geolocation } from '@ionic-native/geolocation';
@@ -88,6 +89,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
       iconMode: 'ios',
       pageTransition: 'ios-transition'
     }),
+    AngularFirestoreModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule

@@ -35,7 +35,7 @@ export class AddSpotPage {
               public Keyboard: Keyboard) {
 
                this.user = this.userProvider.getCurrentUser();
-               this.spot = new Spot(null,this.user.uid,this.user.username,this.user.picture,new Date().getTime());
+               this.spot = new Spot(null,this.user.id,this.user.username,this.user.picture,new Date().getTime());
   }
 
   ionViewDidLoad() {

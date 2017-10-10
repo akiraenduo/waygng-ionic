@@ -104,7 +104,7 @@ export class MyApp {
   }
 
   isDeconnected(){
-    if(this.userData && this.userData.uid){
+    if(this.userData && this.userData.id){
       return false;
     }else{
       return true;
