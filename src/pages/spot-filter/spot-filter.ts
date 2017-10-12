@@ -131,7 +131,7 @@ export class SpotFilterPage {
     } 
     const getSpotList = this.spotProvider.fetchSpots(this.hashtagKeySelected,this.lastKey,this.batch+1).do(item => {
       let lastSpot = _.last(item.spots);
-      this.lastKey = lastSpot.query.ref.key;
+      /*this.lastKey = lastSpot.query.ref.key;
 
       const newSpots = _.slice(item.spots, 0, this.batch);
       const currentSpots = this.spotsFiltered.getValue();
@@ -140,7 +140,8 @@ export class SpotFilterPage {
       if (this.lastKey == lastNewSpot.query.ref.key) {
         this.finished = true
       }
-      this.spotsFiltered.next(_.concat(currentSpots,newSpots));
+      this.spotsFiltered.next(_.concat(currentSpots,newSpots));*/
+      this.spotsFiltered.next(item.spots);
     });
     if(infiniteScroll){
       getSpotList.subscribe(() => {
