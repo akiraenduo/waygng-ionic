@@ -131,17 +131,17 @@ export class SpotFilterPage {
     } 
     const getSpotList = this.spotProvider.fetchSpots(this.hashtagKeySelected,this.lastKey,this.batch+1).do(item => {
       let lastSpot = _.last(item.spots);
-      /*this.lastKey = lastSpot.query.ref.key;
+      this.lastKey = lastSpot.ref.id;
 
       const newSpots = _.slice(item.spots, 0, this.batch);
       const currentSpots = this.spotsFiltered.getValue();
       let lastNewSpot = _.last(newSpots);
 
-      if (this.lastKey == lastNewSpot.query.ref.key) {
+      if (this.lastKey == lastNewSpot.ref.id) {
         this.finished = true
       }
-      this.spotsFiltered.next(_.concat(currentSpots,newSpots));*/
-      this.spotsFiltered.next(item.spots);
+      const newSpotList = _.map(newSpots,"spot");
+      this.spotsFiltered.next(_.concat(currentSpots,newSpotList));
     });
     if(infiniteScroll){
       getSpotList.subscribe(() => {

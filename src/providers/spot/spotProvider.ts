@@ -92,7 +92,7 @@ export class SpotProvider {
       let endIndex = index + batch;
       spotKeyList = _.slice(spotKeyList, index, endIndex);
       return spotKeyList.map(key => {
-          item["spots"].push(this.afs.doc("/spots/"+key).valueChanges());
+          item["spots"].push({spot:this.afs.doc("/spots/"+key).valueChanges(),ref:this.afs.doc("/spots/"+key).ref});
           return item;
         })
       })

@@ -1,7 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
-import * as _ from 'lodash';
-
 /**
  * Generated class for the FormatLikesPipe pipe.
  *
