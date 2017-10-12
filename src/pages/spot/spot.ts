@@ -74,10 +74,19 @@ export class SpotPage {
     this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
   }
 
-  incrementLike(spot){
-    this.spotProvider.incrementLikes(spot.$key,spot.userUid,this.userUid);
+  incrementLike(spotSnapshot){
+    const spot = spotSnapshot.payload.doc.data();
+    const id = spotSnapshot.payload.doc.id;
+    if(!spot["likes"]){
+      spot["likes"] = [];
+    }
+    const index = _.indexOf(spot["likes"], this.userUid);
+    if(index < 0){
+      spot["likes"].push(this.userUid);
+      this.spotProvider.incrementLikes(id,spot);
+    }
   }
-
+ 
 
   private getSpots(infiniteScroll,refresher) {
     if (this.finished){
@@ -87,16 +96,16 @@ export class SpotPage {
       return
     } 
     const getSpotList = this.spotProvider
-        .getSpotList(this.batch+1, this.lastDate).valueChanges()
+        .getSpotList(this.batch+1, this.lastDate).snapshotChanges()
         .do(spots => {
           if(spots.length > 0){
-            /// set the lastKey in preparation for next query
-            this.lastDate = _.last(spots)['dateUpdate']
+            /// set the lastKey in preparation for next query 
+            this.lastDate = _.last(spots)['payload']['doc'].data().dateUpdate;
             const newSpots = _.slice(spots, 0, this.batch)
             /// Get current spots in BehaviorSubject
             const currentSpots = this.spots.getValue()
             /// If data is identical, stop making queries
-            if (this.lastDate == _.last(newSpots)['dateUpdate']) {
+            if (this.lastDate == _.last(newSpots)['payload']['doc'].data().dateUpdate) {
               this.finished = true
             }
             /// Concatenate new spots to current spots

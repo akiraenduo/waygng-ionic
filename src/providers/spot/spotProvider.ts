@@ -102,11 +102,9 @@ export class SpotProvider {
     return this.afs.collection('hashtags', ref => ref.orderBy('name').limit(4).startAt(name).endAt(name+"\uf8ff"));
   }
 
-  incrementLikes(spotUid:string, spotUserUid:string, userUid:string){
-    const items = this.afs.collection('/spots/'+spotUid+'/likes/'+spotUserUid);
-    let like = {};
-    like[userUid] = true;
-    items.add(like);
+  incrementLikes(spotUid:string, spot){
+    const item = this.afs.doc('/spots/'+spotUid);
+    item.update(spot); 
   }
 
    private searchHashtag(name): AngularFirestoreCollection<any> {

@@ -15,9 +15,9 @@ export class FormatLikesPipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(likes: object, userUid:string) {
-    if(likes && likes[userUid]){
-      return _.keys(likes[userUid]).length
+  transform(likes: string[], userUid:string) {
+    if(likes){
+      return likes.length
     }else{
       return 0;
     }

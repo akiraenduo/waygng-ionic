@@ -39,22 +39,22 @@
             
               <ion-item>
                 <ion-avatar item-start>
-                    <img [src]="(spot.userPicture)" />
+                    <img [src]="(spot.payload.doc.data().userPicture)" />
                 </ion-avatar>
-                <h3>{{ spot.userName }}</h3>
-                <p>{{spot.dateUpdate | formatDate}}</p>  
+                <h3>{{ spot.payload.doc.data().userName }}</h3>
+                <p>{{spot.payload.doc.data().dateUpdate | formatDate}}</p>  
               </ion-item>
         
             
               <ion-card-content>
-                <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
+                <p class="paragraphe-height" [innerHTML]="spot.payload.doc.data().message  | formatHashtag"></p>
               </ion-card-content>
             
               <ion-row>
                 <ion-col>
                   <button (click)="incrementLike(spot)" ion-button icon-left clear small>
                     <ion-icon name="thumbs-up"></ion-icon>
-                    <div>{{spot.likes | formatLikes:spot.userUid}}  Likes</div>
+                    <div>{{spot.payload.doc.data().likes | formatLikes:spot.userUid}}  Likes</div>
                   </button>
                 </ion-col>
                 <ion-col> 
