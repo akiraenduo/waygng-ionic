@@ -1,17 +1,25 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-        <ion-item color="blue" class="item-inner-without-border" *ngIf="userData">
-            <ion-avatar item-start>
-                <img [src]="userData.picture" />
-              </ion-avatar>
-            <ion-label>{{ userData.username }}</ion-label>
-            <button  color="light"ion-button outline clear large item-end (click)="goProfile()"><ion-icon name="ios-cog"></ion-icon></button>
-        </ion-item >
-      <button ion-button full icon-left *ngIf="isDeconnected()"  (click)="signIn()">
-          <ion-icon name="logo-facebook"></ion-icon>
-          connexion
-        </button>
+      <div *ngIf="auth.user | async; then authenticated else guest">  </div>
+        <ng-template #authenticated>
+            <ion-item color="blue" class="item-inner-without-border" *ngIf="auth.user | async">
+                <ion-avatar item-start>
+                    <img [src]="userData.picture" />
+                  </ion-avatar>
+                <ion-label>{{ userData.username }}</ion-label>
+                <button  color="light"ion-button outline clear large item-end (click)="goProfile()"><ion-icon name="ios-cog"></ion-icon></button>
+            </ion-item >
+        </ng-template>
+        <ng-template #guest>
+            <button ion-button full icon-left  (click)="auth.facebookLogin()">
+                <ion-icon name="logo-facebook"></ion-icon>
+                connexion
+              </button>
+        </ng-template>
+    
+
+
     </ion-toolbar>
   </ion-header>
 

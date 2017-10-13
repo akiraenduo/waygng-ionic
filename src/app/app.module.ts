@@ -43,6 +43,7 @@ import {SpotFilterPage} from '../pages/spot-filter/spot-filter';
 import {SpotDetailPage} from '../pages/spot-detail/spot-detail';
 
 //PROVIDER
+import { AuthProvider } from '../providers/auth/auth';
 import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { UserProvider } from '../providers/user/userProvider';
 import { FavorisProvider } from '../providers/favoris/favorisProvider';
@@ -52,6 +53,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule,JsonpModule } from '@angular/http';
 import { FIREBASE_CONFIG } from './app.firebase.config';
+
 
 
 
@@ -121,7 +123,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     GinkoProvider,
     UserProvider,
     FavorisProvider,
-    SpotProvider
+    SpotProvider,
+    AuthProvider
   ]
 })
 export class AppModule {}

@@ -17,6 +17,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { FCM } from '@ionic-native/fcm';
 
 import * as moment from 'moment'
+import { AuthProvider } from '../providers/auth/auth';
 
 
 
@@ -37,6 +38,7 @@ export class MyApp {
               public menu: MenuController,
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
+              public auth: AuthProvider,
               private afAuth: AngularFireAuth, 
               public userProvider: UserProvider,
               private fcm: FCM) {
