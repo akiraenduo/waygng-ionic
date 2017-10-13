@@ -97,13 +97,12 @@ export class UserProvider {
       this.fcm.getToken().then(token=>{
         const itemsCollection = this.afs.doc<any>('users/'+user.id);
         user["token"] = token;
-        let infoUser = {infoUser: user};
-        itemsCollection.set(infoUser);
+        itemsCollection.set(user);
       })
     }else{
       const itemsCollection = this.afs.doc<any>('users/'+user.id);
-      let infoUser = {infoUser: user};
-      itemsCollection.set(infoUser);
+
+      itemsCollection.set(user);
     }
     return user;
   }

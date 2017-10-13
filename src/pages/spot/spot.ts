@@ -95,10 +95,10 @@ export class SpotPage {
     } 
     const getSpotList = this.spotProvider
         .getSpotList(this.batch+1, this.lastDate).snapshotChanges()
-        .map(actions => {
-          return actions.map(a => {
-            const data = a.payload.doc.data();
-            const id = a.payload.doc.id;
+        .map(spots => {
+          return spots.map(s => {
+            const data = s.payload.doc.data();
+            const id = s.payload.doc.id;
             return { id, ...data };
           });
         })

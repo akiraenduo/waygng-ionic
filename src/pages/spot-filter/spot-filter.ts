@@ -26,7 +26,7 @@ export class SpotFilterPage {
 
   @ViewChild('searchBar') searchBar: any; 
   hashtags:Observable<any>;
-  filterList:Hashtag[] = [];
+  hashtagsHistory:any;
   hashtagKeySelected: any;
   searchBarModel: string;
 
@@ -64,12 +64,27 @@ export class SpotFilterPage {
 
   getHistoryHashtags(userUid:string){
     this.loading = true;
-    this.hashtags = this.userProvider.getHistoryHashtags(userUid).snapshotChanges().map((items) => items.reverse());
+    this.hashtags = this.userProvider.getHistoryHashtags(userUid).snapshotChanges().map(hashtagsHisto => {
+      return hashtagsHisto.map(h => {
+        const data = h.payload.doc.data();
+        const id = h.payload.doc.id;
+        this.hashtagsHistory = { id, ...data };
+        return { id, ...data };
+      });
+    }).do(hashtagsHisto => {
+      return hashtagsHisto.reverse();
+    })
     this.hashtags.subscribe(() => this.loading = false);
   }
 
   fetchHashtag(hashtag:string){
-    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase()).snapshotChanges();
+    this.hashtags = this.spotProvider.fetchHashtag(hashtag.toLowerCase()).snapshotChanges().map(hashtags => {
+      return hashtags.map(h => {
+        const data = h.payload.doc.data();
+        const id = h.payload.doc.id;
+        return { id, ...data };
+      });
+    })
   }
 
   clearSearchBar(){
@@ -105,8 +120,8 @@ export class SpotFilterPage {
 
   doSearch(hashtag){
     this.finished = false;
-    this.searchBarModel = hashtag.payload.doc.data().name;
-    this.hashtagKeySelected = hashtag.payload.doc.id;
+    this.searchBarModel = hashtag.name;
+    this.hashtagKeySelected = hashtag.id;
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
     this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);

@@ -21,7 +21,7 @@
   <ion-list *ngIf="!hashtagKeySelected">
       <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">
             <ion-icon *ngIf="isHistorySearch" name="md-time" item-start></ion-icon>
-            <ion-label>{{tag.payload.doc.data().tag}}</ion-label>
+            <ion-label>{{tag.tag}}</ion-label>
       </button>
   </ion-list>
 
