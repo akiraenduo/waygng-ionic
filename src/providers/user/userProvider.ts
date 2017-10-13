@@ -107,13 +107,18 @@ export class UserProvider {
     return user;
   }
 
+  removeHistoryHashtag(userUid:string, hashtagKey:string){
+    const item = this.afs.doc('/users/'+userUid+'/hashtagsHisto/'+hashtagKey);
+    item.delete();
+  }
+
   addHistoryHashtag(userUid:string, hashtagKey:string, hashtagName:string){
-    const items = this.afs.doc('/users/'+userUid+'/hashtagsHisto/'+hashtagKey);
-    items.set({"name":hashtagName.toLowerCase(), "tag":hashtagName});
+    const item = this.afs.doc('/users/'+userUid+'/hashtagsHisto/'+hashtagKey);
+    item.set({"name":hashtagName.toLowerCase(), "tag":hashtagName, "dateUpdate": new Date().getTime()});
   }
 
   getHistoryHashtags(userUid:string):AngularFirestoreCollection<any>{
-    return this.afs.collection('/users/'+userUid+'/hashtagsHisto');
+    return this.afs.collection('/users/'+userUid+'/hashtagsHisto', ref => ref.orderBy('dateUpdate','desc'));
   }
 
   storeToken(userUid:string,token:string){

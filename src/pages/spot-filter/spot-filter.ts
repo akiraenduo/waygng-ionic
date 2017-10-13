@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import { Hashtag } from '../../models/hashtag';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -26,7 +25,7 @@ export class SpotFilterPage {
 
   @ViewChild('searchBar') searchBar: any; 
   hashtags:Observable<any>;
-  hashtagsHistory:any;
+  hashtagsHistory:any = [];
   hashtagKeySelected: any;
   searchBarModel: string;
 
@@ -64,17 +63,17 @@ export class SpotFilterPage {
 
   getHistoryHashtags(userUid:string){
     this.loading = true;
+    this.hashtagsHistory = [];
     this.hashtags = this.userProvider.getHistoryHashtags(userUid).snapshotChanges().map(hashtagsHisto => {
       return hashtagsHisto.map(h => {
         const data = h.payload.doc.data();
         const id = h.payload.doc.id;
-        this.hashtagsHistory = { id, ...data };
+        this.hashtagsHistory.push({ id, ...data });
         return { id, ...data };
       });
     }).do(hashtagsHisto => {
-      return hashtagsHisto.reverse();
+      this.loading = false;
     })
-    this.hashtags.subscribe(() => this.loading = false);
   }
 
   fetchHashtag(hashtag:string){
@@ -124,6 +123,13 @@ export class SpotFilterPage {
     this.hashtagKeySelected = hashtag.id;
     this.lastKey = null;
     this.spotsFiltered = new BehaviorSubject([]);
+
+    if(this.hashtagsHistory.length >= 4 && !_.find(this.hashtagsHistory, {'id':this.hashtagKeySelected})){
+     const lastHistoryTag = _.last(this.hashtagsHistory);
+     this.userProvider.removeHistoryHashtag(this.userUid,lastHistoryTag.id);
+    }
+
+
     this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);
     this.getSpotsFiltered(null);
   }
