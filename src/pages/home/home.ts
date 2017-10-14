@@ -9,7 +9,7 @@ import { TempsAttente } from '../../models/tempsattente';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthProvider } from '../../providers/auth/auth';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class HomePage {
               public userProvider: UserProvider, 
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
-              private afAuth: AngularFireAuth) {
+              public auth: AuthProvider) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Horaires";
@@ -52,7 +52,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.isInfavoris = false;
-    this.afAuth.auth.onAuthStateChanged(user => {
+    this.auth.user.subscribe(user => {
       if (user && this.station) {
         this.userUid = user.uid;
           this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
@@ -65,8 +65,9 @@ export class HomePage {
       }else{
         this.userUid = null;
       }
-      
     });
+      
+  
     if(this.station){
       this.searchModel = this.station.name;
       this.getTempsLieu(this.station,null);

@@ -36,7 +36,9 @@ export class UserProvider {
 
   login() {
     if (this.platform.is('cordova')) {
+      alert("ICI1");
       return this.fb.login(['email', 'public_profile']).then(res => {
+        alert("ICI2");
         const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
         return firebase.auth().signInWithCredential(facebookCredential).then(user => {
           this.getFacebookUser(user.uid)
@@ -54,11 +56,6 @@ export class UserProvider {
         return this.addUser(user);
       });
     }
-  }
-
-  logout() {
-   firebase.database().goOffline();
-   this.afAuth.auth.signOut();
   }
   
   getCurrentUser():User{

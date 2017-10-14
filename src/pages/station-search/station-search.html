@@ -27,7 +27,7 @@
 
     <my-loader *ngIf="searchPosition"></my-loader> 
     
-    <ion-row *ngIf="isStationProchesEmpty()" class="warning-container">
+    <ion-row *ngIf="stationProches.length == 0 && !searchPosition" class="warning-container">
         <ion-col col-12>
             Aucune station à proximité
         </ion-col>

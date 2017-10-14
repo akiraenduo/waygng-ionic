@@ -114,12 +114,4 @@ export class StationSearchPage {
 
   }
 
-  isStationProchesEmpty(){
-    if(this.stationProches.length == 0 && !this.searchStation){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
 }

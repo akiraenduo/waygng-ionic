@@ -10,31 +10,31 @@
 
 <ion-content padding>
 
+  <div *ngIf="auth.user | async as user">
+    <ion-avatar item-start>
+      <img [src]="user.photoURL" />
+    </ion-avatar>
 
-  <button ion-button outline clear large item-end (click)="changePhoto()"><ion-icon name="md-camera"></ion-icon></button>
-  <ion-avatar item-start>
-    <img [src]="user.picture" />
-  </ion-avatar>
+    <ion-list padding>
 
-  <ion-list padding>
+      <ion-item>
+        <ion-icon item-start name="ios-contact-outline"></ion-icon>
+        <ion-label floating>Nom</ion-label>
+        <ion-input type="text" [(ngModel)]="user.displayName"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-icon item-start name="ios-contact-outline"></ion-icon>
-      <ion-label floating>Nom</ion-label>
-      <ion-input type="text" [(ngModel)]="user.username"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-icon item-start name="ios-mail-outline"></ion-icon>
+        <ion-label floating>Email</ion-label>
+        <ion-input readonly type="email" [(ngModel)]="user.email"></ion-input>
+      </ion-item>
+    </ion-list>
 
-    <ion-item>
-      <ion-icon item-start name="ios-mail-outline"></ion-icon>
-      <ion-label floating>Email</ion-label>
-      <ion-input readonly type="email" [(ngModel)]="user.email"></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-footer no-shadow>
-    <button ion-button item-end full color="danger" (click)="logout()">
-        Déconnexion
-    </button>
-  </ion-footer>
+    <ion-footer no-shadow>
+      <button ion-button item-end full color="danger" (click)="logout()">
+          Déconnexion
+      </button>
+    </ion-footer>
+  </div>
 
 </ion-content>

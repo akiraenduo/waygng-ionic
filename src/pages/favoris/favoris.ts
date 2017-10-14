@@ -4,8 +4,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
+import { AuthProvider } from '../../providers/auth/auth';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class FavorisPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public favorisProvider: FavorisProvider,
-              private afAuth: AngularFireAuth) {
+              private auth: AuthProvider) {
     this.title = navParams.get("title");
     if(!this.title){
       this.title = "Favoris";
@@ -32,7 +32,7 @@ export class FavorisPage {
 
   ionViewDidLoad() {
     this.loading = true;
-    this.afAuth.authState.subscribe(user => {
+    this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavorisList(user.uid).valueChanges();
@@ -40,7 +40,6 @@ export class FavorisPage {
       }else{
         this.favoris = null;
         this.loading = false;
-        this.userUid = null;
       }
     });
   } 
@@ -54,10 +53,6 @@ export class FavorisPage {
   removeFavoris(station, event: Event){
     event.stopPropagation();
     this.favorisProvider.removeFavoris(this.userUid,station.name);
-  }
-
-  isNotConnected():boolean{
-    return this.userUid == null;
   }
 
 }

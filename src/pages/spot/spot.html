@@ -15,72 +15,86 @@
 
 <ion-content class="bacground-light">
 
-    <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+    <div *ngIf="auth.user | async; then authenticated else guest">  </div>
 
-    <my-loader *ngIf="searchSpots && !isNotConnected()"></my-loader> 
+    <ng-template #guest>
+        <ion-row class="warning-container">
+            <ion-col col-12>
+                    Veuillez vous connecter pour accéder aux spots
+            </ion-col>
+        </ion-row>
+    </ng-template>
 
-    <ion-row *ngIf="isNotConnected()" class="warning-container">
-        <ion-col col-12>
-                Veuillez vous connecter pour accéder aux spots
-        </ion-col>
-    </ion-row>
+    <ng-template #authenticated>
 
-    <ion-row *ngIf="(spots)?.length==0 && (searchSpots) == false" class="warning-container">
-        <ion-col col-12>
-            Aucun spot
-        </ion-col>
-    </ion-row>
+        <ion-refresher (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content
+            pullingText="Pull to refresh..."
+            refreshingText="Refreshing...">
+          </ion-refresher-content>
+        </ion-refresher>
 
-    <ion-list> 
-
-        <ion-card *ngFor="let spot of spots | async">
-            
-              <ion-item>
-                <ion-avatar item-start>
-                    <img [src]="(spot.userPicture)" />
-                </ion-avatar>
-                <h3>{{ spot.userName }}</h3>
-                <p>{{spot.dateUpdate | formatDate}}</p>  
-              </ion-item>
+        <my-loader *ngIf="searchSpots"></my-loader>
         
+        <ion-row *ngIf="(spots)?.length==0 && (searchSpots) == false" class="warning-container">
+            <ion-col col-12>
+                Aucun spot
+            </ion-col>
+        </ion-row>
+    
+        <ion-list> 
+    
+            <ion-card *ngFor="let spot of spots | async">
+                
+                  <ion-item>
+                    <ion-avatar item-start>
+                        <img [src]="(spot.userPicture)" />
+                    </ion-avatar>
+                    <h3>{{ spot.userName }}</h3>
+                    <p>{{spot.dateUpdate | formatDate}}</p>  
+                  </ion-item>
             
-              <ion-card-content>
-                <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
-              </ion-card-content>
-            
-              <ion-row>
-                <ion-col>
-                  <button (click)="incrementLike(spot)" ion-button icon-left clear small>
-                    <ion-icon name="thumbs-up"></ion-icon>
-                    <div>{{spot.likes | formatLikes:spot.userUid}}  Likes</div>
-                  </button>
-                </ion-col>
-                <ion-col> 
-                    <ion-item>
-                        <button ion-button item-end icon-left clear small>
-                            <ion-icon name="text"></ion-icon>
-                            <div>4 Comments</div>
-                        </button>
-                    </ion-item> 
-                </ion-col>
-              </ion-row>
-            
-            </ion-card>
+                
+                  <ion-card-content>
+                    <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
+                  </ion-card-content>
+                
+                  <ion-row>
+                    <ion-col>
+                      <button (click)="incrementLike(spot)" ion-button icon-left clear small>
+                        <ion-icon name="thumbs-up"></ion-icon>
+                        <div>{{spot.likes | formatLikes:spot.userUid}}  Likes</div>
+                      </button>
+                    </ion-col>
+                    <ion-col> 
+                        <ion-item>
+                            <button ion-button item-end icon-left clear small>
+                                <ion-icon name="text"></ion-icon>
+                                <div>4 Comments</div>
+                            </button>
+                        </ion-item> 
+                    </ion-col>
+                  </ion-row>
+                
+                </ion-card>
+    
+        </ion-list>
+    
+        <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    
+    
+        <ion-fab right bottom>
+          <button color="blue" ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
+        </ion-fab>
+    
 
-    </ion-list>
-
-    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data...">
-        </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+    </ng-template>
 
 
-    <ion-fab right bottom>
-      <button color="blue" ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
 
 </ion-content>

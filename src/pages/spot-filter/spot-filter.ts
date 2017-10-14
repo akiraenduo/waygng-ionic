@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as _ from 'lodash'
 import { UserProvider } from '../../providers/user/userProvider';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -43,22 +43,24 @@ export class SpotFilterPage {
               public Keyboard: Keyboard,
               public spotProvider: SpotProvider,
               public userProvider: UserProvider,
-              private afAuth: AngularFireAuth) {
+              private auth: AuthProvider) {
+
+                this.loading = true;
+                this.auth.user.subscribe(user => {
+                  if (user) {
+                    this.userUid = user.uid;
+                    this.isHistorySearch = true;
+                    this.getHistoryHashtags(this.userUid);
+                  }else{
+                    this.userUid = null;
+                  }
+                });
+                this.doFocus();
                 
   }
 
   ionViewDidLoad() {
-    this.loading = true;
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.userUid = user.uid;
-        this.isHistorySearch = true;
-        this.getHistoryHashtags(this.userUid);
-      }else{
-        this.userUid = null;
-      }
-    });
-    this.doFocus();
+
   }
 
   getHistoryHashtags(userUid:string){

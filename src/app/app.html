@@ -3,11 +3,11 @@
     <ion-toolbar>
       <div *ngIf="auth.user | async; then authenticated else guest">  </div>
         <ng-template #authenticated>
-            <ion-item color="blue" class="item-inner-without-border" *ngIf="auth.user | async">
+            <ion-item *ngIf="auth.user | async as user" color="blue" class="item-inner-without-border">
                 <ion-avatar item-start>
-                    <img [src]="userData.picture" />
+                    <img [src]="user.photoURL" />
                   </ion-avatar>
-                <ion-label>{{ userData.username }}</ion-label>
+                <ion-label>{{ user.displayName }}</ion-label>
                 <button  color="light"ion-button outline clear large item-end (click)="goProfile()"><ion-icon name="ios-cog"></ion-icon></button>
             </ion-item >
         </ng-template>
@@ -17,9 +17,6 @@
                 connexion
               </button>
         </ng-template>
-    
-
-
     </ion-toolbar>
   </ion-header>
 

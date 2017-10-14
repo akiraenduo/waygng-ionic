@@ -7,12 +7,13 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { SpotDetailPage } from '../spot-detail/spot-detail';
 import { SpotFilterPage } from '../spot-filter/spot-filter';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthProvider } from '../../providers/auth/auth';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
 
 import * as _ from 'lodash'
+
 
 
 /**
@@ -41,14 +42,12 @@ export class SpotPage {
               public spotProvider: SpotProvider,
               public userProvider: UserProvider,
               public db: AngularFireDatabase,
-              private afAuth: AngularFireAuth) {
+              public auth: AuthProvider) {
 
     this.filter = navParams.get("filter");                  
     this.searchSpots = true;
-  }
 
-  ionViewDidLoad() {
-    this.afAuth.authState.subscribe(user => {
+    this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
           this.getSpots(null,null);
@@ -56,6 +55,10 @@ export class SpotPage {
         this.userUid = null;
       }
     });
+  }
+
+  ionViewDidLoad() {
+
   }
 
   doRefresh(refresher) {
@@ -142,8 +145,5 @@ export class SpotPage {
     this.navCtrl.push(AddSpotPage);
   }
 
-  isNotConnected():boolean{
-    return this.userUid == null;
-  }
 
 }

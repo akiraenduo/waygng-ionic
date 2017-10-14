@@ -10,22 +10,28 @@
 
 <ion-content padding>
 
-    <my-loader *ngIf="loading"></my-loader> 
+    <div *ngIf="auth.user | async; then authenticated else guest">  </div>
 
-    <ion-row *ngIf="isNotConnected()" class="warning-container">
-        <ion-col col-12>
+    <ng-template #guest>
+        <ion-row  class="warning-container">
+            <ion-col col-12>
                 Veuillez vous connecter pour accéder aux favoris
-        </ion-col>
-    </ion-row>
-    <ion-row *ngIf="(favoris | async)?.length==0" class="warning-container">
-        <ion-col col-12>
-            Aucune station en favoris
-        </ion-col>
-    </ion-row>
+            </ion-col>
+        </ion-row>
 
-    <button ion-item *ngFor="let fav of favoris | async"  (click)="itemSelected(fav)">
-        <ion-label>{{fav.name}}</ion-label>
-        <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon color="danger" name="md-trash"></ion-icon></button>
-    </button>
+    </ng-template>
 
+    <ng-template #authenticated>
+        <my-loader *ngIf="loading"></my-loader> 
+        <ion-row *ngIf="(favoris | async)?.length==0" class="warning-container">
+            <ion-col col-12>
+                Aucune station en favoris
+            </ion-col>
+        </ion-row>
+        <button ion-item *ngFor="let fav of favoris | async"  (click)="itemSelected(fav)">
+            <ion-label>{{fav.name}}</ion-label>
+            <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon color="danger" name="md-trash"></ion-icon></button>
+        </button>
+    </ng-template>
+    
 </ion-content>

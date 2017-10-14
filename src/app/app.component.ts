@@ -9,15 +9,11 @@ import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
 import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { SpotPage } from '../pages/spot/spot';
-
-import { User } from '../models/user';
-
-import { UserProvider } from '../providers/user/userProvider';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { FCM } from '@ionic-native/fcm';
 
 import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
+import { UserProvider } from '../providers/user/userProvider';
 
 
 
@@ -32,27 +28,22 @@ export class MyApp {
 
   pages: Array<{title: string,icon: string, component: any}>;
 
-  userData: User;
 
   constructor(public platform: Platform,
               public menu: MenuController,
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
               public auth: AuthProvider,
-              private afAuth: AngularFireAuth, 
-              public userProvider: UserProvider,
-              private fcm: FCM) {
-
-    this.afAuth.auth.onAuthStateChanged(user => {
-      if(user){
-        this.rootPage = FavorisPage;
-        this.userData = new User(user.uid,user.email,"",user.displayName,user.photoURL);
-        this.initializeApp();
-      }else{
-        this.userData = null;
-      }
-      
-    });           
+              public userProviser: UserProvider,
+              private fcm: FCM) {   
+                
+      this.auth.user.subscribe(user => {
+        if(user){
+          this.rootPage = FavorisPage;
+        }else{
+          this.rootPage = HomePage;
+        }
+      });        
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -105,12 +96,8 @@ export class MyApp {
     this.nav.push(ProfilePage);
   }
 
-  isDeconnected(){
-    if(this.userData && this.userData.id){
-      return false;
-    }else{
-      return true;
-    }
+  login(){
+    this.userProviser.login();
   }
 
 }
