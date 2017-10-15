@@ -1,19 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController } from 'ionic-angular';
+import { Nav, Platform, MenuController, LoadingController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { FavorisPage } from '../pages/favoris/favoris';
 import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
-import { LoginPage } from '../pages/login/login';
-import { ProfilePage } from '../pages/profile/profile';
 import { SpotPage } from '../pages/spot/spot';
 import { FCM } from '@ionic-native/fcm';
 
 import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/userProvider';
+import { ProfilePage } from '../pages/profile/profile';
 
 
 
@@ -35,11 +34,13 @@ export class MyApp {
               public splashScreen: SplashScreen,
               public auth: AuthProvider,
               public userProviser: UserProvider,
+              public loadingCtrl: LoadingController,
               private fcm: FCM) {   
                 
       this.auth.user.subscribe(user => {
         if(user){
           this.rootPage = FavorisPage;
+          this.menu.close();
         }else{
           this.rootPage = HomePage;
         }
@@ -86,18 +87,22 @@ export class MyApp {
     this.nav.setRoot(page.component, {title : page.title });
   }
 
-  signIn(){
-    this.menu.close();
-    this.nav.push(LoginPage);
-  }
-
   goProfile(){
     this.menu.close();
     this.nav.push(ProfilePage);
   }
 
-  login(){
-    this.userProviser.login();
+  presentLoading() {
+    let loader = this.loadingCtrl.create({
+      content: "Please wait...",
+      dismissOnPageChange: true
+    });
+    loader.present();
+  }
+
+  facebookLogin(){
+    this.presentLoading();
+    this.auth.facebookLogin();
   }
 
 }

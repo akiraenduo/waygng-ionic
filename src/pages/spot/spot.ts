@@ -74,7 +74,7 @@ export class SpotPage {
   }
 
   goDetailSpot(spot){
-    this.navCtrl.push(SpotDetailPage, {spotKey : spot.$key});
+    this.navCtrl.push(SpotDetailPage, {spotKey : spot.id});
   }
 
   incrementLike(spot){
