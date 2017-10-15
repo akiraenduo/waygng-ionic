@@ -1,3 +1,9 @@
+Node version: v6.11.2
+
+Cordova version: 7.0.1
+
+Config.xml file: 
+
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ariefolo.ginkoSpotted" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>GinkoSpotted</name>
@@ -97,3 +103,16 @@
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
 </widget>
+
+
+Plugins: 
+
+cordova-plugin-add-swift-support,cordova-plugin-app-event,cordova-plugin-compat,cordova-plugin-console,cordova-plugin-device,cordova-plugin-facebook4,cordova-plugin-fcm,cordova-plugin-file,cordova-plugin-geolocation,cordova-plugin-photo-library,cordova-plugin-splashscreen,cordova-plugin-statusbar,cordova-plugin-whitelist,de.appplant.cordova.plugin.local-notification,ionic-plugin-keyboard
+
+
+
+iOS platform:
+
+Xcode 9.0
+Build version 9A235
+

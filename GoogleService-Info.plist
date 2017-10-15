@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>1053041729362-l1hdff12l67ie9pm1g5lf3nvomiqiegp.apps.googleusercontent.com</string>
+	<string>472855009289-cua3712b7m2j021thh9ksmu1m3p6u3ju.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1053041729362-l1hdff12l67ie9pm1g5lf3nvomiqiegp</string>
+	<string>com.googleusercontent.apps.472855009289-cua3712b7m2j021thh9ksmu1m3p6u3ju</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDEcUB2wSuiPEpUOpFy9f5xdnNefr_2S8s</string>
+	<string>AIzaSyBIpwzjGtB5zJHc5Jm7z0DzesluFUbtlxU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1053041729362</string>
+	<string>472855009289</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ariefolo.waygngIonic</string>
+	<string>com.ariefolo.ginkoSpotted</string>
 	<key>PROJECT_ID</key>
-	<string>waygng-ionic</string>
+	<string>spot-firestore</string>
 	<key>STORAGE_BUCKET</key>
-	<string>waygng-ionic.appspot.com</string>
+	<string>spot-firestore.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true></true>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1053041729362:ios:e40838907d3f6470</string>
+	<string>1:472855009289:ios:e727afb33e837e32</string>
 	<key>DATABASE_URL</key>
-	<string>https://waygng-ionic.firebaseio.com</string>
+	<string>https://spot-firestore.firebaseio.com</string>
 </dict>
 </plist>
