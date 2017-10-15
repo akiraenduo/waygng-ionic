@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { AddSpotPage } from '../add-spot/add-spot';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import { UserProvider } from '../../providers/user/userProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { SpotDetailPage } from '../spot-detail/spot-detail';
@@ -13,6 +12,7 @@ import 'rxjs/add/operator/take';
 
 
 import * as _ from 'lodash'
+import { ModalLikePage } from '../modal-like/modal-like';
 
 
 
@@ -40,9 +40,9 @@ export class SpotPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public spotProvider: SpotProvider,
-              public userProvider: UserProvider,
               public db: AngularFireDatabase,
-              public auth: AuthProvider) {
+              public auth: AuthProvider,
+              public modalCtrl: ModalController) {
 
     this.filter = navParams.get("filter");                  
     this.searchSpots = true;
@@ -143,6 +143,11 @@ export class SpotPage {
 
   goAddSpot(){
     this.navCtrl.push(AddSpotPage);
+  }
+
+  openModalLike(spot) {
+    let myModal = this.modalCtrl.create(ModalLikePage, { 'usersUid': spot.likes });
+    myModal.present();
   }
 
 

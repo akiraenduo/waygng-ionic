@@ -1,0 +1,24 @@
+<ion-header>
+  
+    <ion-navbar>
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">Close</button>
+      </ion-buttons>
+      <ion-title>Modals</ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content padding>
+
+  <ion-list>
+    <ion-item *ngFor="let liker of likers | async">
+      <ion-avatar item-start>
+        <img [src]="liker.photoURL" />
+      </ion-avatar>
+      <h2>{{liker.displayName}}</h2>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>

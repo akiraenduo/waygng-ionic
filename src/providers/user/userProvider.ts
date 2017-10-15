@@ -69,6 +69,15 @@ export class UserProvider {
     return this.afs.doc('/users/'+uid);
   }
 
+  fetchUsers(usersUid:string[]):AngularFirestoreCollection<any>{
+    return this.afs.collection('/users/', ref => {
+      usersUid.forEach(uid => {
+      ref.where('uid','==',uid)
+     })
+    return ref;
+    });
+  }
+
   updateUser(user:User){
     const items = this.afs.doc('/users/'+user.id);
     items.update({user: user});

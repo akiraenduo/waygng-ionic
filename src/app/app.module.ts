@@ -41,6 +41,7 @@ import {SpotPage} from '../pages/spot/spot';
 import {AddSpotPage} from '../pages/add-spot/add-spot';
 import {SpotFilterPage} from '../pages/spot-filter/spot-filter';
 import {SpotDetailPage} from '../pages/spot-detail/spot-detail';
+import {ModalLikePage} from '../pages/modal-like/modal-like';
 
 //PROVIDER
 import { AuthProvider } from '../providers/auth/auth';
@@ -73,6 +74,7 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     AddSpotPage,
     SpotFilterPage,
     SpotDetailPage,
+    ModalLikePage,
     RemoveDuplicateStationPipe,
     CalculateDistancePipe,
     ShowTwoTimePipe,
@@ -109,7 +111,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     SpotPage,
     AddSpotPage,
     SpotFilterPage,
-    SpotDetailPage
+    SpotDetailPage,
+    ModalLikePage
   ],
   providers: [
     StatusBar,
