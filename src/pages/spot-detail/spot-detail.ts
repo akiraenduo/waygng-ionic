@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { Observable } from 'rxjs/Observable';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the SpotDetailPage page.
@@ -21,13 +22,10 @@ export class SpotDetailPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public spotProvider: SpotProvider) {
+                
 
               let spotKey = navParams.get("spotKey");
               this.spot = spotProvider.getSpot(spotKey).valueChanges();
-  }
-
-  ionViewDidLoad() {
-  
-  }
+              }
 
 }

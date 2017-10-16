@@ -24,22 +24,24 @@
             <p [innerHTML]="spot.message | formatHashtag"></p>
           </ion-card-content>
         
-          <ion-row>
-            <ion-col>
-              <button ion-button icon-left clear small>
-                <ion-icon name="thumbs-up"></ion-icon>
-                <div>12 Likes</div>
-              </button>
-            </ion-col>
-            <ion-col> 
-                <ion-item>
-                    <button ion-button item-end icon-left clear small>
-                        <ion-icon name="text"></ion-icon>
-                        <div>4 Comments</div>
-                    </button>
-                </ion-item> 
-            </ion-col>
-          </ion-row>
+          <ion-row class="padding-left">
+                <ion-col>
+                  <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-left clear small>
+                    <ion-icon [name]="spot.likes | formatLikeIcon:spot.userUid"></ion-icon>
+                </button> 
+                <button class="button-padding" (click)="openModalLike(spot)" ion-button icon-left clear small>
+                    <div>{{spot.likes | formatLikes}}  Likes</div>
+                </button>
+                </ion-col>
+                <ion-col> 
+                    <ion-item>
+                        <button (click)="openModalLike(spot)"  ion-button item-end icon-left clear small>
+                            <ion-icon name="text"></ion-icon>
+                            <div>4 Comments</div>
+                        </button>
+                    </ion-item> 
+                </ion-col>
+              </ion-row>
         
         </ion-card>
 

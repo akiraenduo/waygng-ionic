@@ -27,6 +27,7 @@ import {FormatDatePipe} from '../pipes/format-date/format-date';
 import {FormatHashtagPipe} from '../pipes/format-hashtag/format-hashtag';
 import {SortSpotsPipe} from '../pipes/sort-spots/sort-spots';
 import {FormatLikesPipe} from '../pipes/format-likes/format-likes';
+import {FormatLikeIconPipe} from '../pipes/format-like-icon/format-like-icon';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -82,7 +83,8 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     FormatDatePipe,
     FormatHashtagPipe,
     SortSpotsPipe,
-    FormatLikesPipe
+    FormatLikesPipe,
+    FormatLikeIconPipe
   ],
   imports: [
     HttpModule,
