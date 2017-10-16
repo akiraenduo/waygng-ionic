@@ -86,7 +86,7 @@ export class SpotPage {
       spot["likes"].push(this.userUid);
       this.spotProvider.incrementLikes(spot.id,spot);
     }else{ 
-      spot["likes"] = _.remove(spot["likes"], this.userUid);
+      _.pullAt(spot["likes"], index);
       this.spotProvider.incrementLikes(spot.id,spot);
     }
   }
