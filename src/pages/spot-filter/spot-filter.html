@@ -26,7 +26,7 @@
   </ion-list>
 
   <ion-list *ngIf="hashtagKeySelected"> 
-        <ion-card (click)="goDetailSpot(spot)" *ngFor="let spot of spotsFiltered | async">     
+        <ion-card  *ngFor="let spot of spotsFiltered | async">     
             <ion-item>
                 <ion-avatar item-start>
                     <img [src]="((spot|async)?.userPicture)" />
@@ -34,28 +34,11 @@
                 <h3>{{ (spot|async)?.userName }}</h3>
                 <p>{{(spot|async)?.dateUpdate | formatDate}}</p>  
             </ion-item>
-            
                 
-            <ion-card-content>
+            <ion-card-content id="{{(spot | async)?.id}}" (click)="goDetailSpot($event)">
             <p class="paragraphe-height" [innerHTML]="(spot|async)?.message  | formatHashtag"></p>
             </ion-card-content>
                 
-            <ion-row>
-            <ion-col>
-                <button ion-button icon-left clear small>
-                <ion-icon name="thumbs-up"></ion-icon>
-                <div>12 Likes</div>
-                </button>
-            </ion-col>
-            <ion-col> 
-                <ion-item>
-                    <button ion-button item-end icon-left clear small>
-                        <ion-icon name="text"></ion-icon>
-                        <div>4 Comments</div>
-                    </button>
-                </ion-item> 
-            </ion-col>
-            </ion-row>
         </ion-card>                    
     </ion-list>
 

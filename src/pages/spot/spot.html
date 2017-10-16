@@ -59,12 +59,14 @@
                     <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
                   </ion-card-content>
                 
-                  <ion-row>
+                  <ion-row class="padding-left">
                     <ion-col>
-                      <button (click)="incrementLike(spot)" ion-button icon-left clear small>
-                        <ion-icon name="thumbs-up"></ion-icon>
+                      <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-left clear small>
+                        <ion-icon [name]="spot.liked ? 'thumbs-up' : 'ios-thumbs-up-outline'"></ion-icon>
+                    </button>
+                    <button class="button-padding" (click)="openModalLike(spot)" ion-button icon-left clear small>
                         <div>{{spot.likes | formatLikes:spot.userUid}}  Likes</div>
-                      </button>
+                    </button>
                     </ion-col>
                     <ion-col> 
                         <ion-item>
@@ -87,14 +89,12 @@
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     
-    
-        <ion-fab right bottom>
-          <button color="blue" ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
-        </ion-fab>
-    
 
     </ng-template>
 
-
+    <ion-fab *ngIf="auth.user | async" right bottom>
+        <button color="blue" ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
+      
 
 </ion-content>

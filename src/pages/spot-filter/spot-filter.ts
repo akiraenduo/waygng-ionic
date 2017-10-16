@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as _ from 'lodash'
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
+import { SpotDetailPage } from '../spot-detail/spot-detail';
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -176,6 +177,11 @@ export class SpotFilterPage {
         this.loading = false;
       });
     }
+  }
+
+  goDetailSpot(event){
+    let spotId = event.currentTarget.id;
+    this.navCtrl.push(SpotDetailPage, {spotKey : spotId});
   }
 
   doFocus(){

@@ -68,7 +68,7 @@ export class LoginPage {
 
 
   signInWithFacebook() {
-    this.userProvider.login();
+   // this.userProvider.login();
   }
 
   verifLogin(user: User):boolean{

@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Platform } from 'ionic-angular';
-import 'rxjs/add/operator/map';
-import { Facebook } from '@ionic-native/facebook';
-
-import * as firebase from 'firebase/app';
 import { User } from '../../models/user';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { FCM } from '@ionic-native/fcm';
 
 /*
   Generated class for the UserProvider provider.
@@ -24,38 +19,7 @@ export class UserProvider {
   constructor(public http: Http,
               public platform: Platform,
               private afs: AngularFirestore,
-              private afAuth: AngularFireAuth, 
-              private fb: Facebook,
-              private fcm: FCM) {
-
-                this.afAuth.authState.subscribe((auth) => {
-                  this.authState = auth
-                });
-
-  }
-
-  login() {
-    if (this.platform.is('cordova')) {
-      alert("ICI1");
-      return this.fb.login(['email', 'public_profile']).then(res => {
-        alert("ICI2");
-        const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-        return firebase.auth().signInWithCredential(facebookCredential).then(user => {
-          this.getFacebookUser(user.uid)
-        });
-      })
-    }
-    else {
-
-      var provider = new firebase.auth.FacebookAuthProvider();
-      // You can add additional scopes to the provider:
-      provider.addScope('email');
-      provider.addScope('public_profile');
-      return firebase.auth().signInWithPopup(provider).then(result =>{
-        let user = new User(result.user.uid,result.user.email,"",result.user.displayName,result.user.photoURL);
-        return this.addUser(user);
-      });
-    }
+              private afAuth: AngularFireAuth) {
   }
   
   getCurrentUser():User{
@@ -69,48 +33,14 @@ export class UserProvider {
     return this.afs.doc('/users/'+uid);
   }
 
-  fetchUsers(usersUid:string[]):AngularFirestoreCollection<any>{
-    return this.afs.collection('/users/', ref => {
-      usersUid.forEach(uid => {
-      ref.where('uid','==',uid)
-     })
-    return ref;
-    });
+  fetchUsers():AngularFirestoreCollection<any>{
+    return this.afs.collection('/users/')
   }
 
   updateUser(user:User){
     const items = this.afs.doc('/users/'+user.id);
     items.update({user: user});
     this.afAuth.auth.currentUser.updateProfile({displayName: user.username,photoURL:user.picture});
-  }
-
-  private getFacebookUser(uid:string){
-    this.fb.getLoginStatus()
-    .then((response) => {
-      if(response && response.status == 'connected'){
-        this.fb.api('me?fields=id,name,email,first_name,picture.width(100).height(100).as(picture_small)', []).then(profile => {
-          let user = new User(uid,profile['email'],profile['first_name'],profile['name'],profile['picture_small']['data']['url']);
-          return this.addUser(user);
-        });
-      }
-    });
-  }
-
-  private addUser(user:User){
-    firebase.database().goOnline();
-    user = Object.assign({}, user);
-    if (this.platform.is('cordova')) {
-      this.fcm.getToken().then(token=>{
-        const itemsCollection = this.afs.doc<any>('users/'+user.id);
-        user["token"] = token;
-        itemsCollection.set(user);
-      })
-    }else{
-      const itemsCollection = this.afs.doc<any>('users/'+user.id);
-
-      itemsCollection.set(user);
-    }
-    return user;
   }
 
   removeHistoryHashtag(userUid:string, hashtagKey:string){

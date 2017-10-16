@@ -83,9 +83,11 @@ export class SpotPage {
     }
     const index = _.indexOf(spot["likes"], this.userUid);
     if(index < 0){
+      spot.liked = true;
       spot["likes"].push(this.userUid);
       this.spotProvider.incrementLikes(spot.id,spot);
-    }else{ 
+    }else{
+      spot.liked = false; 
       _.pullAt(spot["likes"], index);
       this.spotProvider.incrementLikes(spot.id,spot);
     }
@@ -105,6 +107,12 @@ export class SpotPage {
           return spots.map(s => {
             const data = s.payload.doc.data();
             const id = s.payload.doc.id;
+            const index = _.indexOf(data["likes"], this.userUid);
+            if(index < 0){
+              data.liked = false;
+            }else{
+              data.liked = true;
+            }
             return { id, ...data };
           });
         })
