@@ -17,9 +17,12 @@
 
 <ion-content padding>
 
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+        pullingText="Pull to refresh..."
+        refreshingText="Refreshing...">
+      </ion-refresher-content>
+    </ion-refresher>
   
   <my-loader *ngIf="loading"></my-loader> 
 
