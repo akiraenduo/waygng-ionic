@@ -33,10 +33,15 @@
     <ion-label floating>Message</ion-label>
     <ion-textarea #inputMessage autofocus type="text" maxlength="300" [(ngModel)]="message" (keyup)="eventInputMessage($event)"></ion-textarea>
   </ion-item>
+  
+<ion-list>
+  <ion-list-header>
+      <b>#</b> Suggestions hashtags
+    </ion-list-header>
   <button ion-item *ngFor="let tag of hashtags | async" (click)="hashtagSelected(tag)">
       <ion-label>{{tag.name}}</ion-label>
   </button>
-
+</ion-list>
 
 
 

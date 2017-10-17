@@ -66,8 +66,8 @@ export class AddSpotPage {
   }
 
   hashtagSelected(tag){
-    let hashtagList = this.parseHashtagList(this.spot.message);
-    this.spot.message = _.replace(this.spot.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
+    let hashtagList = this.parseHashtagList(this.message);
+    this.message = _.replace(this.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
     this.doFocus();
   }
 
