@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
-import { User } from '../../models/user';
 import { Spot } from '../../models/spot';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 
@@ -9,6 +8,7 @@ import * as _ from 'lodash';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SpotPage } from '../spot/spot';
 import { Observable } from 'rxjs/Observable';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -24,7 +24,8 @@ export class AddSpotPage {
 
   @ViewChild('inputMessage') inputMessage: any;  
 
-  user: User;
+  isAnonyme:boolean = false;;
+  message:string;
   spot: Spot;
   hashtags: Observable<any>;
 
@@ -32,10 +33,15 @@ export class AddSpotPage {
               public navParams: NavParams,
               public userProvider: UserProvider,
               public spotProvider: SpotProvider,
+              public auth: AuthProvider,
               public Keyboard: Keyboard) {
 
-               this.user = this.userProvider.getCurrentUser();
-               this.spot = new Spot(null,this.user.id,this.user.username,this.user.picture,new Date().getTime());
+              this.auth.user.subscribe(user => {
+                if (user) {
+                  this.spot = new Spot(null,user.uid,user.displayName,user.photoURL,new Date().getTime());
+                }
+              });
+               
   }
 
   ionViewDidLoad() {
@@ -43,6 +49,8 @@ export class AddSpotPage {
   }
 
   addSpot(){
+    this.spot.message = this.message;
+    this.spot.anonyme = this.isAnonyme;
     this.spotProvider.addSpot(this.spot);
     this.navCtrl.setRoot(SpotPage);
   }

@@ -47,7 +47,7 @@
             <ion-card *ngFor="let spot of spots | async">
                 
                   <ion-item (tap)="goDetailSpot(spot)">
-                    <ion-avatar item-start>
+                    <ion-avatar *ngIf="!spot.anonyme" item-start>
                         <img [src]="(spot.userPicture)" />
                     </ion-avatar>
                     <h3>{{ spot.userName }}</h3>
