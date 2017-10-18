@@ -19,20 +19,20 @@
 
       <ion-item>
         <ion-icon item-start name="ios-contact-outline"></ion-icon>
-        <ion-label floating>Nom</ion-label>
+        <ion-label floating>{{ 'NAME' | translate }}</ion-label>
         <ion-input type="text" [(ngModel)]="user.displayName"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon item-start name="ios-mail-outline"></ion-icon>
-        <ion-label floating>Email</ion-label>
+        <ion-label floating>{{ 'EMAIL' | translate }}</ion-label>
         <ion-input readonly type="email" [(ngModel)]="user.email"></ion-input>
       </ion-item>
     </ion-list>
 
     <ion-footer no-shadow>
       <button ion-button item-end full color="danger" (click)="logout()">
-          Déconnexion
+          {{ 'SIGN_OUT' | translate }}
       </button>
     </ion-footer>
   </div>

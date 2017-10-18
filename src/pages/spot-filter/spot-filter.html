@@ -29,11 +29,14 @@
         <ion-card  *ngFor="let spot of spotsFiltered | async">
             <div id="{{(spot | async)?.id}}" (click)="goDetailSpot($event)">    
                 <ion-item>
-                    <ion-avatar item-start>
-                        <img [src]="((spot|async)?.userPicture)" />
+                    <ion-avatar *ngIf="!((spot|async)?.anonyme)" item-start>
+                            <img [src]="((spot|async)?.userPicture)" />
                     </ion-avatar>
-                    <h3>{{ (spot|async)?.userName }}</h3>
-                    <p>{{(spot|async)?.dateUpdate | formatDate}}</p>  
+                    <ion-avatar *ngIf="((spot|async)?.anonyme)" item-start>
+                            <ion-icon class="icon-size" name="contact"></ion-icon>
+                    </ion-avatar>
+                    <h3 *ngIf="!((spot|async)?.anonyme)">{{ (spot|async)?.userName  }}</h3>
+                    <h3 *ngIf="((spot|async)?.anonyme)">{{ 'ANONYME' | translate }}</h3>
                 </ion-item>
                     
                 <ion-card-content>

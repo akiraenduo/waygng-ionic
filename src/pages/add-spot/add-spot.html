@@ -25,18 +25,18 @@
 <ion-content padding>
 
   <ion-item>
-    <ion-label> Anonyme</ion-label>
+    <ion-label>{{ 'ANONYME' | translate }}</ion-label>
     <ion-toggle [(ngModel)]="isAnonyme" checked="false" color="secondary"></ion-toggle>
   </ion-item>
 
   <ion-item>
-    <ion-label floating>Message</ion-label>
+    <ion-label floating>{{ 'MESSAGE' | translate }}</ion-label>
     <ion-textarea #inputMessage autofocus type="text" maxlength="300" [(ngModel)]="message" (keyup)="eventInputMessage($event)"></ion-textarea>
   </ion-item>
   
 <ion-list>
   <ion-list-header>
-      <b>#</b> Suggestions hashtags
+      <b>#</b> {{ 'SUGGESTIONS_HASHTAGS' | translate }}
     </ion-list-header>
   <button ion-item *ngFor="let tag of hashtags | async" (click)="hashtagSelected(tag)">
       <ion-label>{{tag.name}}</ion-label>

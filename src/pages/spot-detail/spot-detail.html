@@ -7,15 +7,19 @@
   </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
     <ion-card *ngIf="(spot | async) as spot">
         
           <ion-item>
-            <ion-avatar item-start>
+            <ion-avatar *ngIf="!spot.anonyme" item-start>
                 <img [src]="(spot.userPicture)" />
             </ion-avatar>
-            <h3>{{ spot.userName }}</h3>
+            <ion-avatar *ngIf="spot.anonyme" item-start>
+                <ion-icon class="icon-size" name="contact"></ion-icon>
+            </ion-avatar>
+            <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
+            <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
             <p>{{spot.dateUpdate | formatDate}}</p>  
           </ion-item>
     

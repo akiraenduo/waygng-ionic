@@ -20,7 +20,7 @@
     <ng-template #guest>
         <ion-row class="warning-container">
             <ion-col col-12>
-                    Veuillez vous connecter pour accéder aux spots
+                {{ 'WARNING.NOT_CONNECTED_SPOT' | translate }}
             </ion-col>
         </ion-row>
     </ng-template>
@@ -34,11 +34,13 @@
           </ion-refresher-content>
         </ion-refresher>
 
+       
+
         <my-loader *ngIf="searchSpots"></my-loader>
         
         <ion-row *ngIf="(spots)?.length==0 && (searchSpots) == false" class="warning-container">
             <ion-col col-12>
-                Aucun spot
+                {{ 'WARNING.EMPTY_SPOT' | translate }}
             </ion-col>
         </ion-row>
     
@@ -55,7 +57,7 @@
                     </ion-avatar>
 
                     <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
-                    <h3 *ngIf="spot.anonyme">Anonyme</h3>
+                    <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
                     <p>{{spot.dateUpdate | formatDate}}</p>  
                   </ion-item>
             
@@ -67,7 +69,7 @@
                   <ion-row class="padding-left">
                     <ion-col>
                       <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-left clear small>
-                        <ion-icon [name]="spot.likes | formatLikeIcon:spot.userUid"></ion-icon>
+                        <ion-icon [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
                     </button> 
                     <button class="button-padding" (click)="openModalLike(spot)" ion-button icon-left clear small>
                         <div>{{spot.likes | formatLikes}}  Likes</div>

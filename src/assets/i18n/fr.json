@@ -6,8 +6,8 @@
         "SPOTS": "Spots",
         "SEND_SPOT": "Envoyé un spot",
         "THEY_LIKED": "Ils ont aimé",
-        "PROFILE": "PROFIL",
-        "SPOT": "SPOT"
+        "PROFILE": "Profil",
+        "SPOT": "Spot"
     },
 
     "MENU":{
@@ -16,7 +16,17 @@
         "TRAFFIC_INFO": "Info trafic",
         "SPOTS": "Spots"
     },
-    "MESSAGE":{
-        
-    }
+    "WARNING":{
+        "NOT_CONNECTED_FAV":"Veuillez vous connecter pour accéder aux favoris",
+        "EMPTY_FAV":"Aucune station en favoris",
+        "NO_PLANNED_PASSAGE":"Aucun passage prévu à cette station dans l'heure qui vient",
+        "NOT_CONNECTED_SPOT":"Veuillez vous connecter pour accéder aux spots",
+        "EMPTY_SPOT":"Aucun spot"
+    },
+    "ANONYME":"Anonyme",
+    "MESSAGE":"Message",
+    "SUGGESTIONS_HASHTAGS":"Suggestion hashtags",
+    "NAME":"Nom",
+    "EMAIL":"Email",
+    "SIGN_OUT":"Déconnexion"
 }
