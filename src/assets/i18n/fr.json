@@ -15,5 +15,8 @@
         "FAVORIS": "Favoris",
         "TRAFFIC_INFO": "Info trafic",
         "SPOTS": "Spots"
+    },
+    "MESSAGE":{
+        
     }
 }
