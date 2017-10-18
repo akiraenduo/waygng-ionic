@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpModule, Http, JsonpModule } from '@angular/http';
+
 
 // ANGULAR FIRE
 import { AngularFireModule } from 'angularfire2';
@@ -25,7 +29,6 @@ import {ShowTwoTimePipe} from '../pipes/show-two-time/show-two-time';
 import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
 import {FormatDatePipe} from '../pipes/format-date/format-date';
 import {FormatHashtagPipe} from '../pipes/format-hashtag/format-hashtag';
-import {SortSpotsPipe} from '../pipes/sort-spots/sort-spots';
 import {FormatLikesPipe} from '../pipes/format-likes/format-likes';
 import {FormatLikeIconPipe} from '../pipes/format-like-icon/format-like-icon';
 
@@ -53,8 +56,11 @@ import { SpotProvider } from '../providers/spot/spotProvider';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HttpModule,JsonpModule } from '@angular/http';
 import { FIREBASE_CONFIG } from './app.firebase.config';
+
+export function createTranslateLoader(http: Http) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 
 
@@ -82,7 +88,6 @@ import { FIREBASE_CONFIG } from './app.firebase.config';
     SafeHtmlPipe,
     FormatDatePipe,
     FormatHashtagPipe,
-    SortSpotsPipe,
     FormatLikesPipe,
     FormatLikeIconPipe
   ],

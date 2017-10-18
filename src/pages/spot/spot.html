@@ -54,7 +54,8 @@
                         <ion-icon class="icon-size" name="contact"></ion-icon>
                     </ion-avatar>
 
-                    <h3>{{ spot.userName }}</h3>
+                    <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
+                    <h3 *ngIf="spot.anonyme">Anonyme</h3>
                     <p>{{spot.dateUpdate | formatDate}}</p>  
                   </ion-item>
             
