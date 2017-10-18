@@ -3,7 +3,7 @@
       <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-      <ion-title>{{title}}</ion-title>
+      <ion-title>{{ 'TITLE.FAVORIS' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +22,7 @@
     </ng-template>
 
     <ng-template #authenticated>
-        <my-loader *ngIf="loading"></my-loader> 
+
         <ion-row *ngIf="(favoris | async)?.length==0" class="warning-container">
             <ion-col col-12>
                 Aucune station en favoris

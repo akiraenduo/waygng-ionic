@@ -13,6 +13,7 @@ import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/userProvider';
 import { ProfilePage } from '../pages/profile/profile';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -35,8 +36,12 @@ export class MyApp {
               public auth: AuthProvider,
               public userProviser: UserProvider,
               public loadingCtrl: LoadingController,
-              private fcm: FCM) {   
+              private fcm: FCM,
+              private translate: TranslateService) {   
                 
+      this.initTranslate();
+      moment.locale('fr-fr');
+
       this.auth.user.subscribe(user => {
         if(user){
           this.rootPage = FavorisPage;
@@ -46,13 +51,14 @@ export class MyApp {
         }
       });        
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Horaires', icon:'md-alarm', component: HomePage },
-      { title: 'Infos trafic', icon:'information-circle', component: InfosTraficPage },
-      { title: 'Favoris', icon:'star', component: FavorisPage },
-      { title: 'Spots', icon:'md-eye', component: SpotPage }
-    ];
+      this.translate.get('MENU').subscribe((menu) => {
+        this.pages = [
+          { title: menu.TIMETABLE, icon:'md-alarm', component: HomePage },
+          { title: menu.TRAFFIC_INFO, icon:'information-circle', component: InfosTraficPage },
+          { title: menu.FAVORIS, icon:'star', component: FavorisPage },
+          { title: menu.SPOTS, icon:'md-eye', component: SpotPage }
+        ];
+  })
 
   }
 
@@ -60,7 +66,6 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      moment.locale('fr-fr');
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString("#0091D4");
       this.splashScreen.hide();
@@ -80,6 +85,17 @@ export class MyApp {
       }
     });
   }
+
+  initTranslate() {
+    // Set the default language for translation strings, and the current language.
+    this.translate.setDefaultLang('fr');
+
+    if (this.translate.getBrowserLang() !== undefined) {
+      this.translate.use(this.translate.getBrowserLang());
+    } else {
+      this.translate.use('fr'); // Set your language here
+    }
+}
 
   openPage(page) {
     // Reset the content nav to have just this page

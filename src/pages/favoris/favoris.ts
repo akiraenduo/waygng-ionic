@@ -7,14 +7,12 @@ import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
 
-
 @Component({
   selector: 'page-favoris',
   templateUrl: 'favoris.html',
 })
 export class FavorisPage {
 
-  title: any;
   loading: any;
   favoris: Observable<any[]>;
   userUid: any;
@@ -23,10 +21,7 @@ export class FavorisPage {
               public navParams: NavParams,
               public favorisProvider: FavorisProvider,
               private auth: AuthProvider) {
-    this.title = navParams.get("title");
-    if(!this.title){
-      this.title = "Favoris";
-    }
+
     this.favoris = null;
   }
 

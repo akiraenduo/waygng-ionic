@@ -17,14 +17,11 @@ import { Observable } from 'rxjs/Observable';
 })
 export class InfosTraficPage {
 
-  title: any;
   infosTrafic: Observable<InfosTrafic>;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public ginkoProvider: GinkoProvider,) {
-
-              this.title = navParams.get("title");
 
   }
 

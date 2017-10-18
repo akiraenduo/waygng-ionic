@@ -1,0 +1,19 @@
+{
+    "TITLE": {
+        "TIMETABLE": "Horaires",
+        "FAVORIS": "Favoris",
+        "TRAFFIC_INFO": "Info trafic",
+        "SPOTS": "Spots",
+        "SEND_SPOT": "Envoyé un spot",
+        "THEY_LIKED": "Ils ont aimé",
+        "PROFILE": "PROFIL",
+        "SPOT": "SPOT"
+    },
+
+    "MENU":{
+        "TIMETABLE": "Horaires",
+        "FAVORIS": "Favoris",
+        "TRAFFIC_INFO": "Info trafic",
+        "SPOTS": "Spots"
+    }
+}

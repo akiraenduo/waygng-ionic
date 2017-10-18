@@ -22,7 +22,6 @@ export class HomePage {
 
   latitude: number;
   longitude: number;
-  title: any;
   errorMessage: string;
   loading: any = false;
   noResult: any = false;
@@ -42,10 +41,7 @@ export class HomePage {
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
               public auth: AuthProvider) {
-    this.title = navParams.get("title");
-    if(!this.title){
-      this.title = "Horaires";
-    }
+
     this.station = navParams.get("station");
 
   }
