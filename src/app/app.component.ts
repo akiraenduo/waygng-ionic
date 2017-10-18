@@ -70,6 +70,7 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString("#0091D4");
       this.splashScreen.hide();
 
+
       if(this.platform.is('cordova')){
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
@@ -83,6 +84,7 @@ export class MyApp {
           alert( JSON.stringify(token));
         })
       }
+      
     });
   }
 
