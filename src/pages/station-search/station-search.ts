@@ -6,6 +6,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 
 import { Station } from '../../models/station';
 import { HomePage } from '../home/home';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the StationSearchPage page.
@@ -29,7 +30,8 @@ export class StationSearchPage {
    stationProches: Station[] = [];
    searchPosition: any = false;
    searchStation: any = false;
-
+   subscriptionFetchStation: Subscription;
+   subscriptionFetchStationProche: Subscription;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams, 
@@ -46,10 +48,17 @@ export class StationSearchPage {
     this.getStations();
   }
 
+  ionViewWillLeave() {
+    this.subscriptionFetchStation.unsubscribe();
+    if(this.subscriptionFetchStationProche){
+      this.subscriptionFetchStationProche.unsubscribe();      
+    }
+  }
+
 
   getStations(){
     this.searchStation = true;
-    this.ginkoProvider.fetchStations()
+    this.subscriptionFetchStation = this.ginkoProvider.fetchStations()
     .subscribe((stations) => {
       this.allStations = stations;
       this.searchStation = false;
@@ -62,7 +71,7 @@ export class StationSearchPage {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
-      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
+     this.subscriptionFetchStationProche = this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
       .subscribe((stations) => {
         this.stationProches = stations;
         this.searchPosition = false;

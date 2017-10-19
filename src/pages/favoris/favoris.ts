@@ -6,6 +6,7 @@ import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
 import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'page-favoris',
@@ -16,6 +17,7 @@ export class FavorisPage {
   loading: any;
   favoris: Observable<any[]>;
   userUid: any;
+  subscription: Subscription;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -31,7 +33,7 @@ export class FavorisPage {
       if (user) {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavorisList(user.uid).valueChanges();
-        this.favoris.subscribe(() => this.loading = false);
+        this.subscription = this.favoris.subscribe(() => this.loading = false);
       }else{
         this.favoris = null;
         this.loading = false;
@@ -39,6 +41,10 @@ export class FavorisPage {
       userAuth.unsubscribe();
     });
   } 
+
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
+  }
 
   itemSelected(station){
     this.navCtrl.push(HomePage, {

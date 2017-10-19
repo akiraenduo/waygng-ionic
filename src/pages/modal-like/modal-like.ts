@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import * as _ from 'lodash'
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the ModalLikePage page.
@@ -19,7 +20,7 @@ export class ModalLikePage {
   usersUid: string[];
   users: any;
   likers: any;
-  fetchUser: any;
+  subscription: Subscription;
 
   constructor(public viewCtrl: ViewController,
               public params: NavParams,
@@ -27,7 +28,7 @@ export class ModalLikePage {
 
               this.usersUid = params.get('usersUid');
 
-           this.fetchUser = this.userProvider.fetchUsers().valueChanges().subscribe(users => {
+           this.subscription = this.userProvider.fetchUsers().valueChanges().subscribe(users => {
                 this.users = users;
                 this.applyFilters();
               })
@@ -46,7 +47,7 @@ export class ModalLikePage {
   }
  
   dismiss() {
-    this.fetchUser.unsubscribe();
+    this.subscription.unsubscribe();
     this.viewCtrl.dismiss();
   }
 

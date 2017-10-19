@@ -10,6 +10,7 @@ import * as _ from 'lodash'
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotDetailPage } from '../spot-detail/spot-detail';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -36,6 +37,7 @@ export class SpotFilterPage {
   finished = false  // boolean when end of database is reached
   userUid: any;
   isHistorySearch: boolean = false;
+  subscription: Subscription;
 
   lastKey = null;
 
@@ -63,6 +65,10 @@ export class SpotFilterPage {
 
   ionViewDidLoad() {
 
+  }
+
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
 
   getHistoryHashtags(userUid:string){
@@ -169,12 +175,12 @@ export class SpotFilterPage {
       this.spotsFiltered.next(_.concat(currentSpots,newSpotList));
     });
     if(infiniteScroll){
-      getSpotList.subscribe(() => {
+      this.subscription = getSpotList.subscribe(() => {
         this.loading = false;
         infiniteScroll.complete();
       })
     }else{
-      getSpotList.subscribe(() => {
+      this.subscription = getSpotList.subscribe(() => {
         this.loading = false;
       });
     }

@@ -13,6 +13,7 @@ import 'rxjs/add/operator/take';
 
 import * as _ from 'lodash'
 import { ModalLikePage } from '../modal-like/modal-like';
+import { Subscription } from 'rxjs/Subscription';
 
 
 
@@ -35,6 +36,7 @@ export class SpotPage {
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
   userUid: any;
+  subscription: Subscription;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -56,9 +58,11 @@ export class SpotPage {
     });
   }
 
-  ionViewDidLoad() {
-
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
+
+  ionViewDidWi
 
   doRefresh(refresher) {
     this.finished = false;
@@ -123,11 +127,11 @@ export class SpotPage {
           }
         });
         if(infiniteScroll){
-          getSpotList.subscribe(() => {
+          this.subscription = getSpotList.subscribe(() => {
             infiniteScroll.complete();
           })
         }else{ 
-          getSpotList.subscribe((spots) => {
+          this.subscription = getSpotList.subscribe((spots) => {
             this.spots.next(spots);
             this.searchSpots = false
             if(refresher){
