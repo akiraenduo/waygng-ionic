@@ -83,11 +83,9 @@ export class SpotPage {
     }
     const index = _.indexOf(spot["likes"], this.userUid);
     if(index < 0){
-      spot.liked = true;
       spot["likes"].push(this.userUid);
       this.spotProvider.incrementLikes(spot.id,spot);
     }else{
-      spot.liked = false; 
       _.pullAt(spot["likes"], index);
       this.spotProvider.incrementLikes(spot.id,spot);
     }
