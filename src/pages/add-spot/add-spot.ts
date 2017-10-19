@@ -68,7 +68,6 @@ export class AddSpotPage {
   hashtagSelected(tag){
     let hashtagList = this.parseHashtagList(this.message);
     this.message = _.replace(this.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
-    this.doFocus();
   }
 
   parseHashtagList(message):string[]{
@@ -78,16 +77,6 @@ export class AddSpotPage {
       if (m[1]) hashtagList.push(m[1]);
     }
     return hashtagList;
-  }
-
-  doFocus(){
-    setTimeout(()=>{
-      this.inputMessage.setFocus();
-      this.Keyboard.show();
-    },500);
-    this.Keyboard.onKeyboardShow().subscribe((data)=>{
-      this.inputMessage.setFocus();
-    })
   }
 
 }
