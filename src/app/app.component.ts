@@ -8,6 +8,7 @@ import { FavorisPage } from '../pages/favoris/favoris';
 import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
 import { SpotPage } from '../pages/spot/spot';
 import { FCM } from '@ionic-native/fcm';
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
@@ -37,7 +38,8 @@ export class MyApp {
               public auth: AuthProvider,
               public userProviser: UserProvider,
               public loadingCtrl: LoadingController,
-              private fcm: FCM,
+              public fcm: FCM,
+              public push: Push,
               private translate: TranslateService) {   
                 
       this.initTranslate();
@@ -72,7 +74,7 @@ export class MyApp {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString("#0091D4");
       this.splashScreen.hide();
-
+      this.pushsetup();
 
       if(this.platform.is('cordova')){
         this.fcm.onNotification().subscribe(data=>{
@@ -89,6 +91,31 @@ export class MyApp {
       }
       
     });
+  }
+
+  pushsetup(){
+    const options: PushOptions ={
+  
+      android: {
+      
+      },
+      ios: {
+    
+        alert: "true",
+        badge: true,
+        sound: 'false'
+      },
+      windows: {}
+    };
+
+    const pushObject: PushObject = this.push.init(options);
+
+    pushObject.on('notification').subscribe((notification: any) => alert('Received a notification'+ notification));
+
+    pushObject.on('registration').subscribe((registration: any) => alert('Device registered' + registration));
+
+    pushObject.on('error').subscribe((error: any) => alert('Error with push plugin' + error));
+    
   }
 
   initTranslate() {

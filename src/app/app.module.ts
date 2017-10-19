@@ -18,6 +18,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { Facebook } from '@ionic-native/facebook';
 import { PhotoLibrary } from '@ionic-native/photo-library';
 import { FCM } from '@ionic-native/fcm';
+import { Push } from '@ionic-native/push';
 
 // MY COMPONENT
 import {MyLoaderComponent} from '../components/my-loader/my-loader'
@@ -137,6 +138,7 @@ export function createTranslateLoader(http: HttpClient) {
     Facebook,
     PhotoLibrary,
     FCM,
+    Push,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,
