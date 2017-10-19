@@ -57,13 +57,22 @@ facebookLogin(){
     provider.addScope('email');
     provider.addScope('public_profile');
     return this.afAuth.auth.signInWithPopup(provider).then((credential) => {
+
       const data: User = {
         uid:credential.user.uid,
         email:credential.user.email,
         displayName: credential.user.displayName,
         photoURL: credential.user.photoURL
       }
-      this.updateUserData(data);
+      const getUser = this.getUser(data.uid).valueChanges().subscribe(user => {
+          if(user){
+            data.token = user.token;
+          }
+          this.updateUserData(data);
+          getUser.unsubscribe();
+      });
+
+
     })
   }
 
@@ -82,14 +91,14 @@ facebookLogin(){
             photoURL: profile['picture_small']['data']['url'],
             firstName: profile['first_name']
           }
-          if (this.platform.is('cordova')) {
-            this.fcm.getToken().then(token=>{
-              data.token = token;
-              this.updateUserData(data);
-            })
-          }else{
-            this.updateUserData(data);
-          }
+            const getUser = this.getUser(data.uid).valueChanges().subscribe(user => {
+              this.fcm.getToken().then(token=>{
+                data.token = token;
+                this.updateUserData(data);
+                getUser.unsubscribe();
+              })
+          });
+          
         });
       }
     });
@@ -100,6 +109,10 @@ facebookLogin(){
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
     return userRef.set(user);
+  }
+
+  private getUser(userUid):AngularFirestoreDocument<User>{
+    return this.afs.doc(`users/${userUid}`);
   }
 
   logout() {

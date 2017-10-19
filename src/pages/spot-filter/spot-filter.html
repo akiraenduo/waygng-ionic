@@ -16,7 +16,7 @@
 
 <ion-content class="bacground-light"> 
 
-    <my-loader *ngIf="loading"></my-loader>    
+  <my-loader *ngIf="loading"></my-loader>
 
   <ion-list *ngIf="!hashtagKeySelected">
       <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">

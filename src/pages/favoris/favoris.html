@@ -10,7 +10,7 @@
 
 <ion-content padding>
 
-    <div *ngIf="auth.user | async; then authenticated else guest">  </div>
+    <div *ngIf="userUid; then authenticated else guest">  </div>
 
     <ng-template #guest>
         <ion-row  class="warning-container">

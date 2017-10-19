@@ -15,7 +15,14 @@
 
 <ion-content class="bacground-light">
 
-    <div *ngIf="auth.user | async; then authenticated else guest">  </div>
+    <div *ngIf="userUid; then authenticated else guest">  </div>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingText="Pull to refresh..."
+            refreshingText="Refreshing...">
+          </ion-refresher-content>
+    </ion-refresher>
 
     <ng-template #guest>
         <ion-row class="warning-container">
@@ -26,16 +33,7 @@
     </ng-template>
 
     <ng-template #authenticated>
-
-        <ion-refresher (ionRefresh)="doRefresh($event)">
-            <ion-refresher-content
-            pullingText="Pull to refresh..."
-            refreshingText="Refreshing...">
-          </ion-refresher-content>
-        </ion-refresher>
-
        
-
         <my-loader *ngIf="searchSpots"></my-loader>
         
         <ion-row *ngIf="(spots)?.length==0 && (searchSpots) == false" class="warning-container">
