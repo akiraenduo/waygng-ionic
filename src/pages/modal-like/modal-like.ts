@@ -19,7 +19,7 @@ export class ModalLikePage {
 
   usersUid: string[];
   users: any;
-  likers: any;
+  likers: Array<any[]>;
   subscription: Subscription;
 
   constructor(public viewCtrl: ViewController,

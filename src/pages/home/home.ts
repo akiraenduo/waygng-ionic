@@ -10,6 +10,7 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class HomePage {
   searchModel: string;
   userUid: any;
   isInfavoris: any;
+  subscription: Subscription;
 
 
   constructor(public navCtrl: NavController, 
@@ -46,12 +48,18 @@ export class HomePage {
 
   }
 
+  ionViewWillLeave() {
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
+  }
+
   ionViewDidLoad() {
     this.isInfavoris = false;
     const userAuth = this.auth.user.subscribe(user => {
       if (user && this.station) {
         this.userUid = user.uid;
-          this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
+        this.subscription = this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
             snapshot.forEach(station => {
              if(station && station["name"]){
                 this.isInfavoris = true;

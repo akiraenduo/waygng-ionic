@@ -23,12 +23,12 @@
 
     <ng-template #authenticated>
 
-        <ion-row *ngIf="(favoris | async)?.length==0" class="warning-container">
+        <ion-row *ngIf="favoris?.length==0" class="warning-container">
             <ion-col col-12>
                 {{ 'WARNING.EMPTY_FAV' | translate }}
             </ion-col>
         </ion-row>
-        <button ion-item *ngFor="let fav of favoris | async"  (click)="itemSelected(fav)">
+        <button ion-item *ngFor="let fav of favoris"  (click)="itemSelected(fav)">
             <ion-label>{{fav.name}}</ion-label>
             <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon color="danger" name="md-trash"></ion-icon></button>
         </button>

@@ -68,7 +68,9 @@ export class SpotFilterPage {
   }
 
   ionViewWillLeave() {
-    this.subscription.unsubscribe();
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
   }
 
   getHistoryHashtags(userUid:string){

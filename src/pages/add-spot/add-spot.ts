@@ -7,8 +7,8 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import * as _ from 'lodash';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SpotPage } from '../spot/spot';
-import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -27,7 +27,10 @@ export class AddSpotPage {
   isAnonyme:boolean = false;;
   message:string;
   spot: Spot;
-  hashtags: Observable<any>;
+  hashtags: Array<any[]>;
+  loading:boolean;
+  subscription: Subscription;
+
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -49,6 +52,12 @@ export class AddSpotPage {
 
   }
 
+  ionViewWillLeave() {
+    if(this.subscription){
+      this.subscription.unsubscribe();      
+    }
+  }
+
   addSpot(){
     this.spot.message = this.message;
     this.spot.anonyme = this.isAnonyme;
@@ -61,7 +70,11 @@ export class AddSpotPage {
     if(value.length > 0){
      let hashtagList = this.parseHashtagList(value);
      if(hashtagList.length > 0 && _.endsWith(value, hashtagList[hashtagList.length-1])){
-      this.hashtags = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]).valueChanges();
+      this.loading = true;
+      this.subscription = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]).valueChanges().subscribe((hashtags) => {
+        this.hashtags = hashtags;
+        this.loading = false
+      });
      }
     }
   }

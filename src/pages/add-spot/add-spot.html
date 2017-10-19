@@ -38,7 +38,8 @@
   <ion-list-header>
       <b>#</b> {{ 'SUGGESTIONS_HASHTAGS' | translate }}
     </ion-list-header>
-  <button ion-item *ngFor="let tag of hashtags | async" (click)="hashtagSelected(tag)">
+    <my-loader *ngIf="loading"></my-loader>
+  <button ion-item *ngFor="let tag of hashtags" (click)="hashtagSelected(tag)">
       <ion-label>{{tag.name}}</ion-label>
   </button>
 </ion-list>
