@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import * as _ from 'lodash'
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 /**
  * Generated class for the ModalLikePage page.
@@ -18,28 +17,36 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class ModalLikePage {
 
   usersUid: string[];
-  likers= new BehaviorSubject([]);
+  users: any;
+  likers: any;
+  fetchUser: any;
 
   constructor(public viewCtrl: ViewController,
               public params: NavParams,
               public userProvider: UserProvider) {
 
               this.usersUid = params.get('usersUid');
-              this.userProvider.fetchUsers().valueChanges().do(items => {
-                if(items.length > 0){
-                  let res = [];
-                  items.map(item => {
-                    const index = _.indexOf(this.usersUid ,item["uid"]);
-                    if(index >= 0){
-                      res.push(item);
-                    }
-                  });
-                  this.likers.next(res);
-                }
-              }).subscribe();
+
+           this.fetchUser = this.userProvider.fetchUsers().valueChanges().subscribe(users => {
+                this.users = users;
+                this.applyFilters();
+              })
+
   }
 
+  private applyFilters() {
+    var self = this;
+   this.likers = _.filter(this.users, function(user) {
+       const index = _.indexOf(self.usersUid ,user.uid);
+       if(index >= 0){
+          return true; 
+       }
+       return false;
+    });
+  }
+ 
   dismiss() {
+    this.fetchUser.unsubscribe();
     this.viewCtrl.dismiss();
   }
 

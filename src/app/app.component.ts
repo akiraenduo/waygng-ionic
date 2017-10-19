@@ -25,6 +25,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
+  user:any;
 
   pages: Array<{title: string,icon: string, component: any}>;
 
@@ -44,9 +45,11 @@ export class MyApp {
 
       this.auth.user.subscribe(user => {
         if(user){
+          this.user = user;
           this.rootPage = FavorisPage;
           this.menu.close();
         }else{
+          this.user = null;
           this.rootPage = HomePage;
         }
       });        

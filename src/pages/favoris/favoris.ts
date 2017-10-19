@@ -27,7 +27,7 @@ export class FavorisPage {
 
   ionViewDidLoad() {
     this.loading = true;
-    this.auth.user.subscribe(user => {
+    const userAuth = this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
         this.favoris = this.favorisProvider.getFavorisList(user.uid).valueChanges();
@@ -36,6 +36,7 @@ export class FavorisPage {
         this.favoris = null;
         this.loading = false;
       }
+      userAuth.unsubscribe();
     });
   } 
 

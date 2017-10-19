@@ -1,9 +1,9 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <div *ngIf="auth.user | async; then authenticated else guest">  </div>
+      <div *ngIf="user; then authenticated else guest">  </div>
         <ng-template #authenticated>
-            <ion-item *ngIf="auth.user | async as user" color="blue" class="item-inner-without-border">
+            <ion-item *ngIf="user" color="blue" class="item-inner-without-border">
                 <ion-avatar item-start>
                     <img [src]="user.photoURL" />
                   </ion-avatar>

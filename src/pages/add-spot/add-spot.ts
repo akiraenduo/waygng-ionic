@@ -36,10 +36,11 @@ export class AddSpotPage {
               public auth: AuthProvider,
               public Keyboard: Keyboard) {
 
-              this.auth.user.subscribe(user => {
+                const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
                   this.spot = new Spot(null,user.uid,user.displayName,user.photoURL,new Date().getTime());
                 }
+                userAuth.unsubscribe();
               });
                
   }

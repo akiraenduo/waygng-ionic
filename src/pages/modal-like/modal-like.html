@@ -11,7 +11,7 @@
   <ion-content padding>
 
   <ion-list>
-    <ion-item *ngFor="let liker of likers | async">
+    <ion-item *ngFor="let liker of likers">
       <ion-avatar item-start>
         <img [src]="liker.photoURL" />
       </ion-avatar>

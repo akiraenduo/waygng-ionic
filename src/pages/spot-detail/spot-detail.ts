@@ -32,11 +32,12 @@ export class SpotDetailPage {
 
               let spotKey = navParams.get("spotKey");
 
-              this.auth.user.subscribe(user => {
+             const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
                   this.userUid = user.uid;
                   this.spot = spotProvider.getSpot(spotKey).valueChanges();
                 }
+                userAuth.unsubscribe();
               });
 
     }

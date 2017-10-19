@@ -30,7 +30,6 @@ import { ModalLikePage } from '../modal-like/modal-like';
 export class SpotPage {
 
   searchSpots: any;
-  filter:string;
   spots = new BehaviorSubject([]);
   batch = 15        // size of each query
   lastDate = ''      // key to offset next query from
@@ -44,16 +43,16 @@ export class SpotPage {
               public auth: AuthProvider,
               public modalCtrl: ModalController) {
 
-    this.filter = navParams.get("filter");                  
     this.searchSpots = true;
 
-    this.auth.user.subscribe(user => {
+    const userAuth = this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
           this.getSpots(null,null);
       }else{
         this.userUid = null;
       }
+      userAuth.unsubscribe();
     });
   }
 

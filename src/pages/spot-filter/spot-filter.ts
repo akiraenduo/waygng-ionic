@@ -47,7 +47,7 @@ export class SpotFilterPage {
               private auth: AuthProvider) {
 
                 this.loading = true;
-                this.auth.user.subscribe(user => {
+                const userAuth = this.auth.user.subscribe(user => {
                   if (user) {
                     this.userUid = user.uid;
                     this.isHistorySearch = true;
@@ -55,6 +55,7 @@ export class SpotFilterPage {
                   }else{
                     this.userUid = null;
                   }
+                  userAuth.unsubscribe();
                 });
                 this.doFocus();
                 

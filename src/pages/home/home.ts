@@ -48,7 +48,7 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.isInfavoris = false;
-    this.auth.user.subscribe(user => {
+    const userAuth = this.auth.user.subscribe(user => {
       if (user && this.station) {
         this.userUid = user.uid;
           this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
@@ -61,6 +61,7 @@ export class HomePage {
       }else{
         this.userUid = null;
       }
+      userAuth.unsubscribe();
     });
       
   
