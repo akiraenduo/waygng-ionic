@@ -10,17 +10,31 @@
 
 <ion-content padding>
 
-  <div *ngIf="auth.user | async as user">
-    <ion-avatar item-start>
-      <img [src]="user.photoURL" />
-    </ion-avatar>
+  <div *ngIf="user">
+      <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+                <ion-avatar item-start>
+                    <img [src]="user.photoURL" />
+                  </ion-avatar>
+            </ion-col>
+            <ion-col col-6>
+                <button ion-button full color="danger" round (click)="logout()">
+                    {{ 'SIGN_OUT' | translate }}
+                </button>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+
 
     <ion-list padding>
 
       <ion-item>
         <ion-icon item-start name="ios-contact-outline"></ion-icon>
         <ion-label floating>{{ 'NAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="user.displayName"></ion-input>
+        <ion-input readonly type="text" [(ngModel)]="user.displayName"></ion-input>
       </ion-item>
 
       <ion-item>
@@ -30,11 +44,51 @@
       </ion-item>
     </ion-list>
 
-    <ion-footer no-shadow>
-      <button ion-button item-end full color="danger" (click)="logout()">
-          {{ 'SIGN_OUT' | translate }}
-      </button>
-    </ion-footer>
+    <ion-list>
+        <ion-list-header color="light">
+            {{ 'MY_SPOTS' | translate }}
+          </ion-list-header>
+          <my-loader *ngIf="loading"></my-loader>
+    <ion-card *ngFor="let spot of mySpots">
+        
+          <ion-item (tap)="goDetailSpot(spot)">
+            <ion-avatar *ngIf="!spot.anonyme" item-start>
+                <img [src]="(spot.userPicture)" />
+            </ion-avatar>
+            <ion-avatar *ngIf="spot.anonyme" item-start>
+                <ion-icon class="icon-size" name="contact"></ion-icon>
+            </ion-avatar>
+
+            <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
+            <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
+            <p>{{spot.dateUpdate | formatDate}}</p>  
+          </ion-item>
+    
+        
+          <ion-card-content (tap)="goDetailSpot(spot)">
+            <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
+          </ion-card-content>
+        
+          <ion-row class="padding-left">
+            <ion-col>
+              <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-left clear small>
+                <ion-icon [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
+            </button> 
+            <button class="button-padding" (click)="openModalLike(spot)" ion-button icon-left clear small>
+                <div>{{spot.likes | formatLikes}}  Likes</div>
+            </button>
+            </ion-col>
+            <ion-col> 
+                <ion-item>
+                    <button (click)="openModalLike(spot)"  ion-button item-end icon-left clear small>
+                        <ion-icon name="text"></ion-icon>
+                        <div>4 Comments</div>
+                    </button>
+                </ion-item> 
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-list>
   </div>
 
 </ion-content>

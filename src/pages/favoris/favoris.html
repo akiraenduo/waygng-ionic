@@ -28,6 +28,7 @@
                 {{ 'WARNING.EMPTY_FAV' | translate }}
             </ion-col>
         </ion-row>
+        <my-loader *ngIf="loading"></my-loader>
         <button ion-item *ngFor="let fav of favoris"  (click)="itemSelected(fav)">
             <ion-label>{{fav.name}}</ion-label>
             <button ion-button outline clear large item-end (click)="removeFavoris(fav,$event)"><ion-icon color="danger" name="md-trash"></ion-icon></button>

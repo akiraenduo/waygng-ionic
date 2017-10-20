@@ -28,5 +28,6 @@
     "SUGGESTIONS_HASHTAGS":"Suggestion hashtags",
     "NAME":"Nom",
     "EMAIL":"Email",
-    "SIGN_OUT":"Déconnexion"
+    "SIGN_OUT":"Déconnexion",
+    "MY_SPOTS": "Mes spots"
 }
