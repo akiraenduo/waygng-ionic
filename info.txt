@@ -1,6 +1,6 @@
 Node version: v6.11.2
 
-Cordova version: 7.0.1
+Cordova version: 7.1.0
 
 Config.xml file: 
 
@@ -18,6 +18,8 @@ Config.xml file:
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#0091D4" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -83,33 +85,31 @@ Config.xml file:
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
+        <resource-file src="GoogleService-Info.plist" />
     </platform>
     <allow-navigation href="http://192.168.1.15:8100" />
-    <engine name="browser" spec="^4.1.0" />
-    <plugin name="cordova-plugin-console" spec="^1.1.0" />
-    <plugin name="cordova-plugin-device" spec="^1.1.6" />
+    <engine name="ios" spec="4.5.2" />
+    <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
         <variable name="APP_ID" value="1908797892781809" />
         <variable name="APP_NAME" value="ginkoSpotted" />
     </plugin>
-    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
-    <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
-    <plugin name="cordova-plugin-photo-library" spec="^2.1.0">
-        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
-    </plugin>
+    <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
-    <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
+    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
+    <plugin name="phonegap-plugin-push" spec="^2.1.0">
+        <variable name="SENDER_ID" value="472855009289" />
+    </plugin>
 </widget>
 
 
 Plugins: 
 
-cordova-plugin-add-swift-support,cordova-plugin-app-event,cordova-plugin-compat,cordova-plugin-console,cordova-plugin-device,cordova-plugin-facebook4,cordova-plugin-fcm,cordova-plugin-file,cordova-plugin-geolocation,cordova-plugin-photo-library,cordova-plugin-splashscreen,cordova-plugin-statusbar,cordova-plugin-whitelist,de.appplant.cordova.plugin.local-notification,ionic-plugin-keyboard
-
-
+com.googlemaps.ios,cordova-plugin-add-swift-support,cordova-plugin-app-event,cordova-plugin-compat,cordova-plugin-device,cordova-plugin-facebook4,cordova-plugin-fcm,cordova-plugin-geolocation,cordova-plugin-splashscreen,cordova-plugin-statusbar,cordova-plugin-whitelist,de.appplant.cordova.plugin.local-notification,ionic-plugin-keyboard,phonegap-plugin-push
 
 iOS platform:
 

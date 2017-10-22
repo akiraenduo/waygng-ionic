@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, LoadingController } from 'ionic-angular';
+import { Nav, Platform, MenuController, LoadingController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -8,13 +8,14 @@ import { FavorisPage } from '../pages/favoris/favoris';
 import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
 import { SpotPage } from '../pages/spot/spot';
 import { FCM } from '@ionic-native/fcm';
-import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/userProvider';
 import { ProfilePage } from '../pages/profile/profile';
 import { TranslateService } from '@ngx-translate/core';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Badge } from '@ionic-native/badge';
 
 
 
@@ -39,10 +40,13 @@ export class MyApp {
               public userProviser: UserProvider,
               public loadingCtrl: LoadingController,
               public fcm: FCM,
-              public push: Push,
+              public alertCtrl: AlertController, 
+              public localNotifications: LocalNotifications,
+              private badge: Badge,
               private translate: TranslateService) {   
                 
       this.initTranslate();
+      this.initializeApp();
       moment.locale('fr-fr');
 
       this.auth.user.subscribe(user => {
@@ -54,7 +58,8 @@ export class MyApp {
           this.user = null;
           this.rootPage = HomePage;
         }
-      });        
+      }); 
+      
 
       this.translate.get('MENU').subscribe((menu) => {
         this.pages = [
@@ -74,48 +79,26 @@ export class MyApp {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString("#0091D4");
       this.splashScreen.hide();
-      this.pushsetup();
 
       if(this.platform.is('cordova')){
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
-            alert( JSON.stringify(data));
+            this.badge.clear();
+
           } else {
-            alert( JSON.stringify(data));
+
+            const alert = this.alertCtrl.create({
+              title: 'New notification 2',
+              subTitle: JSON.stringify(data)
+            });
+            alert.present();
+
           };
         })
-    
-        this.fcm.onTokenRefresh().subscribe(token=>{
-          alert( JSON.stringify(token));
-        })
+        
       }
       
     });
-  }
-
-  pushsetup(){
-    const options: PushOptions ={
-  
-      android: {
-      
-      },
-      ios: {
-    
-        alert: "true",
-        badge: true,
-        sound: 'false'
-      },
-      windows: {}
-    };
-
-    const pushObject: PushObject = this.push.init(options);
-
-    pushObject.on('notification').subscribe((notification: any) => alert('Received a notification'+ notification));
-
-    pushObject.on('registration').subscribe((registration: any) => alert('Device registered' + registration));
-
-    pushObject.on('error').subscribe((error: any) => alert('Error with push plugin' + error));
-    
   }
 
   initTranslate() {

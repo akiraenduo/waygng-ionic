@@ -83,7 +83,6 @@ facebookLogin(){
     .then((response) => {
       if(response && response.status == 'connected'){
         return this.fb.api('me?fields=id,name,email,first_name,picture.width(100).height(100).as(picture_small)', []).then(profile => {
-
           const data: User = {
             uid:uid,
             email:profile['email'],

@@ -82,12 +82,12 @@
         <resource-file src="GoogleService-Info.plist" />
     </platform>
     <allow-navigation href="http://192.168.1.15:8100" />
+    <engine name="ios" spec="4.5.2" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
         <variable name="APP_ID" value="1908797892781809" />
         <variable name="APP_NAME" value="ginkoSpotted" />
     </plugin>
-    <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.3" />
@@ -95,6 +95,5 @@
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="de.appplant.cordova.plugin.local-notification" spec="^0.8.5" />
     <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
-    <engine name="ios" spec="~4.5.2" />
-    <plugin name="phonegap-plugin-push" spec="^2.0.0" />
+    <plugin name="cordova-plugin-badge" spec="^0.8.4" />
 </widget>
