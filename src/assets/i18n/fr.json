@@ -33,5 +33,6 @@
     "NAME":"Nom",
     "EMAIL":"Email",
     "SIGN_OUT":"Déconnexion",
-    "MY_SPOTS": "Mes spots"
+    "MY_SPOTS": "Mes spots",
+    "NOTIF_LIKE_SPOT": "a aimé votre spot"
 }

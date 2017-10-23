@@ -35,9 +35,9 @@
                         <ion-avatar item-start>
                                 <img [src]="(notif?.userLikePhoto)" />
                         </ion-avatar>
-                        <h3> <b>{{ notif?.userLikerName  }}</b> a aimé votre spot</h3>
+                        <h3> <b>{{ notif?.userLikerName  }}</b>{{ 'NOTIF_LIKE_SPOT' | translate }}</h3>
                     </ion-item>
-                        
+                    
                     <ion-card-content>
                         <p>{{notif.dateUpdate | formatDate:'calendar'}}</p>  
                     </ion-card-content>
