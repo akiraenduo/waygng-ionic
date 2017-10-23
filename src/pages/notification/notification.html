@@ -30,7 +30,7 @@
             </ion-row>
             <my-loader *ngIf="loading"></my-loader>
             <ion-card  *ngFor="let notif of notifications">
-                <div id="{{notif.spotUid}}" (click)="goDetailSpot($event)">    
+                <div (click)="goDetailSpot(notif)">    
                     <ion-item>
                         <ion-avatar item-start>
                                 <img [src]="(notif?.userLikePhoto)" />

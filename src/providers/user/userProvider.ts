@@ -47,5 +47,9 @@ export class UserProvider {
     return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.orderBy('dateUpdate','desc'));
   }
 
+  removeNotification(userUid:string, notifId:string){
+    this.afs.doc('/users/'+userUid+'/notifications/'+notifId).delete();
+  }
+
 
 }

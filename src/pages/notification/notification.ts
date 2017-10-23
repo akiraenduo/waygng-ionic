@@ -28,20 +28,30 @@ export class NotificationPage {
               public auth: AuthProvider,
               public userProvider: UserProvider) {
 
-                this.loading = true;
-                const userAuth = this.auth.user.subscribe(user => {
-                  if (user) {
-                    this.userUid = user.uid;
-                    this.subscription = this.userProvider.getNotifications(user.uid).valueChanges().subscribe((notifications) => {
-                      this.notifications = notifications;
-                      this.loading = false
-                    }) 
-                  }else{
-                    this.notifications = null;
-                    this.loading = false;
-                  }
-                  userAuth.unsubscribe();
-                });
+                
+  }
+
+  ionViewWillEnter() {
+    this.loading = true;
+    const userAuth = this.auth.user.subscribe(user => {
+      if (user) {
+        this.userUid = user.uid;
+        this.subscription = this.userProvider.getNotifications(user.uid).snapshotChanges().map(notifications => {
+          return notifications.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+            })
+          }).subscribe((notifications) => {
+          this.notifications = notifications;
+          this.loading = false
+        }) 
+      }else{
+        this.notifications = null;
+        this.loading = false;
+      }
+      userAuth.unsubscribe();
+    });
   }
 
   ionViewWillLeave() {
@@ -50,9 +60,9 @@ export class NotificationPage {
     }
   }
 
-  goDetailSpot(event){
-    let spotId = event.currentTarget.id;
-    this.navCtrl.push('SpotDetailPage', {spotKey : spotId});
+  goDetailSpot(notif){
+    this.userProvider.removeNotification(this.userUid,notif.id);
+    this.navCtrl.push('SpotDetailPage', {spotKey : notif.spotUid});
   }
 
 }

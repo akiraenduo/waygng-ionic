@@ -24,6 +24,7 @@ export class MyApp {
 
   rootPage: any = 'HomePage';
   user:any;
+  notifications:any;
 
   pages: Array<{title: string,icon: string, component: any}>;
 
@@ -47,6 +48,7 @@ export class MyApp {
 
       this.auth.user.subscribe(user => {
         if(user){
+          this.notifications = this.userProviser.getNotifications(user.uid).valueChanges();
           this.user = user;
           this.rootPage = 'FavorisPage';
           this.menu.close();
@@ -58,6 +60,7 @@ export class MyApp {
       
 
       this.translate.get('MENU').subscribe((menu) => {
+
         this.pages = [
           { title: menu.TIMETABLE, icon:'md-alarm', component: 'HomePage' },
           { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
