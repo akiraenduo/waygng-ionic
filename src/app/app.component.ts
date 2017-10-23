@@ -3,20 +3,15 @@ import { Nav, Platform, MenuController, LoadingController, AlertController } fro
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
-import { FavorisPage } from '../pages/favoris/favoris';
-import { InfosTraficPage } from '../pages/infos-trafic/infos-trafic';
-import { SpotPage } from '../pages/spot/spot';
 import { FCM } from '@ionic-native/fcm';
 
 import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/userProvider';
-import { ProfilePage } from '../pages/profile/profile';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
-import { SpotDetailPage } from '../pages/spot-detail/spot-detail';
+
 
 
 
@@ -27,7 +22,7 @@ import { SpotDetailPage } from '../pages/spot-detail/spot-detail';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = 'HomePage';
   user:any;
 
   pages: Array<{title: string,icon: string, component: any}>;
@@ -53,21 +48,22 @@ export class MyApp {
       this.auth.user.subscribe(user => {
         if(user){
           this.user = user;
-          this.rootPage = FavorisPage;
+          this.rootPage = 'FavorisPage';
           this.menu.close();
         }else{
           this.user = null;
-          this.rootPage = HomePage;
+          this.rootPage = 'HomePage';
         }
       }); 
       
 
       this.translate.get('MENU').subscribe((menu) => {
         this.pages = [
-          { title: menu.TIMETABLE, icon:'md-alarm', component: HomePage },
-          { title: menu.TRAFFIC_INFO, icon:'information-circle', component: InfosTraficPage },
-          { title: menu.FAVORIS, icon:'star', component: FavorisPage },
-          { title: menu.SPOTS, icon:'md-eye', component: SpotPage }
+          { title: menu.TIMETABLE, icon:'md-alarm', component: 'HomePage' },
+          { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
+          { title: menu.FAVORIS, icon:'star', component: 'FavorisPage' },
+          { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },
+          { title: menu.NOTIFICATIONS, icon:'md-notifications', component: 'NotificationPage' },
         ];
   })
 
@@ -85,7 +81,7 @@ export class MyApp {
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
             this.badge.clear();
-           this.nav.push(SpotDetailPage, {spotKey : data.spotUid});
+           this.nav.push('SpotDetailPage', {spotKey : data.spotUid});
           } else {
 
             const alert = this.alertCtrl.create({
@@ -121,7 +117,7 @@ export class MyApp {
 
   goProfile(){
     this.menu.close();
-    this.nav.push(ProfilePage);
+    this.nav.push('ProfilePage');
   }
 
   presentLoading() {

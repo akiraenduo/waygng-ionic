@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { HomePage } from '../home/home';
+import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 
+@IonicPage()
 @Component({
   selector: 'page-favoris',
   templateUrl: 'favoris.html',
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class FavorisPage {
 
   loading: any;
-  favoris: Array<any[]>;
+  favoris: Array<any>;
   userUid: any;
   subscription: Subscription;
 
@@ -21,10 +21,6 @@ export class FavorisPage {
               public favorisProvider: FavorisProvider,
               private auth: AuthProvider) {
 
-    this.favoris = null;
-  }
-
-  ionViewDidLoad() {
     this.loading = true;
     const userAuth = this.auth.user.subscribe(user => {
       if (user) {
@@ -39,7 +35,7 @@ export class FavorisPage {
       }
       userAuth.unsubscribe();
     });
-  } 
+  }
 
   ionViewWillLeave() {
     if(this.subscription){
@@ -48,7 +44,7 @@ export class FavorisPage {
   }
 
   itemSelected(station){
-    this.navCtrl.push(HomePage, {
+    this.navCtrl.push('HomePage', {
       station:station
     });
   }

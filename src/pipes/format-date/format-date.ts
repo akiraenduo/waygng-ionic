@@ -14,12 +14,17 @@ export class FormatDatePipe implements PipeTransform {
   /**
    * Takes a value and makes it lowercase.
    */
-  transform(timestamp: number, ...args) {
+  transform(timestamp: number, mode:String) {
     if(timestamp){
       let timestampStr = timestamp.toString().replace("-","");
       timestamp = Number(timestampStr);
       var day = moment(timestamp);
-      return day.fromNow();
+      if(mode == "relative"){
+        return day.fromNow();
+      }else if(mode == "calendar"){
+        return day.calendar();
+      }
+
     }
   }
 }

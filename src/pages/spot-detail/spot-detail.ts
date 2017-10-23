@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AuthProvider } from '../../providers/auth/auth';
-import { ModalLikePage } from '../modal-like/modal-like';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash'
 
@@ -12,7 +11,7 @@ import * as _ from 'lodash'
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-
+@IonicPage()
 @Component({
   selector: 'page-spot-detail',
   templateUrl: 'spot-detail.html',
@@ -69,7 +68,7 @@ export class SpotDetailPage {
   }
 
   openModalLike(spot) {
-    let myModal = this.modalCtrl.create(ModalLikePage, { 'usersUid': spot.likes });
+    let myModal = this.modalCtrl.create('ModalLikePage', { 'usersUid': spot.likes });
     myModal.present();
   }
 

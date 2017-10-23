@@ -21,33 +21,10 @@ import { FCM } from '@ionic-native/fcm';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
 
-// MY COMPONENT
-import {MyLoaderComponent} from '../components/my-loader/my-loader'
-
-//PIPE
-import {RemoveDuplicateStationPipe} from '../pipes/remove-duplicate-station/remove-duplicate-station';
-import {CalculateDistancePipe} from '../pipes/calculate-distance/calculate-distance';
-import {ShowTwoTimePipe} from '../pipes/show-two-time/show-two-time';
-import {SafeHtmlPipe} from '../pipes/safe-html/safe-html';
-import {FormatDatePipe} from '../pipes/format-date/format-date';
-import {FormatHashtagPipe} from '../pipes/format-hashtag/format-hashtag';
-import {FormatLikesPipe} from '../pipes/format-likes/format-likes';
-import {FormatLikeIconPipe} from '../pipes/format-like-icon/format-like-icon';
-
 // PAGE
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { FavorisPage } from '../pages/favoris/favoris';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
-import {StationSearchPage} from '../pages/station-search/station-search';
-import {InfosTraficPage} from '../pages/infos-trafic/infos-trafic';
-import {ProfilePage} from '../pages/profile/profile';
-import {SpotPage} from '../pages/spot/spot';
-import {AddSpotPage} from '../pages/add-spot/add-spot';
-import {SpotFilterPage} from '../pages/spot-filter/spot-filter';
-import {SpotDetailPage} from '../pages/spot-detail/spot-detail';
-import {ModalLikePage} from '../pages/modal-like/modal-like';
 
 //PROVIDER
 import { AuthProvider } from '../providers/auth/auth';
@@ -71,27 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     MyApp,
-    MyLoaderComponent,
-    HomePage,
-    FavorisPage,
     LoginPage,
-    RegisterPage,
-    StationSearchPage,
-    InfosTraficPage,
-    ProfilePage,
-    SpotPage,
-    AddSpotPage,
-    SpotFilterPage,
-    SpotDetailPage,
-    ModalLikePage,
-    RemoveDuplicateStationPipe,
-    CalculateDistancePipe,
-    ShowTwoTimePipe,
-    SafeHtmlPipe,
-    FormatDatePipe,
-    FormatHashtagPipe,
-    FormatLikesPipe,
-    FormatLikeIconPipe
+    RegisterPage
   ],
   imports: [
     HttpModule,
@@ -118,18 +76,8 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    FavorisPage,
     LoginPage,
-    RegisterPage,
-    StationSearchPage,
-    InfosTraficPage,
-    ProfilePage,
-    SpotPage,
-    AddSpotPage,
-    SpotFilterPage,
-    SpotDetailPage,
-    ModalLikePage
+    RegisterPage
   ],
   providers: [
     StatusBar,

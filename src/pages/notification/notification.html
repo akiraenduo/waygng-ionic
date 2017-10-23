@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar color="blue" hideBackButton>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>{{ 'TITLE.NOTIFICATIONS' | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+<ion-content padding>
+
+    <div *ngIf="userUid; then authenticated else guest">  </div>
+    
+        <ng-template #guest>
+            <ion-row  class="warning-container">
+                <ion-col col-12>
+                    {{ 'WARNING.NOT_CONNECTED_NOTIF' | translate }}
+                </ion-col>
+            </ion-row>
+    
+        </ng-template>
+    
+        <ng-template #authenticated>
+    
+            <ion-row *ngIf="notifications?.length==0" class="warning-container">
+                <ion-col col-12>
+                    {{ 'WARNING.EMPTY_NOTIF' | translate }}
+                </ion-col>
+            </ion-row>
+            <my-loader *ngIf="loading"></my-loader>
+            <ion-card  *ngFor="let notif of notifications">
+                <div id="{{notif.spotUid}}" (click)="goDetailSpot($event)">    
+                    <ion-item>
+                        <ion-avatar item-start>
+                                <img [src]="(notif?.userLikePhoto)" />
+                        </ion-avatar>
+                        <h3> <b>{{ notif?.userLikerName  }}</b> a aimé votre spot</h3>
+                    </ion-item>
+                        
+                    <ion-card-content>
+                        <p>{{notif.dateUpdate | formatDate:'calendar'}}</p>  
+                    </ion-card-content>
+                </div>     
+            </ion-card>   
+        </ng-template>
+
+</ion-content>

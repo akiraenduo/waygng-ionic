@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
-import { AddSpotPage } from '../add-spot/add-spot';
+import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import { SpotDetailPage } from '../spot-detail/spot-detail';
-import { SpotFilterPage } from '../spot-filter/spot-filter';
 import { AuthProvider } from '../../providers/auth/auth';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
 
 import * as _ from 'lodash'
-import { ModalLikePage } from '../modal-like/modal-like';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -24,6 +20,7 @@ import { Subscription } from 'rxjs/Subscription';
  * on Ionic pages and navigation.
  */
  
+@IonicPage()
 @Component({
   selector: 'page-spot',
   templateUrl: 'spot.html',
@@ -77,7 +74,7 @@ export class SpotPage {
   }
 
   goDetailSpot(spot){
-    this.navCtrl.push(SpotDetailPage, {spotKey : spot.id});
+    this.navCtrl.push('SpotDetailPage', {spotKey : spot.id});
   }
 
   incrementLike(spot){
@@ -144,15 +141,15 @@ export class SpotPage {
 
 
   goFiltreSpot(){
-    this.navCtrl.push(SpotFilterPage);
+    this.navCtrl.push('SpotFilterPage');
   }
 
   goAddSpot(){
-    this.navCtrl.push(AddSpotPage);
+    this.navCtrl.push('AddSpotPage');
   }
 
   openModalLike(spot) {
-    let myModal = this.modalCtrl.create(ModalLikePage, { 'usersUid': spot.likes });
+    let myModal = this.modalCtrl.create('ModalLikePage', { 'usersUid': spot.likes });
     myModal.present();
   }
 

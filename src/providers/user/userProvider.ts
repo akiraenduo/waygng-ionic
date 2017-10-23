@@ -43,5 +43,9 @@ export class UserProvider {
     return this.afs.collection('/users/'+userUid+'/hashtagsHisto', ref => ref.orderBy('dateUpdate','desc'));
   }
 
+  getNotifications(userUid:string):AngularFirestoreCollection<any>{
+    return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.orderBy('dateUpdate','desc'));
+  }
+
 
 }

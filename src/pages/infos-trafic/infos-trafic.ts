@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { InfosTrafic } from '../../models/infosTrafic';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-
+@IonicPage()
 @Component({
   selector: 'page-infos-trafic',
   templateUrl: 'infos-trafic.html',

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, IonicPage } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
-
-import {StationSearchPage} from '../station-search/station-search';
 import { Station } from '../../models/station';
 import { TempsAttente } from '../../models/tempsattente';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
@@ -13,6 +11,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 
 
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -134,7 +133,7 @@ export class HomePage {
   }
 
   searchStation(){
-    this.navCtrl.push(StationSearchPage);
+    this.navCtrl.push('StationSearchPage');
   }
 
   doRefresh(refresher) {

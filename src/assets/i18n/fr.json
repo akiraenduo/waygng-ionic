@@ -7,21 +7,25 @@
         "SEND_SPOT": "Envoyé un spot",
         "THEY_LIKED": "Ils ont aimé",
         "PROFILE": "Profil",
-        "SPOT": "Spot"
+        "SPOT": "Spot",
+        "NOTIFICATIONS": "Notifications"
     },
 
     "MENU":{
         "TIMETABLE": "Horaires",
         "FAVORIS": "Favoris",
         "TRAFFIC_INFO": "Info trafic",
-        "SPOTS": "Spots"
+        "SPOTS": "Spots",
+        "NOTIFICATIONS": "Notifications"
     },
     "WARNING":{
         "NOT_CONNECTED_FAV":"Veuillez vous connecter pour accéder aux favoris",
         "EMPTY_FAV":"Aucune station en favoris",
         "NO_PLANNED_PASSAGE":"Aucun passage prévu à cette station dans l'heure qui vient",
         "NOT_CONNECTED_SPOT":"Veuillez vous connecter pour accéder aux spots",
-        "EMPTY_SPOT":"Aucun spot"
+        "EMPTY_SPOT":"Aucun spot",
+        "NOT_CONNECTED_NOTIF": "Veuillez vous connecter pour accéder aux notifications",
+        "EMPTY_NOTIF":"Aucune notification"
     },
     "ANONYME":"Anonyme",
     "MESSAGE":"Message",

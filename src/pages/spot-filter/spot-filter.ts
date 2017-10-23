@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 
@@ -9,7 +9,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as _ from 'lodash'
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
-import { SpotDetailPage } from '../spot-detail/spot-detail';
 import { Subscription } from 'rxjs/Subscription';
 
 /**
@@ -19,6 +18,7 @@ import { Subscription } from 'rxjs/Subscription';
  * on Ionic pages and navigation.
  */
 
+@IonicPage()
 @Component({
   selector: 'page-spot-filter',
   templateUrl: 'spot-filter.html',
@@ -191,7 +191,7 @@ export class SpotFilterPage {
 
   goDetailSpot(event){
     let spotId = event.currentTarget.id;
-    this.navCtrl.push(SpotDetailPage, {spotKey : spotId});
+    this.navCtrl.push('SpotDetailPage', {spotKey : spotId});
   }
 
   doFocus(){

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
 
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-
+@IonicPage()
 @Component({
   selector: 'page-station-search',
   templateUrl: 'station-search.html',

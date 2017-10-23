@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ViewController, IonicPage } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import * as _ from 'lodash'
 import { Subscription } from 'rxjs/Subscription';
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
+@IonicPage()
 @Component({
   selector: 'page-modal-like',
   templateUrl: 'modal-like.html',
