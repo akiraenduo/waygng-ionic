@@ -20,7 +20,7 @@ export class ProfilePage {
 
   loading: any;
   user:any;
-  mySpots:Array<any[]>;
+  mySpots:Array<any>;
   subscription: Subscription;
 
   constructor(public navCtrl: NavController, 

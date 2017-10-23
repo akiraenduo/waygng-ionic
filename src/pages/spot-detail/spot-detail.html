@@ -9,7 +9,9 @@
 
 <ion-content class="bacground-light">
 
-    <ion-card *ngIf="(spot | async) as spot">
+    <my-loader *ngIf="loading"></my-loader>
+
+    <ion-card *ngIf="spot">
         
           <ion-item>
             <ion-avatar *ngIf="!spot.anonyme" item-start>

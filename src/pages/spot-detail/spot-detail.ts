@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import { Observable } from 'rxjs/Observable';
 import { AuthProvider } from '../../providers/auth/auth';
 import { ModalLikePage } from '../modal-like/modal-like';
+import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash'
-
 
 /**
  * Generated class for the SpotDetailPage page.
@@ -20,8 +19,10 @@ import * as _ from 'lodash'
 })
 export class SpotDetailPage {
 
-  spot:Observable<any>;
+  spot:any;
   userUid: any;
+  subscription: Subscription;
+  loading:boolean;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -34,12 +35,22 @@ export class SpotDetailPage {
 
              const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
+                  this.loading = true;
                   this.userUid = user.uid;
-                  this.spot = spotProvider.getSpot(spotKey).valueChanges();
+                  this.subscription = spotProvider.getSpot(spotKey).valueChanges().subscribe(spot => {
+                    this.spot = spot;
+                    this.loading = false;
+                  });
                 }
                 userAuth.unsubscribe();
               });
 
+    }
+
+    ionViewWillLeave() {
+      if(this.subscription){
+        this.subscription.unsubscribe();        
+      }
     }
 
 
