@@ -16,6 +16,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
+import { SpotDetailPage } from '../pages/spot-detail/spot-detail';
 
 
 
@@ -84,7 +85,7 @@ export class MyApp {
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
             this.badge.clear();
-
+           this.nav.push(SpotDetailPage, {spotKey : data.spotUid});
           } else {
 
             const alert = this.alertCtrl.create({
@@ -95,7 +96,7 @@ export class MyApp {
 
           };
         })
-        
+
       }
       
     });

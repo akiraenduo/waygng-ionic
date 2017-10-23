@@ -117,6 +117,7 @@ export class SpotFilterPage {
   }
 
   getItems(ev) {
+    this.loading = false;
     this.isHistorySearch = false;
     // set val to the value of the ev target
     let value = ev.target.value;
