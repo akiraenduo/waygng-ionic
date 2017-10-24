@@ -19,8 +19,7 @@
 
       <ion-refresher (ionRefresh)="doRefresh($event)">
           <ion-refresher-content
-          pullingText="Pull to refresh..."
-          refreshingText="Refreshing...">
+          refreshingText="{{ 'REFRESHING' | translate }}">
         </ion-refresher-content>
       </ion-refresher>
   

@@ -56,10 +56,10 @@ export class SpotPage {
   }
 
   ionViewWillLeave() {
-    this.subscription.unsubscribe();
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
   }
-
-  ionViewDidWi
 
   doRefresh(refresher) {
     this.finished = false;
@@ -78,15 +78,18 @@ export class SpotPage {
   }
 
   incrementLike(spot){
-    if(!spot["likes"]){
-      spot["likes"] = [];
+    let likes = _.map(spot.likes,_.clone);
+    if(!likes){
+      likes = [];
     }
-    const index = _.indexOf(spot["likes"], this.userUid);
+    const index = _.indexOf(likes, this.userUid);
     if(index < 0){
-      spot["likes"].push(this.userUid);
+      likes.push(this.userUid);
+      spot.likes = likes;
       this.spotProvider.incrementLikes(spot.id,spot);
     }else{
-      _.pullAt(spot["likes"], index);
+      _.pullAt(likes, index);
+      spot.likes = likes;
       this.spotProvider.incrementLikes(spot.id,spot);
     }
   }
@@ -126,6 +129,7 @@ export class SpotPage {
         if(infiniteScroll){
           this.subscription = getSpotList.subscribe(() => {
             infiniteScroll.complete();
+            this.subscription.unsubscribe();
           })
         }else{ 
           this.subscription = getSpotList.subscribe((spots) => {
@@ -134,6 +138,7 @@ export class SpotPage {
             if(refresher){
               refresher.complete();
             }
+            this.subscription.unsubscribe();
           });
         }
 

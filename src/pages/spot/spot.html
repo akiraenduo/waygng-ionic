@@ -19,8 +19,7 @@
 
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
-            pullingText="Pull to refresh..."
-            refreshingText="Refreshing...">
+            refreshingText="{{ 'REFRESHING' | translate }}">
           </ion-refresher-content>
     </ion-refresher>
 
@@ -68,7 +67,7 @@
                   <ion-row class="padding-left border-top row-margin">
                         <ion-col>
                           <button class="button-padding button-margin" (click)="incrementLike(spot)" ion-button icon-only clear small>
-                            <ion-icon [color]="spot.likes | formatColorIcon:userUid"[name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
+                            <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
                             <div class="greyColor">J'aime</div>
                         </button>
                         </ion-col>
@@ -92,8 +91,7 @@
     
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
             <ion-infinite-scroll-content
-              loadingSpinner="bubbles"
-              loadingText="Loading more data...">
+              loadingSpinner="ios"> 
             </ion-infinite-scroll-content>
         </ion-infinite-scroll>
     

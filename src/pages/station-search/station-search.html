@@ -17,7 +17,9 @@
 <ion-content padding>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content
+      refreshingText="{{ 'REFRESHING' | translate }}">
+    </ion-refresher-content>
   </ion-refresher>
   
   <ion-list>

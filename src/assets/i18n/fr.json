@@ -34,5 +34,6 @@
     "EMAIL":"Email",
     "SIGN_OUT":"Déconnexion",
     "MY_SPOTS": "Mes spots",
-    "NOTIF_LIKE_SPOT": "a aimé votre spot"
+    "NOTIF_LIKE_SPOT": "a aimé votre spot",
+    "REFRESHING": "Chargement..."
 }
