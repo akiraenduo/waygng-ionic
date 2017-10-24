@@ -84,7 +84,7 @@ export class MyApp {
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
             this.badge.clear();
-           this.nav.push('SpotDetailPage', {spotKey : data.spotUid});
+            this.nav.push('SpotDetailPage', {spotKey : data.spotUid});
           } else {
 
             const alert = this.alertCtrl.create({

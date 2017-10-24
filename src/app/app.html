@@ -3,12 +3,12 @@
     <ion-toolbar>
       <div *ngIf="user; then authenticated else guest">  </div>
         <ng-template #authenticated>
-            <ion-item *ngIf="user" color="blue" class="item-inner-without-border">
+            <ion-item *ngIf="user" color="blue" class="item-inner-without-border" (click)="goProfile()">
                 <ion-avatar item-start>
                     <img [src]="user.photoURL" />
                   </ion-avatar>
                 <ion-label>{{ user.displayName }}</ion-label>
-                <button  color="light"ion-button outline clear large item-end (click)="goProfile()"><ion-icon name="ios-cog"></ion-icon></button>
+                <button  color="light"ion-button outline clear large item-end><ion-icon name="ios-cog"></ion-icon></button>
             </ion-item >
         </ng-template>
         <ng-template #guest>

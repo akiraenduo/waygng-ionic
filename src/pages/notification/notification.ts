@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
+import { Badge } from '@ionic-native/badge';
 
 /**
  * Generated class for the NotificationPage page.
@@ -26,7 +27,8 @@ export class NotificationPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public auth: AuthProvider,
-              public userProvider: UserProvider) {
+              public userProvider: UserProvider,
+              private badge: Badge) {
 
                 
   }
@@ -61,8 +63,13 @@ export class NotificationPage {
   }
 
   goDetailSpot(notif){
-    this.userProvider.removeNotification(this.userUid,notif.id);
+    this.removeNotification(notif.id);
     this.navCtrl.push('SpotDetailPage', {spotKey : notif.spotUid});
+  }
+
+  removeNotification(notifId){
+    this.userProvider.removeNotification(this.userUid,notifId);
+    this.badge.decrease(1);
   }
 
 }
