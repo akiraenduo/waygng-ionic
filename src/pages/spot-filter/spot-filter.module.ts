@@ -6,9 +6,6 @@ import { MyLoaderComponentModule } from '../../components/my-loader/my-loader.mo
 import { PipesModule } from '../../pipes/pipes.module';
 
 
-//PIPE
-import {FormatHashtagPipe} from '../../pipes/format-hashtag/format-hashtag';
-
 @NgModule({
   declarations: [
     SpotFilterPage,
