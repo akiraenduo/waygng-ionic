@@ -44,14 +44,12 @@
       </ion-item>
     </ion-list>
 
-    <ion-list>
-        <ion-list-header color="light">
-            {{ 'MY_SPOTS' | translate }}
-          </ion-list-header>
-          <my-loader *ngIf="loading"></my-loader>
-
-    <ion-card *ngFor="let spot of mySpots">
-        
+    <ion-list class="bacground-light">
+      <ion-list-header color="light">{{ 'MY_SPOTS' | translate }}</ion-list-header>
+      <my-loader *ngIf="loading"></my-loader>
+      
+      <ion-item-sliding *ngFor="let spot of mySpots">
+        <ion-card ion-item>
           <ion-item (tap)="goDetailSpot(spot)">
             <ion-avatar *ngIf="!spot.anonyme" item-start>
                 <img [src]="(spot.userPicture)" />
@@ -64,34 +62,39 @@
             <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
             <p>{{spot.dateUpdate | formatDate:'relative'}}</p>  
           </ion-item>
-    
         
           <ion-card-content (tap)="goDetailSpot(spot)">
             <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
           </ion-card-content>
         
           <ion-row class="padding-left border-top row-margin">
-                <ion-col>
-                  <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
-                    <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
-                    <div class="greyColor">J'aime</div>
+              <ion-col>
+                <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
+                  <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
+                  <div class="greyColor">J'aime</div>
                 </button>
-                </ion-col>
-                <ion-col>
-                    <button  (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
-                        <ion-icon color="blue" name="thumbs-up"></ion-icon>
-                        <div class="greyColor">{{spot.likes | formatLikes}}</div>
-                    </button>
-                   </ion-col> 
-                <ion-col> 
-                    <button (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
-                        <ion-icon name="text"></ion-icon>
-                        <div class="greyColor">Commenter</div>
-                    </button>
-                </ion-col>
-              </ion-row>
+              </ion-col>
+              <ion-col>
+                <button  (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
+                  <ion-icon color="blue" name="thumbs-up"></ion-icon>
+                  <div class="greyColor">{{spot.likes | formatLikes}}</div>
+                </button>
+              </ion-col> 
+              <ion-col> 
+              <button (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
+                <ion-icon name="text"></ion-icon>
+                <div class="greyColor">Commenter</div>
+              </button>
+            </ion-col>
+          </ion-row>
         </ion-card>
-      </ion-list>
+        <ion-item-options side="right">
+            <button color="danger" ion-button (click)="removeSpot(spot)">
+                <ion-icon name="ios-trash-outline"></ion-icon>
+            </button>
+        </ion-item-options>
+    </ion-item-sliding> 
+  </ion-list>
   </div>
 
 </ion-content>

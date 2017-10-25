@@ -115,4 +115,8 @@ export class SpotProvider {
     return this.afs.collection('/hashtags', ref => ref.where('name', '==', name));
   }
 
+  removeSpot(spotUid:string){
+    this.afs.doc('/spots/'+spotUid).delete();
+  }
+
 }

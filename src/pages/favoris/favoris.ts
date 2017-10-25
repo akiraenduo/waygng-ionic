@@ -49,8 +49,7 @@ export class FavorisPage {
     });
   }
 
-  removeFavoris(station, event: Event){
-    event.stopPropagation();
+  removeFavoris(station){
     this.favorisProvider.removeFavoris(this.userUid,station.name);
   }
 

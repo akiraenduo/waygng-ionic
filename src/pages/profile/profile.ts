@@ -56,7 +56,10 @@ export class ProfilePage {
     spotUtils.incrementLike(spot,this.userUid);
     this.spotProvider.incrementLikes(spot.id,spot);
   }
-
+  
+  removeSpot(spot){
+    this.spotProvider.removeSpot(spot.id);
+  }
 
   logout() {
     this.navCtrl.setRoot(HomePage); 
