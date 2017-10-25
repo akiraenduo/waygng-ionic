@@ -4,12 +4,13 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { AuthProvider } from '../../providers/auth/auth';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
 
 import * as _ from 'lodash'
-import { Subscription } from 'rxjs/Subscription';
+import spotUtils from './spotUtils'
 
 
 
@@ -78,20 +79,8 @@ export class SpotPage {
   }
 
   incrementLike(spot){
-    let likes = _.map(spot.likes,_.clone);
-    if(!likes){
-      likes = [];
-    }
-    const index = _.indexOf(likes, this.userUid);
-    if(index < 0){
-      likes.push(this.userUid);
-      spot.likes = likes;
-      this.spotProvider.incrementLikes(spot.id,spot);
-    }else{
-      _.pullAt(likes, index);
-      spot.likes = likes;
-      this.spotProvider.incrementLikes(spot.id,spot);
-    }
+    spotUtils.incrementLike(spot,this.userUid);
+    this.spotProvider.incrementLikes(spot.id,spot);
   }
  
 

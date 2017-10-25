@@ -4,6 +4,7 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash'
+import spotUtils from '../spot/spotUtils'
 
 /**
  * Generated class for the SpotDetailPage page.
@@ -53,19 +54,10 @@ export class SpotDetailPage {
     }
 
 
-  incrementLike(spot){
-    if(!spot["likes"]){
-      spot["likes"] = [];
-    }
-    const index = _.indexOf(spot["likes"], this.userUid);
-    if(index < 0){
-      spot["likes"].push(this.userUid);
-      this.spotProvider.incrementLikes(spot.id,spot);
-    }else{
-      _.pullAt(spot["likes"], index);
+    incrementLike(spot){
+      spotUtils.incrementLike(spot,this.userUid);
       this.spotProvider.incrementLikes(spot.id,spot);
     }
-  }
 
   openModalLike(spot) {
     let myModal = this.modalCtrl.create('ModalLikePage', { 'usersUid': spot.likes });

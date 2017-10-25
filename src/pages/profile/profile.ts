@@ -4,6 +4,7 @@ import { HomePage } from '../home/home';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { Subscription } from 'rxjs/Subscription';
+import spotUtils from '../spot/spotUtils'
 
 /**
  * Generated class for the ProfilePage page.
@@ -22,6 +23,7 @@ export class ProfilePage {
   user:any;
   mySpots:Array<any>;
   subscription: Subscription;
+  userUid:any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -32,6 +34,7 @@ export class ProfilePage {
                   if(user){
                     this.loading = true;
                     this.user = user;
+                    this.userUid = user.uid;
                     this.subscription = spotProvider.getSpotsForCurrentUser(user.uid).valueChanges().subscribe(spots => {
                       this.mySpots = spots;
                       this.loading = false;
@@ -43,14 +46,15 @@ export class ProfilePage {
 
   }
 
-  ionViewDidLoad() {
-
-  }
-
   ionViewWillLeave() {
     if(this.subscription){
       this.subscription.unsubscribe();
     }
+  }
+
+  incrementLike(spot){
+    spotUtils.incrementLike(spot,this.userUid);
+    this.spotProvider.incrementLikes(spot.id,spot);
   }
 
 
