@@ -6,7 +6,6 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 
 import * as _ from 'lodash';
 import { Keyboard } from '@ionic-native/keyboard';
-import { SpotPage } from '../spot/spot';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -49,10 +48,6 @@ export class AddSpotPage {
                
   }
 
-  ionViewDidLoad() {
-
-  }
-
   ionViewWillLeave() {
     if(this.subscription){
       this.subscription.unsubscribe();      
@@ -63,7 +58,7 @@ export class AddSpotPage {
     this.spot.message = this.message;
     this.spot.anonyme = this.isAnonyme;
     this.spotProvider.addSpot(this.spot);
-    this.navCtrl.setRoot(SpotPage);
+    this.navCtrl.setRoot('SpotPage');
   }
 
   eventInputMessage(ev){

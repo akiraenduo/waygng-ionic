@@ -82,8 +82,8 @@ export class SpotProvider {
     }else{
       return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate').limit(batch));
     }
-
   }
+
 
   fetchSpots(hashtagKey:string, lastKey:string, batch:number):Observable<any>{
     return this.afs.doc('/hashtags/'+hashtagKey).valueChanges().do((item) => { 

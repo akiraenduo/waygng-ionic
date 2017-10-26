@@ -63,10 +63,6 @@ export class SpotFilterPage {
                 
   }
 
-  ionViewDidLoad() {
-
-  }
-
   ionViewWillLeave() {
     if(this.subscription){
       this.subscription.unsubscribe();

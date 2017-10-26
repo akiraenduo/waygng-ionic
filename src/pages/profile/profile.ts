@@ -35,7 +35,13 @@ export class ProfilePage {
                     this.loading = true;
                     this.user = user;
                     this.userUid = user.uid;
-                    this.subscription = spotProvider.getSpotsForCurrentUser(user.uid).valueChanges().subscribe(spots => {
+                    this.subscription = spotProvider.getSpotsForCurrentUser(user.uid).snapshotChanges().map(spots => {
+                      return spots.map(a => {
+                        const data = a.payload.doc.data();
+                        const id = a.payload.doc.id;
+                        return { id, ...data };
+                        })
+                      }).subscribe(spots => {
                       this.mySpots = spots;
                       this.loading = false;
                     })

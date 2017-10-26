@@ -11,6 +11,7 @@ import 'rxjs/add/operator/take';
 
 import * as _ from 'lodash'
 import spotUtils from './spotUtils'
+import { Spot } from '../../models/spot';
 
 
 
@@ -35,6 +36,7 @@ export class SpotPage {
   finished = false  // boolean when end of database is reached
   userUid: any;
   subscription: Subscription;
+  spotsTest:any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -43,30 +45,29 @@ export class SpotPage {
               public auth: AuthProvider,
               public modalCtrl: ModalController) {
 
-    this.searchSpots = true;
 
-    const userAuth = this.auth.user.subscribe(user => {
-      if (user) {
-        this.userUid = user.uid;
-          this.getSpots(null,null);
-      }else{
-        this.userUid = null;
-      }
-      userAuth.unsubscribe();
-    });
-  }
+                this.searchSpots = true;
+                const userAuth = this.auth.user.subscribe(user => {
+                  if (user) {
+                    this.userUid = user.uid;
+                    this.finished = false;
+                    this.lastDate = '';
+                    //this.getSpots(null,null); 
+                    this.getSpotsTest();
+                  }else{
+                    this.userUid = null;
+                  }
+                  userAuth.unsubscribe();
+                });
 
-  ionViewWillLeave() {
-    if(this.subscription){
-      this.subscription.unsubscribe();
-    }
   }
 
   doRefresh(refresher) {
     this.finished = false;
     this.lastDate = '';
     this.spots = new BehaviorSubject([]);
-    this.getSpots(null,refresher);
+    //this.getSpots(null,refresher);
+    this.getSpotsTest();
   }
 
 
@@ -82,6 +83,18 @@ export class SpotPage {
     spotUtils.incrementLike(spot,this.userUid);
     this.spotProvider.incrementLikes(spot.id,spot);
   }
+
+  private getSpotsTest(){
+    this.spotProvider.getSpotList(this.batch+1, this.lastDate).snapshotChanges().map(spots => {
+      return spots.map(s => {
+        const data = s.payload.doc.data();
+        const id = s.payload.doc.id;
+        return { id, ...data };
+      });
+    }).take(1).subscribe((spots) => {
+      this.spotsTest = spots;
+    })
+  }
  
 
   private getSpots(infiniteScroll,refresher) {
@@ -91,7 +104,7 @@ export class SpotPage {
       }
       return
     } 
-    const getSpotList = this.spotProvider
+     this.subscription = this.spotProvider
         .getSpotList(this.batch+1, this.lastDate).snapshotChanges()
         .map(spots => {
           return spots.map(s => {
@@ -114,23 +127,17 @@ export class SpotPage {
             /// Concatenate new spots to current spots
             this.spots.next( _.concat(currentSpots, newSpots) )
           }
-        });
-        if(infiniteScroll){
-          this.subscription = getSpotList.subscribe(() => {
+        }).subscribe(() =>{
+          if(infiniteScroll){
             infiniteScroll.complete();
-            this.subscription.unsubscribe();
-          })
-        }else{ 
-          this.subscription = getSpotList.subscribe((spots) => {
-            this.spots.next(spots);
+          }else{
             this.searchSpots = false
             if(refresher){
               refresher.complete();
             }
-            this.subscription.unsubscribe();
-          });
-        }
-
+          }
+          this.subscription.unsubscribe();
+        });
   }
 
 
@@ -139,7 +146,9 @@ export class SpotPage {
   }
 
   goAddSpot(){
-    this.navCtrl.push('AddSpotPage');
+
+   this.spotProvider.addSpot(new Spot("ttttttttttttttttttteteeeeeeeeeeeeeeeeeeeeet","AenTxYaGZ4ZTTAgNlnB3REqrhye2","anthony",null,new Date().getTime()));
+    // this.navCtrl.push('AddSpotPage');
   }
 
   openModalLike(spot) {

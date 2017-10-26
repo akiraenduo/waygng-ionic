@@ -31,7 +31,7 @@
 
   <ion-item>
     <ion-label floating>{{ 'MESSAGE' | translate }}</ion-label>
-    <ion-textarea #inputMessage autofocus type="text" maxlength="300" [(ngModel)]="message" (keyup)="eventInputMessage($event)"></ion-textarea>
+    <ion-textarea #inputMessage autofocus autocorrect type="text" maxlength="300" [(ngModel)]="message" (keyup)="eventInputMessage($event)"></ion-textarea>
   </ion-item>
   
 <ion-list>

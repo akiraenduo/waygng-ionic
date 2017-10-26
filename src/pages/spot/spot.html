@@ -43,7 +43,7 @@
     
         <ion-list> 
     
-            <ion-card *ngFor="let spot of spots | async">
+            <ion-card *ngFor="let spot of spotsTest">
                 
                   <ion-item (tap)="goDetailSpot(spot)">
                     <ion-avatar *ngIf="!spot.anonyme" item-start>

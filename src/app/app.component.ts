@@ -43,8 +43,6 @@ export class MyApp {
               private translate: TranslateService) {   
                 
       this.initTranslate();
-      this.initializeApp();
-      moment.locale('fr-fr');
 
       this.auth.user.subscribe(user => {
         if(user){
@@ -56,6 +54,10 @@ export class MyApp {
           this.user = null;
           this.rootPage = 'HomePage';
         }
+
+        this.initializeApp();
+        moment.locale('fr-fr');
+
       }); 
       
 
