@@ -3,7 +3,6 @@ import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angu
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
-import * as _ from 'lodash'
 import spotUtils from '../spot/spotUtils'
 
 /**

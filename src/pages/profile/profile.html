@@ -44,7 +44,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-list class="bacground-light">
+    <ion-list class="bacground-light mySpotsList">
       <ion-list-header color="light">{{ 'MY_SPOTS' | translate }}</ion-list-header>
       <my-loader *ngIf="loading"></my-loader>
       
@@ -55,7 +55,7 @@
                 <img [src]="(spot.userPicture)" />
             </ion-avatar>
             <ion-avatar *ngIf="spot.anonyme" item-start>
-                <ion-icon class="icon-size" name="contact"></ion-icon>
+                <ion-icon class="icon-anonyme-size" name="contact"></ion-icon>
             </ion-avatar>
 
             <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
@@ -67,7 +67,7 @@
             <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
           </ion-card-content>
         
-          <ion-row class="padding-left border-top row-margin">
+          <ion-row justify-content-center align-items-center class="border-top row-margin">
               <ion-col>
                 <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
                   <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>

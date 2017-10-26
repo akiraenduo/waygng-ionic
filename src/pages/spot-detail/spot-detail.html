@@ -30,7 +30,7 @@
             <p [innerHTML]="spot.message | formatHashtag"></p>
           </ion-card-content>
 
-          <ion-row class="padding-left border-top row-margin">
+          <ion-row justify-content-center align-items-center class="border-top row-margin">
                 <ion-col>
                   <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
                     <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
