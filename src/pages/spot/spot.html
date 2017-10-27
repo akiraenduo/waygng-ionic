@@ -43,7 +43,7 @@
     
         <ion-list> 
     
-            <ion-card *ngFor="let spot of spotsTest">
+            <ion-card *ngFor="let spot of spots | async">
                 
                   <ion-item (tap)="goDetailSpot(spot)">
                     <ion-avatar *ngIf="!spot.anonyme" item-start>
@@ -98,7 +98,7 @@
 
     </ng-template>
 
-    <ion-fab *ngIf="auth.user | async" right bottom>
+    <ion-fab *ngIf="userUid" right bottom>
         <button color="blue" ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
       

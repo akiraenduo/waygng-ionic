@@ -30,7 +30,7 @@ export class SpotProvider {
     spot.dateUpdate = -spot.dateUpdate ;
     const spots = this.afs.collection('/spots');
     spot = Object.assign({}, spot);
-    spots.add(spot).then(spot =>{
+    return spots.add(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
       let m, hashtagList:string[] =[];
       while ((m = rx.exec(message)) !== null) {
@@ -39,7 +39,7 @@ export class SpotProvider {
 
      hashtagList.forEach(hashtag =>{
       const searchHashtag = this.searchHashtag(hashtag);    
-      const subscribe = searchHashtag.snapshotChanges().subscribe(snapshots=>{
+     searchHashtag.snapshotChanges().take(1).subscribe(snapshots=>{
         if(snapshots.length > 0){
           snapshots.forEach(snapshot => {
             const data = snapshot.payload.doc.data();
@@ -49,7 +49,6 @@ export class SpotProvider {
             const hashtags = this.afs.doc('/hashtags/'+id);
             hastag = Object.assign({}, hastag);
             hashtags.update(hastag);
-            subscribe.unsubscribe();
           });
         }else{
           let spotKeyList = [];
@@ -58,7 +57,6 @@ export class SpotProvider {
           const hashtags = this.afs.collection('/hashtags');
           hastag = Object.assign({}, hastag);
           hashtags.add(hastag);
-          subscribe.unsubscribe();
         }
 
       })

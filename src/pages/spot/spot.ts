@@ -11,7 +11,6 @@ import 'rxjs/add/operator/take';
 
 import * as _ from 'lodash'
 import spotUtils from './spotUtils'
-import { Spot } from '../../models/spot';
 
 
 
@@ -52,8 +51,8 @@ export class SpotPage {
                     this.userUid = user.uid;
                     this.finished = false;
                     this.lastDate = '';
-                    //this.getSpots(null,null); 
-                    this.getSpotsTest();
+                    this.getSpots(null,null); 
+                    //this.getSpotsTest();
                   }else{
                     this.userUid = null;
                   }
@@ -66,8 +65,8 @@ export class SpotPage {
     this.finished = false;
     this.lastDate = '';
     this.spots = new BehaviorSubject([]);
-    //this.getSpots(null,refresher);
-    this.getSpotsTest();
+    this.getSpots(null,refresher);
+    //this.getSpotsTest();
   }
 
 
@@ -91,7 +90,7 @@ export class SpotPage {
         const id = s.payload.doc.id;
         return { id, ...data };
       });
-    }).take(1).subscribe((spots) => {
+    }).take(2).subscribe((spots) => {
       this.spotsTest = spots;
     })
   }
@@ -127,7 +126,7 @@ export class SpotPage {
             /// Concatenate new spots to current spots
             this.spots.next( _.concat(currentSpots, newSpots) )
           }
-        }).subscribe(() =>{
+        }).take(2).subscribe(() =>{
           if(infiniteScroll){
             infiniteScroll.complete();
           }else{
@@ -136,7 +135,6 @@ export class SpotPage {
               refresher.complete();
             }
           }
-          this.subscription.unsubscribe();
         });
   }
 
@@ -146,9 +144,7 @@ export class SpotPage {
   }
 
   goAddSpot(){
-
-   this.spotProvider.addSpot(new Spot("ttttttttttttttttttteteeeeeeeeeeeeeeeeeeeeet","AenTxYaGZ4ZTTAgNlnB3REqrhye2","anthony",null,new Date().getTime()));
-    // this.navCtrl.push('AddSpotPage');
+    this.navCtrl.push('AddSpotPage');
   }
 
   openModalLike(spot) {
