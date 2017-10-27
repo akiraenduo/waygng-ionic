@@ -29,7 +29,6 @@ export class SpotProvider {
     let message = spot.message;
     spot.dateUpdate = -spot.dateUpdate ;
     const spots = this.afs.collection('/spots');
-    spot = Object.assign({}, spot);
     return spots.add(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
       let m, hashtagList:string[] =[];
@@ -44,19 +43,25 @@ export class SpotProvider {
           snapshots.forEach(snapshot => {
             const data = snapshot.payload.doc.data();
             const id = snapshot.payload.doc.id;
-            let hastag = new Hashtag(data.name,data.tag,data.spotKeyList);
-            hastag.spotKeyList.push(spot.id);
-            const hashtags = this.afs.doc('/hashtags/'+id);
-            hastag = Object.assign({}, hastag);
-            hashtags.update(hastag);
+            const hashtag: Hashtag = {
+              name:data.name,
+              tag:data.tag,
+              spotKeyList:data.spotKeyList
+            }
+            hashtag.spotKeyList.push(spot.id);
+            const hashtagRef = this.afs.doc('/hashtags/'+id);
+            hashtagRef.update(hashtag);
           });
         }else{
           let spotKeyList = [];
           spotKeyList.push(spot.id);
-          let hastag = new Hashtag(hashtag.toLowerCase(),hashtag,spotKeyList);
-          const hashtags = this.afs.collection('/hashtags');
-          hastag = Object.assign({}, hastag);
-          hashtags.add(hastag);
+          const hastag: Hashtag = {
+            name:hashtag.toLowerCase(),
+            tag:hashtag,
+            spotKeyList:spotKeyList
+          }
+          const hashtagRef = this.afs.collection('/hashtags');
+          hashtagRef.add(hastag);
         }
 
       })

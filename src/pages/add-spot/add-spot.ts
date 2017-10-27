@@ -27,10 +27,10 @@ export class AddSpotPage {
 
   isAnonyme:boolean = false;;
   message:string;
-  spot: Spot;
   hashtags: Array<any[]>;
   loading:boolean;
   subscription: Subscription;
+  user:any;
 
 
   constructor(public navCtrl: NavController, 
@@ -43,7 +43,7 @@ export class AddSpotPage {
 
                 const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
-                  this.spot = new Spot(null,user.uid,user.displayName,user.photoURL,new Date().getTime());
+                  this.user = user;
                 }
                 userAuth.unsubscribe();
               });
@@ -57,9 +57,17 @@ export class AddSpotPage {
   }
 
   addSpot(){
-    this.spot.message = this.message;
-    this.spot.anonyme = this.isAnonyme;
-    this.spotProvider.addSpot(this.spot).then(() => {
+
+    const spot: Spot = {
+      message: this.message,
+      dateUpdate: new Date().getTime(),
+      userUid: this.user.uid,
+      userName: this.user.displayName,
+      userPicture: this.user.photoURL,
+      anonyme:this.isAnonyme
+    }
+
+    this.spotProvider.addSpot(spot).then(() => {
       this.navCtrl.setRoot('SpotPage')
       this.toastCtrl.create({
         message: 'Spot ajouté !',

@@ -1,17 +1,9 @@
-export class Spot {
+export interface Spot {
     message:  string;
     dateUpdate: number;
     userUid: string;
     userName: string;
     userPicture: string;
-    likes:string[];
-    anonyme:boolean;
-
-    constructor(message:string, userUid:string, userName:string, userPicture:string, dateUpdate:number) {
-       this.message = message;
-       this.userUid = userUid;
-       this.userName = userName;
-       this.userPicture = userPicture;
-       this.dateUpdate = dateUpdate;
-    }
+    likes?:string[];
+    anonyme?:boolean;
 }

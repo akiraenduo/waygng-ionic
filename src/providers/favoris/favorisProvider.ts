@@ -26,17 +26,16 @@ export class FavorisProvider {
 
   addFavoris(userUid, nomStation){
     const items = this.afs.collection('/users/'+userUid+'/stations/');
-    items.add({name:nomStation});
+    return items.add({name:nomStation});
   }
 
   removeFavoris(userUid, nomStation){
 
     const itemsCollection  = this.getFavoris(userUid, nomStation);
 
-    const removeSub = itemsCollection.snapshotChanges().subscribe(snapshots => {
+    itemsCollection.snapshotChanges().take(1).subscribe(snapshots => {
       snapshots.forEach(snapshot => {
         itemsCollection.doc(snapshot.payload.doc.id).delete();
-        removeSub.unsubscribe();
       });
     })
 

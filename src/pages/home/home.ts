@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, IonicPage } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, ToastController } from 'ionic-angular';
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { Station } from '../../models/station';
@@ -41,7 +41,8 @@ export class HomePage {
               public userProvider: UserProvider, 
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
-              public auth: AuthProvider) {
+              public auth: AuthProvider,
+              public toastCtrl: ToastController) {
 
     this.station = navParams.get("station");
 
@@ -144,9 +145,20 @@ export class HomePage {
     if(this.isInfavoris){
       this.isInfavoris = false;
       this.favorisProvider.removeFavoris(this.userUid,this.nomExact);
+      this.createToast(this.nomExact+' supprimé des favoris !');
     }else{
-      this.favorisProvider.addFavoris(this.userUid,this.nomExact);
+      this.favorisProvider.addFavoris(this.userUid,this.nomExact).then(() => {
+        this.createToast(this.nomExact+' ajouté au favoris !');
+      })
     }
+  }
+
+  createToast(message:string){
+    this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom'
+    }).present();
   }
   
 
