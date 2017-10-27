@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
@@ -28,6 +28,7 @@ export class NotificationPage {
               public navParams: NavParams,
               public auth: AuthProvider,
               public userProvider: UserProvider,
+              public toastCtrl: ToastController,
               private badge: Badge) {
 
                 
@@ -67,9 +68,19 @@ export class NotificationPage {
     this.navCtrl.push('SpotDetailPage', {spotKey : notif.spotUid});
   }
 
+  removeNotif(notif){
+    this.removeNotification(notif.id);
+    this.toastCtrl.create({
+      message: 'Notification supprimée !',
+      duration: 3000,
+      position: 'bottom'
+    }).present();
+  }
+
   removeNotification(notifId){
     this.userProvider.removeNotification(this.userUid,notifId);
     this.badge.decrease(1);
+
   }
 
 }

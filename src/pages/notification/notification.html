@@ -29,7 +29,9 @@
                 </ion-col>
             </ion-row>
             <my-loader *ngIf="loading"></my-loader>
-            <ion-card  *ngFor="let notif of notifications">
+            <ion-list>
+            <ion-item-sliding *ngFor="let notif of notifications">
+                    <ion-card ion-item>
                 <div (click)="goDetailSpot(notif)">    
                     <ion-item>
                         <ion-avatar item-start>
@@ -42,7 +44,14 @@
                         <p>{{notif.dateUpdate | formatDate:'calendar'}}</p>  
                     </ion-card-content>
                 </div>     
-            </ion-card>   
+            </ion-card>
+            <ion-item-options side="right" (ionSwipe)="removeNotif(notif)">
+                    <button color="danger" expandable ion-button (click)="removeNotif(notif)">
+                        <ion-icon name="ios-trash-outline"></ion-icon>
+                    </button>
+                </ion-item-options>
+            </ion-item-sliding>   
+        </ion-list> 
         </ng-template>
 
 </ion-content>

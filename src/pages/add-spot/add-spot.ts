@@ -67,14 +67,13 @@ export class AddSpotPage {
       anonyme:this.isAnonyme
     }
 
-    this.spotProvider.addSpot(spot).then(() => {
-      this.navCtrl.setRoot('SpotPage')
-      this.toastCtrl.create({
-        message: 'Spot ajouté !',
-        duration: 3000,
-        position: 'bottom'
-      }).present();
-    });
+    this.spotProvider.addSpot(spot);
+    this.navCtrl.setRoot('SpotPage')
+    this.toastCtrl.create({
+      message: 'Spot ajouté !',
+      duration: 3000,
+      position: 'bottom'
+    }).present();
   }
 
   eventInputMessage(ev){
