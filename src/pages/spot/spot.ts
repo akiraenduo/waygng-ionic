@@ -126,7 +126,7 @@ export class SpotPage {
             /// Concatenate new spots to current spots
             this.spots.next( _.concat(currentSpots, newSpots) )
           }
-        }).take(2).subscribe(() =>{
+        }).take(1).subscribe(() =>{
           if(infiniteScroll){
             infiniteScroll.complete();
           }else{

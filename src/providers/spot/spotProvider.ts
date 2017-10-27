@@ -43,25 +43,25 @@ export class SpotProvider {
           snapshots.forEach(snapshot => {
             const data = snapshot.payload.doc.data();
             const id = snapshot.payload.doc.id;
-            const hashtag: Hashtag = {
+            const h: Hashtag = {
               name:data.name,
               tag:data.tag,
               spotKeyList:data.spotKeyList
             }
-            hashtag.spotKeyList.push(spot.id);
+            h.spotKeyList.push(spot.id);
             const hashtagRef = this.afs.doc('/hashtags/'+id);
-            hashtagRef.update(hashtag);
+            hashtagRef.update(h);
           });
         }else{
           let spotKeyList = [];
           spotKeyList.push(spot.id);
-          const hastag: Hashtag = {
+          const h: Hashtag = {
             name:hashtag.toLowerCase(),
             tag:hashtag,
             spotKeyList:spotKeyList
           }
           const hashtagRef = this.afs.collection('/hashtags');
-          hashtagRef.add(hastag);
+          hashtagRef.add(h);
         }
 
       })

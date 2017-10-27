@@ -1,5 +1,5 @@
 export interface Hashtag {
     name:  string;
-    tag: number;
+    tag: string;
     spotKeyList: string[];
 }
