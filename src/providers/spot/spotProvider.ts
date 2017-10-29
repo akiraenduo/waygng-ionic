@@ -28,8 +28,10 @@ export class SpotProvider {
   addSpot(spot:Spot){
     let message = spot.message;
     spot.dateUpdate = -spot.dateUpdate ;
-    const spots = this.afs.collection('/spots');
-    return spots.add(spot).then(spot =>{
+    const autoId = this.afs.collection('/spots').ref.doc().id;
+    spot.id = autoId;
+    const spots = this.afs.doc('/spots/'+autoId);
+    return spots.set(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
       let m, hashtagList:string[] =[];
       while ((m = rx.exec(message)) !== null) {
@@ -48,13 +50,13 @@ export class SpotProvider {
               tag:data.tag,
               spotKeyList:data.spotKeyList
             }
-            h.spotKeyList.push(spot.id);
+            h.spotKeyList.push(autoId);
             const hashtagRef = this.afs.doc('/hashtags/'+id);
             hashtagRef.update(h);
           });
         }else{
           let spotKeyList = [];
-          spotKeyList.push(spot.id);
+          spotKeyList.push(autoId);
           const h: Hashtag = {
             name:hashtag.toLowerCase(),
             tag:hashtag,
@@ -109,6 +111,10 @@ export class SpotProvider {
     return this.afs.collection('hashtags', ref => ref.orderBy('name').limit(4).startAt(name).endAt(name+"\uf8ff"));
   }
 
+  fetchHashtagByTag(tag:string): AngularFirestoreCollection<any> {
+    return this.afs.collection('hashtags', ref => ref.orderBy('tag').startAt(tag).endAt(tag+"\uf8ff"));
+  }
+
   incrementLikes(spotUid:string, spot){
     const item = this.afs.doc('/spots/'+spotUid);
     item.update(spot); 
@@ -118,8 +124,43 @@ export class SpotProvider {
     return this.afs.collection('/hashtags', ref => ref.where('name', '==', name));
   }
 
-  removeSpot(spotUid:string){
-    this.afs.doc('/spots/'+spotUid).delete();
+  removeSpot(spot){
+    this.afs.doc('/spots/'+spot.id).delete();
+
+    let message = spot.message;
+    let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
+    let m;
+    let hashtags = [];
+    while ((m = rx.exec(message)) !== null) {
+      if (m[1]){
+        hashtags.push(m[1]);
+      }
+   }
+
+   if(hashtags.length > 0){
+    hashtags.forEach((tag) => {
+      this.fetchHashtagByTag(tag).snapshotChanges().take(1).subscribe((snapshots) => {
+
+        if(snapshots.length > 0){
+          snapshots.forEach(snapshot => {
+            const data = snapshot.payload.doc.data();
+            const id = snapshot.payload.doc.id;
+            const h: Hashtag = {
+              name:data.name,
+              tag:data.tag,
+              spotKeyList:data.spotKeyList
+            }
+            const index = _.indexOf(h.spotKeyList, spot.id);
+            _.pullAt(h.spotKeyList, index);
+            const hashtagRef = this.afs.doc('/hashtags/'+id);
+            hashtagRef.update(h);
+          });
+        }
+      })
+    })
+   }
+
+
   }
 
 }

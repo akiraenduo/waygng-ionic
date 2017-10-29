@@ -161,28 +161,29 @@ export class SpotFilterPage {
     } 
     const getSpotList = this.spotProvider.fetchSpots(this.hashtagKeySelected,this.lastKey,this.batch+1).do(item => {
       let lastSpot = _.last(item.spots);
-      this.lastKey = lastSpot.ref.id;
-
-      const newSpots = _.slice(item.spots, 0, this.batch);
-      const currentSpots = this.spotsFiltered.getValue();
-      let lastNewSpot = _.last(newSpots);
-
-      if (this.lastKey == lastNewSpot.ref.id) {
-        this.finished = true
+      if(lastSpot){
+        this.lastKey = lastSpot.ref.id;
+        
+        const newSpots = _.slice(item.spots, 0, this.batch);
+        const currentSpots = this.spotsFiltered.getValue();
+        let lastNewSpot = _.last(newSpots);
+  
+        if (this.lastKey == lastNewSpot.ref.id) {
+          this.finished = true
+        }
+        const newSpotList = _.map(newSpots,"spot");
+        this.spotsFiltered.next(_.concat(currentSpots,newSpotList));
       }
-      const newSpotList = _.map(newSpots,"spot");
-      this.spotsFiltered.next(_.concat(currentSpots,newSpotList));
+
     });
-    if(infiniteScroll){
       this.subscription = getSpotList.subscribe(() => {
-        this.loading = false;
-        infiniteScroll.complete();
+        if(infiniteScroll){
+          this.loading = false;
+          infiniteScroll.complete();
+        }else{
+          this.loading = false;
+        }
       })
-    }else{
-      this.subscription = getSpotList.subscribe(() => {
-        this.loading = false;
-      });
-    }
   }
 
   goDetailSpot(event){

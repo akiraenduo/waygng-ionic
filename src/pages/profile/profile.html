@@ -47,17 +47,21 @@
     <ion-list class="bacground-light mySpotsList">
       <ion-list-header color="light">{{ 'MY_SPOTS' | translate }}</ion-list-header>
       <my-loader *ngIf="loading"></my-loader>
-      
-      <ion-item-sliding *ngFor="let spot of mySpots">
-        <ion-card ion-item>
-          <ion-item (tap)="goDetailSpot(spot)">
+
+        <ion-card *ngFor="let spot of mySpots">
+          <ion-item>
             <ion-avatar *ngIf="!spot.anonyme" item-start>
                 <img [src]="(spot.userPicture)" />
             </ion-avatar>
             <ion-avatar *ngIf="spot.anonyme" item-start>
                 <ion-icon class="icon-anonyme-size" name="contact"></ion-icon>
             </ion-avatar>
-
+            <ion-avatar item-end>
+                <button color="danger" clear ion-button icon-only (click)="showConfirm(spot)">
+                    <ion-icon name="ios-trash-outline"></ion-icon>
+                </button>
+            </ion-avatar>
+            
             <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
             <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
             <p>{{spot.dateUpdate | formatDate:'relative'}}</p>  
@@ -65,7 +69,7 @@
         
           <ion-card-content (tap)="goDetailSpot(spot)">
             <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
-          </ion-card-content>
+          </ion-card-content> 
         
           <ion-row justify-content-center align-items-center class="border-top row-margin">
               <ion-col>
@@ -88,12 +92,6 @@
             </ion-col>
           </ion-row>
         </ion-card>
-        <ion-item-options side="right">
-            <button color="danger" ion-button (click)="removeSpot(spot)">
-                <ion-icon name="ios-trash-outline"></ion-icon>
-            </button>
-        </ion-item-options>
-    </ion-item-sliding> 
   </ion-list>
   </div>
 

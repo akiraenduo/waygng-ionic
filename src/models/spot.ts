@@ -1,4 +1,5 @@
 export interface Spot {
+    id?:string;
     message:  string;
     dateUpdate: number;
     userUid: string;

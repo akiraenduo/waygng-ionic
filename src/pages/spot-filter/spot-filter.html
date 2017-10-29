@@ -25,9 +25,14 @@
       </button>
   </ion-list>
 
-  <ion-list *ngIf="hashtagKeySelected"> 
+  <ion-list *ngIf="hashtagKeySelected">
+        <ion-row *ngIf="(spotsFiltered | async)?.length==0 && (loading) == false" class="warning-container">
+                <ion-col col-12>
+                    {{ 'WARNING.EMPTY_SPOT' | translate }}
+                </ion-col>
+            </ion-row> 
         <ion-card  *ngFor="let spot of spotsFiltered | async">
-            <div id="{{(spot | async)?.id}}" (click)="goDetailSpot($event)">    
+            <div id="{{(spot | async)?.id}}" (click)="goDetailSpot($event)">  
                 <ion-item>
                     <ion-avatar *ngIf="!((spot|async)?.anonyme)" item-start>
                             <img [src]="((spot|async)?.userPicture)" />

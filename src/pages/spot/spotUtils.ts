@@ -16,4 +16,5 @@ export default class spotUtils {
         spot.likes = likes;
         return spot;
       }
+      
 }

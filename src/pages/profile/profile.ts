@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, IonicPage } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
@@ -22,12 +22,15 @@ export class ProfilePage {
   loading: any;
   user:any;
   mySpots:Array<any>;
-  subscription: Subscription;
+  subscription: Subscription; 
   userUid:any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public auth: AuthProvider,
+              public modalCtrl: ModalController,
+              public alertCtrl: AlertController,
+              public toastCtrl: ToastController,
               public spotProvider: SpotProvider ) {
 
                 const userAuth = this.auth.user.subscribe(user => {
@@ -62,9 +65,40 @@ export class ProfilePage {
     spotUtils.incrementLike(spot,this.userUid);
     this.spotProvider.incrementLikes(spot.id,spot);
   }
+
+  openModalLike(spot) {
+    let myModal = this.modalCtrl.create('ModalLikePage', { 'usersUid': spot.likes });
+    myModal.present();
+  }
   
   removeSpot(spot){
-    this.spotProvider.removeSpot(spot.id);
+    this.spotProvider.removeSpot(spot);
+  }
+
+  showConfirm(spot) {
+    let confirm = this.alertCtrl.create({
+      title: 'Suppresion du spot',
+      message: 'Etes vous certain de vouloir supprimer ce spot ?',
+      buttons: [
+        {
+          text: 'Non',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.removeSpot(spot);
+            this.toastCtrl.create({
+              message: 'Spot supprimé !',
+              duration: 3000,
+              position: 'bottom'
+            }).present();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   logout() {

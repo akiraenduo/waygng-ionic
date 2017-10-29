@@ -1,47 +1,4 @@
 page-profile {
 
-    .button-padding{
-        padding:0;
-    }
 
-    .icon-anonyme-size{
-        font-size: 2.5em !important;
-    }
-
-    ion-icon{
-        font-size: 2em !important;
-    }
-
-    ion-item-sliding{
-        margin-bottom: 12px;
-    }
-
-    ion-label{
-        margin-bottom: 0px !important;
-    }
-
-    .col{
-        text-align: center;
-    }
-
-    .mySpotsList .item-inner{
-        border-bottom: none !important;
-    }
-
-    .mySpotsList .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block{
-        border-bottom: none !important;
-    }
-
-    .item-ios p{
-        margin: 0 0 2px;
-        font-size: 1.4rem;
-        color: #666;
-        max-height: 8em;
-        overflow: hidden;
-        text-overflow: ellipsis; 
-    }
-
-    ion-label{
-        white-space:inherit;
-    }
 }
