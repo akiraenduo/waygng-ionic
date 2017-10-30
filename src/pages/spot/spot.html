@@ -45,7 +45,7 @@
     
             <ion-card *ngFor="let spot of spots | async">
                 
-                  <ion-item (tap)="goDetailSpot(spot)">
+                  <ion-item>
                     <ion-avatar *ngIf="!spot.anonyme" item-start>
                         <img [src]="(spot.userPicture)" />
                     </ion-avatar>
@@ -58,7 +58,7 @@
                     <p>{{spot.dateUpdate | formatDate:'relative'}}</p>  
                   </ion-item>
                  
-                  <ion-card-content (tap)="goDetailSpot(spot)">
+                  <ion-card-content>
                     <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
                   </ion-card-content>
                 

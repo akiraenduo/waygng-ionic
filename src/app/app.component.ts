@@ -11,6 +11,7 @@ import { UserProvider } from '../providers/user/userProvider';
 import { TranslateService } from '@ngx-translate/core';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 
 
@@ -22,7 +23,7 @@ import { Badge } from '@ionic-native/badge';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = 'HomePage';
+  rootPage: any;
   user:any;
   notifications:any;
 
@@ -40,6 +41,7 @@ export class MyApp {
               public alertCtrl: AlertController, 
               public localNotifications: LocalNotifications,
               private badge: Badge,
+              private nativeStorage: NativeStorage,
               private translate: TranslateService) {   
                 
       this.initTranslate();
@@ -48,7 +50,8 @@ export class MyApp {
         if(user){
           this.notifications = this.userProviser.getNotifications(user.uid).valueChanges();
           this.user = user;
-          this.rootPage = 'FavorisPage';
+          //this.rootPage = 'FavorisPage';
+          this.rootPage = 'TutorialPage';
           this.menu.close();
         }else{
           this.user = null;
@@ -75,7 +78,30 @@ export class MyApp {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(() => { 
+
+      if(this.platform.is('cordova')){
+        this.nativeStorage.clear();
+        this.nativeStorage.getItem('launchCount').then(
+          data => {
+            if(!data){
+              alert("ICI");
+            }else{
+              alert("LA");
+            }
+
+          },
+          error => {
+            // first launch
+            this.nativeStorage.setItem('launchCount', 1).then(() => {
+              alert("HomePage");
+              this.rootPage = 'HomePage';
+            })
+          }
+        );
+      }
+
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.overlaysWebView(false);

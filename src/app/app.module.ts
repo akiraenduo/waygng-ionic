@@ -20,6 +20,7 @@ import { PhotoLibrary } from '@ionic-native/photo-library';
 import { FCM } from '@ionic-native/fcm';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -89,6 +90,7 @@ export function createTranslateLoader(http: HttpClient) {
     FCM,
     LocalNotifications,
     Badge,
+    NativeStorage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,

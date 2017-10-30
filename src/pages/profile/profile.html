@@ -67,7 +67,7 @@
             <p>{{spot.dateUpdate | formatDate:'relative'}}</p>  
           </ion-item>
         
-          <ion-card-content (tap)="goDetailSpot(spot)">
+          <ion-card-content>
             <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
           </ion-card-content> 
         

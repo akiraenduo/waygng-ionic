@@ -35,6 +35,7 @@ export class NotificationPage {
   }
 
   ionViewWillEnter() {
+    this.badge.clear();
     this.loading = true;
     const userAuth = this.auth.user.subscribe(user => {
       if (user) {
@@ -79,8 +80,6 @@ export class NotificationPage {
 
   removeNotification(notifId){
     this.userProvider.removeNotification(this.userUid,notifId);
-    this.badge.decrease(1);
-
   }
 
 }

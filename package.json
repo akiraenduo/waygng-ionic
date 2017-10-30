@@ -28,6 +28,7 @@
     "@ionic-native/geolocation": "^4.2.1",
     "@ionic-native/keyboard": "^4.2.1",
     "@ionic-native/local-notifications": "^4.3.2",
+    "@ionic-native/native-storage": "^4.3.2",
     "@ionic-native/photo-library": "^4.2.1",
     "@ionic-native/push": "^4.3.2",
     "@ionic-native/splash-screen": "4.3.0",
@@ -45,6 +46,7 @@
     "cordova-plugin-fcm": "^2.1.2",
     "cordova-plugin-geolocation": "^2.4.3",
     "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git",
+    "cordova-plugin-nativestorage": "^2.2.2",
     "cordova-plugin-push": "0.0.1",
     "cordova-plugin-splashscreen": "^4.0.3",
     "cordova-plugin-statusbar": "^2.2.3",
@@ -80,7 +82,8 @@
       "ionic-plugin-keyboard": {},
       "de.appplant.cordova.plugin.local-notification": {},
       "cordova-plugin-fcm": {},
-      "cordova-plugin-badge": {}
+      "cordova-plugin-badge": {},
+      "cordova-plugin-nativestorage": {}
     },
     "platforms": [
       "ios"
