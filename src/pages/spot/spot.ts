@@ -104,7 +104,7 @@ export class SpotPage {
       return
     } 
      this.subscription = this.spotProvider
-        .getSpotList(this.batch+1, this.lastDate).snapshotChanges()
+        .getSpotList(this.batch+1, this.lastDate).stateChanges(['added'])
         .map(spots => {
           return spots.map(s => {
             const data = s.payload.doc.data();
@@ -126,7 +126,7 @@ export class SpotPage {
             /// Concatenate new spots to current spots
             this.spots.next( _.concat(currentSpots, newSpots) )
           }
-        }).take(1).subscribe(() =>{
+        }).subscribe(() =>{
           if(infiniteScroll){
             infiniteScroll.complete();
           }else{

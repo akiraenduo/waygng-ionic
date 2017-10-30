@@ -114,13 +114,11 @@ export class MyApp {
             this.badge.clear();
             this.nav.push('SpotDetailPage', {spotKey : data.spotUid});
           } else {
-
-            const alert = this.alertCtrl.create({
-              title: 'New notification 2',
-              subTitle: JSON.stringify(data)
+            this.localNotifications.schedule({
+              id: 1,
+              text: 'Single ILocalNotification',
+              data: data
             });
-            alert.present();
-
           };
         })
 
