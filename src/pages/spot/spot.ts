@@ -35,7 +35,6 @@ export class SpotPage {
   finished = false  // boolean when end of database is reached
   userUid: any;
   subscription: Subscription;
-  spotsTest:any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
