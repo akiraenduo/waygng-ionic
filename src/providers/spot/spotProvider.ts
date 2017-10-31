@@ -27,9 +27,9 @@ export class SpotProvider {
 
   addSpot(spot:Spot){
     let message = spot.message;
-    spot.dateUpdate = -spot.dateUpdate ;
-    const autoId = this.afs.collection('/spots').ref.doc().id;
-    spot.id = autoId;
+    //const autoId = this.afs.collection('/spots').ref.doc().id;
+    const autoId = spot.dateUpdate;
+    spot.id = autoId.toString();
     const spots = this.afs.doc('/spots/'+autoId);
     return spots.set(spot).then(spot =>{
       let rx = /\b(?:(?:https?|ftps?):\/\/|www\.)\S+|#(\w+)\b/gi;
