@@ -82,7 +82,7 @@ export class AddSpotPage {
      let hashtagList = this.parseHashtagList(value);
      if(hashtagList.length > 0 && _.endsWith(value, hashtagList[hashtagList.length-1])){
       this.loading = true;
-      this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]).valueChanges().take(1).subscribe((hashtags) => {
+      this.subscription = this.spotProvider.fetchHashtag(hashtagList[hashtagList.length-1]).valueChanges().subscribe((hashtags) => {
         this.hashtags = hashtags;
         this.loading = false;
       });
@@ -92,7 +92,7 @@ export class AddSpotPage {
 
   hashtagSelected(tag){
     let hashtagList = this.parseHashtagList(this.message);
-    this.message = _.replace(this.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.name);
+    this.message = _.replace(this.message, "#"+hashtagList[hashtagList.length-1], "#"+tag.tag);
   }
 
   parseHashtagList(message):string[]{

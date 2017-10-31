@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SafeHtmlPipe } from './../pipes/safe-html/safe-html';
+import { ShowTwoTimePipe } from './show-two-time/show-two-time';
 import { FormatDatePipe } from './../pipes/format-date/format-date';
 import { FormatHashtagPipe } from './../pipes/format-hashtag/format-hashtag';
 import { FormatLikesPipe } from './format-likes/format-likes';
@@ -9,6 +10,7 @@ import { CalculateDistancePipe } from './calculate-distance/calculate-distance';
 import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
 @NgModule({
     declarations: [SafeHtmlPipe,
+    ShowTwoTimePipe,
     CalculateDistancePipe,    
     RemoveDuplicateStationPipe,
     FormatDatePipe,
@@ -18,6 +20,7 @@ import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
     FormatColorIconPipe],
 	imports: [],
     exports: [SafeHtmlPipe,
+    ShowTwoTimePipe,
     CalculateDistancePipe,     
     RemoveDuplicateStationPipe,
     FormatDatePipe,

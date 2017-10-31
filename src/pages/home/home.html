@@ -15,7 +15,7 @@
   </button> 
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
       <ion-refresher (ionRefresh)="doRefresh($event)">
           <ion-refresher-content
@@ -28,6 +28,17 @@
   <ion-row *ngIf="noResult" class="warning-container">
       <ion-col col-12>
           {{'WARNING.NO_PLANNED_PASSAGE' | translate }}
+      </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="!station" class="warning-container">
+      <ion-col col-12>
+          {{ 'WARNING.SEARCH_TIMETABLE' | translate }}
+      </ion-col>
+  </ion-row>
+  <ion-row *ngIf="station" class="warning-container">
+      <ion-col col-12>
+          {{ 'WARNING.LAST_UPDATE' | translate }} {{dateUpdate | formatDate:'calendar'}}
       </ion-col>
   </ion-row>
 

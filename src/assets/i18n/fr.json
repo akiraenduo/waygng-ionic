@@ -25,7 +25,9 @@
         "NOT_CONNECTED_SPOT":"Veuillez vous connecter pour accéder aux spots",
         "EMPTY_SPOT":"Aucun spot",
         "NOT_CONNECTED_NOTIF": "Veuillez vous connecter pour accéder aux notifications",
-        "EMPTY_NOTIF":"Aucune notification"
+        "EMPTY_NOTIF":"Aucune notification",
+        "SEARCH_TIMETABLE": "Sélèctionnez une station pour afficher les prochains passages",
+        "LAST_UPDATE": "Dernière mise à jour"
     },
     "ANONYME":"Anonyme",
     "MESSAGE":"Message",

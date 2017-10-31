@@ -33,6 +33,7 @@ export class HomePage {
   userUid: any;
   isInfavoris: any;
   subscription: Subscription;
+  dateUpdate:any;
 
 
   constructor(public navCtrl: NavController, 
@@ -121,6 +122,7 @@ export class HomePage {
   
 
           }
+          this.dateUpdate = new Date().getTime();
           this.loading = false;
           if(refresher != null){
             refresher.complete();

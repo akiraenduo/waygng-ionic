@@ -89,9 +89,10 @@
     
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="100px">
             <ion-infinite-scroll-content
-              loadingSpinner="ios"> 
-            </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+              </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
     
 
     </ng-template>

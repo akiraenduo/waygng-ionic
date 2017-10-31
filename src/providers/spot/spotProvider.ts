@@ -27,7 +27,6 @@ export class SpotProvider {
 
   addSpot(spot:Spot){
     let message = spot.message;
-    //const autoId = this.afs.collection('/spots').ref.doc().id;
     const autoId = spot.dateUpdate.toString();
     spot.id = autoId.toString();
     const spots = this.afs.doc('/spots/'+autoId);
@@ -49,6 +48,9 @@ export class SpotProvider {
               name:data.name,
               tag:data.tag,
               spotKeyList:data.spotKeyList
+            }
+            if(!h.spotKeyList){
+              h.spotKeyList = [];
             }
             h.spotKeyList.push(autoId);
             const hashtagRef = this.afs.doc('/hashtags/'+id);
@@ -74,18 +76,18 @@ export class SpotProvider {
   }
 
   getSpotsForCurrentUser(userUid:string): AngularFirestoreCollection<any>{
-    return this.afs.collection('/spots', ref => ref.where('userUid', '==', userUid).orderBy('dateUpdate','asc'));
+    return this.afs.collection('/spots', ref => ref.where('userUid', '==', userUid).orderBy('dateUpdate','desc'));
   }
-
+ 
   getSpot(key:string):AngularFirestoreDocument<any>{
     return this.afs.doc('/spots/'+key);
   }
 
   getSpotList(batch, lastDate): AngularFirestoreCollection<any>{
     if(lastDate){
-      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate').limit(batch).startAt(lastDate));
+      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate','desc').limit(batch).startAt(lastDate));
     }else{
-      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate').limit(batch));
+      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate','desc').limit(batch));
     }
   }
 
@@ -121,7 +123,7 @@ export class SpotProvider {
   }
 
    private searchHashtag(name): AngularFirestoreCollection<any> {
-    return this.afs.collection('/hashtags', ref => ref.where('name', '==', name));
+    return this.afs.collection('/hashtags', ref => ref.where('name', '==', name.toLowerCase()));
   }
 
   removeSpot(spot){

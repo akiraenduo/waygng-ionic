@@ -40,7 +40,7 @@
     </ion-list-header>
     <my-loader *ngIf="loading"></my-loader>
   <button ion-item *ngFor="let tag of hashtags" (click)="hashtagSelected(tag)">
-      <ion-label>{{tag.name}}</ion-label>
+      <ion-label>{{tag.tag}}      <ion-icon class="padding-tag-icon" *ngIf="tag.icon" [name]="tag.icon"></ion-icon> </ion-label>
   </button>
 </ion-list>
 
