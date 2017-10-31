@@ -52,7 +52,6 @@ export class SpotPage {
                     this.finished = false;
                     this.lastDate = '';
                     this.getSpots(null,null); 
-                    //this.getSpotsTest();
                   }else{
                     this.userUid = null;
                   }
@@ -66,7 +65,6 @@ export class SpotPage {
     this.lastDate = '';
     this.spots = new BehaviorSubject([]);
     this.getSpots(null,refresher);
-    //this.getSpotsTest();
   }
 
 
@@ -81,18 +79,6 @@ export class SpotPage {
   incrementLike(spot){
     spotUtils.incrementLike(spot,this.userUid);
     this.spotProvider.incrementLikes(spot.id,spot);
-  }
-
-  private getSpotsTest(){
-    this.spotProvider.getSpotList(this.batch+1, this.lastDate).snapshotChanges().map(spots => {
-      return spots.map(s => {
-        const data = s.payload.doc.data();
-        const id = s.payload.doc.id;
-        return { id, ...data };
-      });
-    }).take(2).subscribe((spots) => {
-      this.spotsTest = spots;
-    })
   }
  
 

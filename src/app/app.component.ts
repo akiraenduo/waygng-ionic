@@ -50,8 +50,7 @@ export class MyApp {
         if(user){
           this.notifications = this.userProviser.getNotifications(user.uid).valueChanges();
           this.user = user;
-          //this.rootPage = 'FavorisPage';
-          this.rootPage = 'TutorialPage';
+          this.rootPage = 'FavorisPage';
           this.menu.close();
         }else{
           this.user = null;
@@ -86,6 +85,10 @@ export class MyApp {
           data => {
             if(!data){
               alert("ICI");
+              // first launch
+            this.nativeStorage.setItem('launchCount', 1).then(() => {
+              this.rootPage = 'TutorialPage';
+            })
             }else{
               alert("LA");
             }
@@ -94,8 +97,8 @@ export class MyApp {
           error => {
             // first launch
             this.nativeStorage.setItem('launchCount', 1).then(() => {
-              alert("HomePage");
-              this.rootPage = 'HomePage';
+              alert("TutorialPage");
+              this.rootPage = 'TutorialPage';
             })
           }
         );
