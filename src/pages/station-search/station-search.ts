@@ -7,9 +7,6 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { Station } from '../../models/station';
 import { HomePage } from '../home/home';
 import { Subscription } from 'rxjs/Subscription';
-import { Hashtag } from '../../models/hashtag';
-import { AngularFirestore } from 'angularfire2/firestore';
-import * as _ from 'lodash';
 
 /**
  * Generated class for the StationSearchPage page.
@@ -40,7 +37,6 @@ export class StationSearchPage {
               public navParams: NavParams, 
               public ginkoProvider: GinkoProvider, 
               public geolocation: Geolocation,
-              private afs: AngularFirestore,
               public Keyboard: Keyboard) {
     
   }
@@ -65,29 +61,9 @@ export class StationSearchPage {
     this.subscriptionFetchStation = this.ginkoProvider.fetchStations()
     .subscribe((stations) => {
       this.allStations = stations;
-
-      stations = _.uniqWith(stations, function(first, second){
-        return first.name === second.name;
-      });
-      stations.forEach((station:Station) => {
-        const h: Hashtag = {
-          name:this.transform(station.name).toLowerCase(),
-          tag:this.transform(station.name),
-          icon:"md-bus"
-        }
-
-        const hashtagRef = this.afs.collection('/hashtags');
-        //hashtagRef.add(h);
-      })
-
       this.searchStation = false;
       this.getStationProches(null);
     });
-  }
-
-  transform(str:string){
-    const arr = str.split(" ");
-    return arr.map(word => word[0].toUpperCase() + word.substring(1) + " ").join('').replace(/\s/g, "");
   }
 
   getStationProches(refresher){
