@@ -28,7 +28,7 @@ export class SpotProvider {
   addSpot(spot:Spot){
     let message = spot.message;
     //const autoId = this.afs.collection('/spots').ref.doc().id;
-    const autoId = spot.dateUpdate;
+    const autoId = spot.dateUpdate.toString();
     spot.id = autoId.toString();
     const spots = this.afs.doc('/spots/'+autoId);
     return spots.set(spot).then(spot =>{
