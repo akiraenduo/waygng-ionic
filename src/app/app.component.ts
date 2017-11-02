@@ -65,8 +65,9 @@ export class MyApp {
 
         this.pages = [
           { title: menu.TIMETABLE, icon:'md-alarm', component: 'HomePage' },
-          { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
           { title: menu.FAVORIS, icon:'star', component: 'FavorisPage' },
+          { title: menu.MAP, icon:'md-navigate', component: 'MapPage' },
+          { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
           { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },
           { title: menu.NOTIFICATIONS, icon:'md-notifications', component: 'NotificationPage' },
         ];

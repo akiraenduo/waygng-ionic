@@ -96,4 +96,8 @@
     <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
     <plugin name="cordova-plugin-badge" spec="^0.8.5" />
     <plugin name="cordova-plugin-nativestorage" spec="^2.2.2" />
+    <plugin name="cordova-plugin-googlemaps" spec="^2.1.1">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyC_2U8ffh7rfnP49f1nreUCXTuwIoBY_co" />
+        <variable name="API_KEY_FOR_IOS" value="AIzaSyDkd1JgDz24_bVWxITTfoH8KKiBOi3UHjg" />
+    </plugin>
 </widget>
