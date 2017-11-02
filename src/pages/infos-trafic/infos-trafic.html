@@ -15,11 +15,15 @@
           
         <ion-card-header>
             {{fav.titre}}
-            <div *ngFor="let line of fav.lignes">
+            <ion-grid>
+            <ion-row>
+              <ion-col class="align-center" *ngFor="let line of fav.lignes">
             <ion-thumbnail item-start class="numLigne" style.color="#{{line.couleurTexte}}" style.background-color="#{{line.couleurFond}}">
                 {{line.numLignePublic}}
             </ion-thumbnail>
-          </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
         </ion-card-header>
       
         <ion-card-content>

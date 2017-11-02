@@ -49,7 +49,7 @@ export class UserProvider {
     if(withNotificationReaded){
       return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.orderBy('dateUpdate','desc'));
     }else{
-      return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.where("read","==",false).orderBy('dateUpdate','desc'));
+      return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.where("read","==",false));
     }
     
   }
