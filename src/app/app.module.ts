@@ -20,6 +20,7 @@ import { PhotoLibrary } from '@ionic-native/photo-library';
 import { FCM } from '@ionic-native/fcm';
 import { Badge } from '@ionic-native/badge';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { GoogleMaps }  from '@ionic-native/google-maps';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -89,6 +90,7 @@ export function createTranslateLoader(http: HttpClient) {
     FCM,
     Badge,
     NativeStorage,
+    GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,
