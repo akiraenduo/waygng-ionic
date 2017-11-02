@@ -22,8 +22,6 @@
           refreshingText="{{ 'REFRESHING' | translate }}">
         </ion-refresher-content>
       </ion-refresher>
-  
-  <my-loader *ngIf="loading"></my-loader> 
 
   <ion-row *ngIf="noResult" class="warning-container">
       <ion-col col-12>
@@ -36,11 +34,13 @@
           {{ 'WARNING.SEARCH_TIMETABLE' | translate }}
       </ion-col>
   </ion-row>
-  <ion-row *ngIf="station" class="warning-container">
+  <ion-row *ngIf="station && !noResult" class="warning-container">
       <ion-col col-12>
           {{ 'WARNING.LAST_UPDATE' | translate }} {{dateUpdate | formatDate:'calendar'}}
       </ion-col>
   </ion-row>
+
+  <my-loader *ngIf="loading"></my-loader> 
 
   <ion-list>
     <ion-item *ngFor="let tempsAttente of listeTemps">

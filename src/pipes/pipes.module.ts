@@ -8,6 +8,7 @@ import { FormatLikeIconPipe } from './format-like-icon/format-like-icon';
 import { RemoveDuplicateStationPipe } from './remove-duplicate-station/remove-duplicate-station';
 import { CalculateDistancePipe } from './calculate-distance/calculate-distance';
 import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
+import { FormatBackgroundNotifPipe } from './format-background-notif/format-background-notif';
 @NgModule({
     declarations: [SafeHtmlPipe,
     ShowTwoTimePipe,
@@ -17,7 +18,8 @@ import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
     FormatHashtagPipe,
     FormatLikesPipe,
     FormatLikeIconPipe,
-    FormatColorIconPipe],
+    FormatColorIconPipe,
+    FormatBackgroundNotifPipe],
 	imports: [],
     exports: [SafeHtmlPipe,
     ShowTwoTimePipe,
@@ -27,6 +29,7 @@ import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
     FormatHashtagPipe,
     FormatLikesPipe,
     FormatLikeIconPipe,
-    FormatColorIconPipe]
+    FormatColorIconPipe,
+    FormatBackgroundNotifPipe]
 })
 export class PipesModule {}

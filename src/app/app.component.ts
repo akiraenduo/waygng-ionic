@@ -9,7 +9,6 @@ import * as moment from 'moment'
 import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/userProvider';
 import { TranslateService } from '@ngx-translate/core';
-import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
 import { NativeStorage } from '@ionic-native/native-storage';
 
@@ -39,7 +38,6 @@ export class MyApp {
               public loadingCtrl: LoadingController,
               public fcm: FCM,
               public alertCtrl: AlertController, 
-              public localNotifications: LocalNotifications,
               private badge: Badge,
               private nativeStorage: NativeStorage,
               private translate: TranslateService) {   
@@ -48,7 +46,7 @@ export class MyApp {
 
       this.auth.user.subscribe(user => {
         if(user){
-          this.notifications = this.userProviser.getNotifications(user.uid).valueChanges();
+          this.notifications = this.userProviser.getNotifications(user.uid,false).valueChanges();
           this.user = user;
           this.rootPage = 'FavorisPage';
           this.menu.close();
@@ -80,7 +78,7 @@ export class MyApp {
     this.platform.ready().then(() => { 
 
       if(this.platform.is('cordova')){
-        this.nativeStorage.clear();
+        //this.nativeStorage.clear();
         this.nativeStorage.getItem('launchCount').then(
           data => {
             if(!data){
@@ -90,14 +88,13 @@ export class MyApp {
               this.rootPage = 'TutorialPage';
             })
             }else{
-              alert("LA");
+              //alert("LA");
             }
 
           },
           error => {
             // first launch
             this.nativeStorage.setItem('launchCount', 1).then(() => {
-              alert("TutorialPage");
               this.rootPage = 'TutorialPage';
             })
           }
@@ -115,14 +112,9 @@ export class MyApp {
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
             this.badge.clear();
+            this.userProviser.updateSawReadNotification(this.user.uid,data.notificationUid);
             this.nav.push('SpotDetailPage', {spotKey : data.spotUid});
-          } else {
-            this.localNotifications.schedule({
-              id: 1,
-              text: 'Single ILocalNotification',
-              data: data
-            });
-          };
+          }
         })
 
       }

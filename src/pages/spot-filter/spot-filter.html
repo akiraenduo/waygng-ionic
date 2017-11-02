@@ -22,13 +22,14 @@
       <button ion-item *ngFor="let tag of hashtags | async" (click)="doSearch(tag)">
             <ion-icon *ngIf="isHistorySearch" name="md-time" item-start></ion-icon>
             <ion-label>{{tag.tag}}</ion-label>
+            <ion-icon *ngIf="tag.icon" [name]="tag.icon" item-end></ion-icon>
       </button>
   </ion-list>
 
   <ion-list *ngIf="hashtagKeySelected">
         <ion-row *ngIf="(spotsFiltered | async)?.length==0 && (loading) == false" class="warning-container">
                 <ion-col col-12>
-                    {{ 'WARNING.EMPTY_SPOT' | translate }}
+                    {{ 'WARNING.EMPTY_SPOT' | translate }} avec le #{{searchBarModel}}
                 </ion-col>
             </ion-row> 
         <ion-card  *ngFor="let spot of spotsFiltered | async">
@@ -45,7 +46,7 @@
                 </ion-item>
                     
                 <ion-card-content>
-                <p class="paragraphe-height" [innerHTML]="(spot|async)?.message  | formatHashtag"></p>
+                <p [innerHTML]="(spot|async)?.message  | formatHashtag"></p>
                 </ion-card-content>
             </div>     
         </ion-card>                    

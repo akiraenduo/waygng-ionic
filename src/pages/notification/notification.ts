@@ -40,7 +40,7 @@ export class NotificationPage {
     const userAuth = this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        this.subscription = this.userProvider.getNotifications(user.uid).snapshotChanges().map(notifications => {
+        this.subscription = this.userProvider.getNotifications(user.uid,true).snapshotChanges(['added']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
@@ -48,6 +48,9 @@ export class NotificationPage {
             })
           }).subscribe((notifications) => {
           this.notifications = notifications;
+          notifications.forEach((notification) => {
+            this.userProvider.updateSawNotification(this.userUid,notification.id);            
+          })
           this.loading = false
         }) 
       }else{
@@ -65,7 +68,7 @@ export class NotificationPage {
   }
 
   goDetailSpot(notif){
-    this.removeNotification(notif.id);
+    this.userProvider.updateReadNotification(this.userUid,notif.id);
     this.navCtrl.push('SpotDetailPage', {spotKey : notif.spotUid});
   }
 

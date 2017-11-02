@@ -95,18 +95,20 @@ export class SpotProvider {
   fetchSpots(hashtagKey:string, lastKey:string, batch:number):Observable<any>{
     return this.afs.doc('/hashtags/'+hashtagKey).valueChanges().do((item) => { 
       item["spots"] = [];
-      let spotKeyList = item["spotKeyList"].reverse();
-      let index = 0;
-      if(lastKey){
-        index = _.findIndex(spotKeyList, function(key) { return key == lastKey });
-      }
-      let endIndex = index + batch;
-      spotKeyList = _.slice(spotKeyList, index, endIndex);
-      return spotKeyList.map(key => {
-          item["spots"].push({spot:this.afs.doc("/spots/"+key).valueChanges(),ref:this.afs.doc("/spots/"+key).ref});
-          return item;
-        })
-      })
+      if(item && item["spotKeyList"] && item["spotKeyList"].length > 0){
+          let spotKeyList = item["spotKeyList"].reverse();
+          let index = 0;
+          if(lastKey){
+            index = _.findIndex(spotKeyList, function(key) { return key == lastKey });
+          }
+          let endIndex = index + batch;
+          spotKeyList = _.slice(spotKeyList, index, endIndex);
+          return spotKeyList.map(key => {
+              item["spots"].push({spot:this.afs.doc("/spots/"+key).valueChanges(),ref:this.afs.doc("/spots/"+key).ref});
+              return item;
+            })
+        }
+    })
    }
 
   fetchHashtag(name:string): AngularFirestoreCollection<any> {

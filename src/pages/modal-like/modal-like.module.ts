@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ModalLikePage } from './modal-like';
-import { MyLoaderComponentModule } from '../../components/my-loader/my-loader.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import { MyLoaderComponentModule } from '../../components/my-loader/my-loader.mo
   imports: [
     IonicPageModule.forChild(ModalLikePage),
     TranslateModule.forChild(),
-    MyLoaderComponentModule
+    ComponentsModule
   ],
   exports: [
     ModalLikePage

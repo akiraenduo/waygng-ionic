@@ -10,6 +10,7 @@ import * as _ from 'lodash'
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
+import { HashtagHisto } from '../../models/hashtagHisto';
 
 /**
  * Generated class for the SpotFilterPage page.
@@ -137,9 +138,15 @@ export class SpotFilterPage {
      const lastHistoryTag = _.last(this.hashtagsHistory);
      this.userProvider.removeHistoryHashtag(this.userUid,lastHistoryTag.id);
     }
-
-
-    this.userProvider.addHistoryHashtag(this.userUid,this.hashtagKeySelected,this.searchBarModel);
+    
+    const hashtagHisto:HashtagHisto = {
+      name:hashtag.name,
+      tag:hashtag.tag
+    }
+    if(hashtag.icon){
+      hashtagHisto.icon = hashtag.icon;
+    }
+    this.userProvider.addHistoryHashtag(this.userUid,hashtag.id,hashtagHisto);
     this.getSpotsFiltered(null);
   }
 

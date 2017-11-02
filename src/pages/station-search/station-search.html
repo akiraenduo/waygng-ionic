@@ -7,14 +7,14 @@
 <ion-header no-border>
   <ion-toolbar color="blue">
       <ion-navbar>
-          <ion-searchbar #searchBar (ionInput)="getItems($event)"></ion-searchbar>
+          <ion-searchbar placeholder="{{ 'SEARCH_STATION' | translate }}" #searchBar (ionInput)="getItems($event)"></ion-searchbar>
       </ion-navbar>
   </ion-toolbar>
 </ion-header>
 
 
 
-<ion-content padding>
+<ion-content>
 
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
@@ -23,15 +23,15 @@
   </ion-refresher>
   
   <ion-list>
-    <ion-list-header>
-      <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;Stations les plus proches
+    <ion-list-header color="light">
+      <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;{{ 'NEAREST_STATION' | translate }}
     </ion-list-header>
 
     <my-loader *ngIf="searchPosition"></my-loader> 
     
     <ion-row *ngIf="stationProches.length == 0 && !searchPosition" class="warning-container">
         <ion-col col-12>
-            Aucune station à proximité
+            {{ 'WARNING.NO_STATION_NEARBY' | translate }}
         </ion-col>
     </ion-row>
     <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
@@ -40,8 +40,8 @@
           <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
       </ion-row>
     </button>
-    <ion-list-header>
-      <ion-icon name="search"></ion-icon>&nbsp;&nbsp; Recherche station
+    <ion-list-header color="light">
+      <ion-icon name="search"></ion-icon>&nbsp;&nbsp; {{ 'STATIONS' | translate }}
     </ion-list-header>
 
     <my-loader *ngIf="searchStation"></my-loader> 

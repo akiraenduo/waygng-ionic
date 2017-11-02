@@ -4,16 +4,25 @@ page-notification {
         font-size: 2em !important;
     }
 
-    ion-item-sliding{
-        margin-bottom: 12px;
+    .border-bottom{
+        border-bottom: 0.55px solid #c8c7cc;
     }
 
     .item-inner{
         border-bottom: none !important;
     }
+
     
     .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block{
         border-bottom: none !important;
+    }
+
+    .background-notification-noRead{
+        background-color: rgba(23,146,209,0.2)
+    }
+
+    .background-notification-read{
+        background-color: #fff
     }
 
 }

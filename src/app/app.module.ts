@@ -18,7 +18,6 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { Facebook } from '@ionic-native/facebook';
 import { PhotoLibrary } from '@ionic-native/photo-library';
 import { FCM } from '@ionic-native/fcm';
-import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Badge } from '@ionic-native/badge';
 import { NativeStorage } from '@ionic-native/native-storage';
 
@@ -88,7 +87,6 @@ export function createTranslateLoader(http: HttpClient) {
     Facebook,
     PhotoLibrary,
     FCM,
-    LocalNotifications,
     Badge,
     NativeStorage,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

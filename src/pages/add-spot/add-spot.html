@@ -31,7 +31,7 @@
 
   <ion-item>
     <ion-label floating>{{ 'MESSAGE' | translate }}</ion-label>
-    <ion-textarea #inputMessage autofocus autocorrect type="text" maxlength="300" [(ngModel)]="message" (keyup)="eventInputMessage($event)"></ion-textarea>
+    <ion-textarea #inputMessage autofocus autocorrect type="text" maxlength="400" [(ngModel)]="message" (keyup)="eventInputMessage($event)"></ion-textarea>
   </ion-item>
   
 <ion-list>
@@ -40,7 +40,8 @@
     </ion-list-header>
     <my-loader *ngIf="loading"></my-loader>
   <button ion-item *ngFor="let tag of hashtags" (click)="hashtagSelected(tag)">
-      <ion-label>{{tag.tag}}      <ion-icon class="padding-tag-icon" *ngIf="tag.icon" [name]="tag.icon"></ion-icon> </ion-label>
+      <ion-label>{{tag.tag}}</ion-label>
+      <ion-icon *ngIf="tag.icon" [name]="tag.icon" item-end></ion-icon>
   </button>
 </ion-list>
 

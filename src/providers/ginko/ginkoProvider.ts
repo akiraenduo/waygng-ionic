@@ -7,8 +7,6 @@ import 'rxjs/add/operator/map';
 import { Station } from '../../models/station';
 import { StationAttente } from '../../models/stationAttente';
 import { InfosTrafic } from '../../models/infosTrafic';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Hashtag } from '../../models/hashtag';
 /*
   Generated class for the RestProvider provider.
 

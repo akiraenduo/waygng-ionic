@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Platform } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { HashtagHisto } from '../../models/hashtagHisto';
 
 /*
   Generated class for the UserProvider provider.
@@ -34,22 +35,39 @@ export class UserProvider {
     item.delete();
   }
 
-  addHistoryHashtag(userUid:string, hashtagKey:string, hashtagName:string){
-    const item = this.afs.doc('/users/'+userUid+'/hashtagsHisto/'+hashtagKey);
-    item.set({"name":hashtagName.toLowerCase(), "tag":hashtagName, "dateUpdate": new Date().getTime()});
+  addHistoryHashtag(userUid:string, hashtagId:string, hashtagHisto:HashtagHisto){
+    hashtagHisto.dateUpdate = new Date().getTime();
+    const item = this.afs.doc('/users/'+userUid+'/hashtagsHisto/'+hashtagId);
+    item.set(hashtagHisto);
   }
 
   getHistoryHashtags(userUid:string):AngularFirestoreCollection<any>{
     return this.afs.collection('/users/'+userUid+'/hashtagsHisto', ref => ref.orderBy('dateUpdate','desc'));
   }
 
-  getNotifications(userUid:string):AngularFirestoreCollection<any>{
-    return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.orderBy('dateUpdate','desc'));
+  getNotifications(userUid:string,withNotificationReaded:boolean):AngularFirestoreCollection<any>{
+    if(withNotificationReaded){
+      return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.orderBy('dateUpdate','desc'));
+    }else{
+      return this.afs.collection('/users/'+userUid+'/notifications', ref => ref.where("read","==",false).orderBy('dateUpdate','desc'));
+    }
+    
   }
 
   removeNotification(userUid:string, notifId:string){
     this.afs.doc('/users/'+userUid+'/notifications/'+notifId).delete();
   }
 
+  updateReadNotification(userUid:string, notifId:string){
+    this.afs.doc('/users/'+userUid+'/notifications/'+notifId).update({read:true});
+  }
+
+  updateSawNotification(userUid:string, notifId:string){
+    this.afs.doc('/users/'+userUid+'/notifications/'+notifId).update({saw:true});
+  }
+
+  updateSawReadNotification(userUid:string, notifId:string){
+    this.afs.doc('/users/'+userUid+'/notifications/'+notifId).update({saw:true,read:true});
+  }
 
 }

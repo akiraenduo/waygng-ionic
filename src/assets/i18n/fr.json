@@ -27,7 +27,8 @@
         "NOT_CONNECTED_NOTIF": "Veuillez vous connecter pour accéder aux notifications",
         "EMPTY_NOTIF":"Aucune notification",
         "SEARCH_TIMETABLE": "Sélèctionnez une station pour afficher les prochains passages",
-        "LAST_UPDATE": "Dernière mise à jour"
+        "LAST_UPDATE": "Dernière mise à jour",
+        "NO_STATION_NEARBY": "Aucune station à proximité"
     },
     "ANONYME":"Anonyme",
     "MESSAGE":"Message",
@@ -37,5 +38,8 @@
     "SIGN_OUT":"Déconnexion",
     "MY_SPOTS": "Mes spots",
     "NOTIF_LIKE_SPOT": "a aimé votre spot",
-    "REFRESHING": "Chargement..."
+    "REFRESHING": "Chargement...",
+    "NEAREST_STATION": "Stations les plus proches",
+    "SEARCH_STATION": "Recherche une station",
+    "STATIONS": "Stations"
 }
