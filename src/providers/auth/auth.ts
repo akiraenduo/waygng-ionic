@@ -10,17 +10,7 @@ import 'rxjs/add/operator/switchMap';
 
 import * as firebase from 'firebase/app';
 import { FCM } from '@ionic-native/fcm';
-
-
-
-interface User{
-  uid:string;
-  email:string;
-  photoURL?:string;
-  displayName?:string;
-  firstName?:string;
-  token?:string;
-}
+import { User } from '../../models/user';
 
 
 @Injectable()

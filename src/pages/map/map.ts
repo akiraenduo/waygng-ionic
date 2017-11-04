@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { Station } from '../../models/station';
 import {
   GoogleMaps,
   GoogleMap,
   GoogleMapsEvent,
-  GoogleMapOptions,
-  CameraPosition,
-  MarkerOptions,
-  Marker
+  GoogleMapOptions
  } from '@ionic-native/google-maps';
+import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 
 /**
  * Generated class for the MapPage page.
@@ -31,20 +30,23 @@ export class MapPage {
               public navParams: NavParams,
               public platform: Platform,
               public geolocation: Geolocation,
+              public ginkoProvider: GinkoProvider, 
               public googleMaps: GoogleMaps) {
                 platform.ready().then(() => {
                   this.geolocation.getCurrentPosition().then((resp) => {
                     let latitude = resp.coords.latitude;
                     let longitude = resp.coords.longitude;
-                    this.loadMap(latitude,longitude);
+                    ginkoProvider.fetchStationsProche(latitude,longitude).subscribe((stations) => {
+                      this.loadMap(latitude,longitude,stations);
+                    })
                   });
                   
                 }).catch((error) => {
-                  console.log('Error getting location', error);
+                  alert('Error getting location');
                 });
   }
 
-  loadMap(latitude:number,longitude:number) {
+  loadMap(latitude:number,longitude:number,stations:Station[]) {
     
         let mapOptions: GoogleMapOptions = {
           camera: {
@@ -62,11 +64,21 @@ export class MapPage {
         // Wait the MAP_READY before using any methods.
         this.map.one(GoogleMapsEvent.MAP_READY)
           .then(() => {
-            console.log('Map is ready!');
-    
             // Now you can use all methods safely.
+            stations.forEach((station) =>{
+              
+              this.map.addMarker({
+                title: station.name,
+                icon: 'red',
+                animation: 'DROP',
+                position: {
+                  lat: Number(station.latitude),
+                  lng: Number(station.longitude)
+                }
+              });
+            });
             this.map.addMarker({
-                title: 'Ionic',
+                title: 'Me',
                 icon: 'blue',
                 animation: 'DROP',
                 position: {

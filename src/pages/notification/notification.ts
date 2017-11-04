@@ -40,7 +40,7 @@ export class NotificationPage {
     const userAuth = this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        this.subscription = this.userProvider.getNotifications(user.uid,true).snapshotChanges(['added']).map(notifications => {
+        this.subscription = this.userProvider.getNotifications(user.uid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;

@@ -24,8 +24,6 @@ import { GoogleMaps }  from '@ionic-native/google-maps';
 
 // PAGE
 import { MyApp } from './app.component';
-import { LoginPage } from '../pages/login/login';
-import { RegisterPage } from '../pages/register/register';
 
 //PROVIDER
 import { AuthProvider } from '../providers/auth/auth';
@@ -48,9 +46,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp,
-    LoginPage,
-    RegisterPage
+    MyApp
   ],
   imports: [
     HttpModule,
@@ -76,9 +72,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    LoginPage,
-    RegisterPage
+    MyApp
   ],
   providers: [
     StatusBar,

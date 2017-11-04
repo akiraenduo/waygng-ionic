@@ -28,7 +28,7 @@
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
           <ion-row justify-content-center align-items-center>
               <ion-col col-2><ion-icon name={{p.icon}}></ion-icon> </ion-col>
-              <ion-col col-10>{{p.title}}<ion-badge color="danger" *ngIf="p.title == 'Notifications'" item-end>{{(notifications | async)?.length}}</ion-badge></ion-col>
+              <ion-col col-10>{{p.title}}<ion-badge color="danger" *ngIf="p.title == 'Notifications'" item-end>{{unread}}</ion-badge></ion-col>
           </ion-row>
       </button>
     </ion-list>

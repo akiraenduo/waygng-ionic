@@ -25,6 +25,7 @@ export class MyApp {
   rootPage: any;
   user:any;
   notifications:any;
+  unread:number;
 
   pages: Array<{title: string,icon: string, component: any}>;
 
@@ -46,7 +47,7 @@ export class MyApp {
 
       this.auth.user.subscribe(user => {
         if(user){
-          this.notifications = this.userProviser.getNotifications(user.uid,false).valueChanges();
+          this.unread = user.unread;
           this.user = user;
           this.rootPage = 'FavorisPage';
           this.menu.close();
