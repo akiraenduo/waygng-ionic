@@ -3,9 +3,7 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
-
 import { Station } from '../../models/station';
-import { HomePage } from '../home/home';
 import { Subscription } from 'rxjs/Subscription';
 
 /**
@@ -117,7 +115,7 @@ export class StationSearchPage {
   }
 
   itemSelected(station){
-    this.navCtrl.push(HomePage, {
+    this.navCtrl.push('HomePage', {
       station:station
     });
 

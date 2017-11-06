@@ -30,7 +30,13 @@ export class GinkoProvider {
         .map(response => {
             return response.json().objets
                 .map(station => {
-                return new Station(station.id,station.nom,station.latitude,station.longitude);
+                    const s: Station = {
+                        id:station.id,
+                        name:station.nom,
+                        latitude:station.latitude,
+                        longitude:station.longitude
+                      }
+                return s;
             });
         })
         .catch(this.handleError);
@@ -45,7 +51,14 @@ export class GinkoProvider {
         .map(response => {
             return response.json().objets
                 .map(station => {
-                return new Station(station.id,station.nom,station.latitude,station.longitude);
+                    const s: Station = {
+                        id:station.id,
+                        name:station.nom,
+                        latitude:station.latitude,
+                        longitude:station.longitude,
+                        latLong:station.latitude+";"+station.longitude
+                      }
+                return s;
             });
         })
         .catch(this.handleError);
