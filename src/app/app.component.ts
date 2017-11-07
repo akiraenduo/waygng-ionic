@@ -12,13 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Badge } from '@ionic-native/badge';
 import { NativeStorage } from '@ionic-native/native-storage';
 
-
-import { TabsPage } from '../pages/tabs/tabs';
-
-
 @Component({
   templateUrl: 'app.html'
-})
+}) 
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
@@ -49,7 +45,7 @@ export class MyApp {
         if(user){
           this.unread = user.unread;
           this.user = user;
-          this.rootPage = TabsPage;
+          this.rootPage = 'TabsPage';
           this.menu.close();
         }else{
           this.user = null;
@@ -138,7 +134,7 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component, {title : page.title });
+    this.nav.setRoot(page.component);
   }
 
   goProfile(){
