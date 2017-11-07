@@ -13,7 +13,7 @@ import { Badge } from '@ionic-native/badge';
 import { NativeStorage } from '@ionic-native/native-storage';
 
 
-
+import { TabsPage } from '../pages/tabs/tabs';
 
 
 @Component({
@@ -49,7 +49,7 @@ export class MyApp {
         if(user){
           this.unread = user.unread;
           this.user = user;
-          this.rootPage = 'FavorisPage';
+          this.rootPage = TabsPage;
           this.menu.close();
         }else{
           this.user = null;
