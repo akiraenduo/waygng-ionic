@@ -58,7 +58,6 @@ export class MyApp {
         if(user){
           this.unread = user.unread;
           this.user = user;
-          this.menu.close();
           if(this.loader){
             this.loader.dismiss();
           }
