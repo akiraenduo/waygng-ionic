@@ -59,6 +59,7 @@ export class StationSearchPage {
     this.subscriptionFetchStation = this.ginkoProvider.fetchStations()
     .subscribe((stations) => {
       this.allStations = stations;
+      this.stations = stations;
       this.searchStation = false;
       this.getStationProches(null);
     });

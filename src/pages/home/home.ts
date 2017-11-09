@@ -9,6 +9,7 @@ import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
+import { Keyboard } from '@ionic-native/keyboard';
 
 
 @IonicPage()
@@ -44,9 +45,11 @@ export class HomePage {
               public favorisProvider: FavorisProvider,
               public auth: AuthProvider,
               public storage: Storage,
+              public keyboard: Keyboard,
               public toastCtrl: ToastController) {
 
     this.station = navParams.get("station");
+    this.keyboard.close();
 
     this.isInfavoris = false;
     
