@@ -39,32 +39,32 @@ export class MyApp {
               private badge: Badge,
               private storage: Storage,
               private translate: TranslateService) {   
-                
+
+
       this.initTranslate();
+
+      this.storage.get('hasSeenTutorial')
+      .then((hasSeenTutorial) => {
+        if (hasSeenTutorial) {
+          this.rootPage = "HomePage";
+        }else{
+          this.rootPage = 'TutorialPage'; 
+        } 
+
+        this.initializeApp();
+      })  
 
       this.auth.user.subscribe(user => {
         if(user){
           this.unread = user.unread;
           this.user = user;
           this.menu.close();
-          this.rootPage = 'FavroisPage';
           if(this.loader){
             this.loader.dismiss();
           }
         }else{
-          this.user = null;
-          // Check if the user has already seen the tutorial
-          this.storage.get('hasSeenTutorial')
-          .then((hasSeenTutorial) => {
-            if (hasSeenTutorial) {
-              this.rootPage = "HomePage";
-            }else{
-              this.rootPage = 'TutorialPage'; 
-            } 
-          })       
+          this.user = null;     
         }
-
-        this.initializeApp();
 
       }); 
       
