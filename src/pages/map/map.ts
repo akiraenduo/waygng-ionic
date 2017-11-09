@@ -36,18 +36,22 @@ export class MapPage {
               public geolocation: Geolocation,
               public ginkoProvider: GinkoProvider, 
               public googleMaps: GoogleMaps) {
-                platform.ready().then(() => {
-                  this.geolocation.getCurrentPosition().then((resp) => {
-                    let latitude = resp.coords.latitude;
-                    let longitude = resp.coords.longitude;
-                    ginkoProvider.fetchStationsProche(latitude,longitude).subscribe((stations) => {
-                      this.loadMap(latitude,longitude,stations);
-                    })
-                  });
-                  
-                }).catch((error) => {
-                  alert('Error getting location');
-                });
+
+  }
+
+  ionViewWillEnter(){
+    this.platform.ready().then(() => {
+      this.geolocation.getCurrentPosition().then((resp) => {
+        let latitude = resp.coords.latitude;
+        let longitude = resp.coords.longitude;
+        this.ginkoProvider.fetchStationsProche(latitude,longitude).subscribe((stations) => {
+          this.loadMap(latitude,longitude,stations);
+        })
+      });
+      
+    }).catch((error) => {
+      alert('Error getting location');
+    });
   }
 
   ionViewWillLeave() {

@@ -26,6 +26,7 @@
     "@ionic-native/facebook": "^4.3.2",
     "@ionic-native/fcm": "^4.3.2",
     "@ionic-native/geolocation": "^4.3.2",
+    "@ionic-native/globalization": "^4.3.3",
     "@ionic-native/google-maps": "^4.3.3",
     "@ionic-native/keyboard": "^4.3.2",
     "@ionic-native/native-storage": "^4.3.2",

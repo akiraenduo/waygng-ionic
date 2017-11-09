@@ -9,6 +9,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastController } from 'ionic-angular';
+import { TabsUtils } from '../../utils/tabsUtils';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -39,7 +40,9 @@ export class AddSpotPage {
               public spotProvider: SpotProvider,
               public auth: AuthProvider,
               public Keyboard: Keyboard,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              public tabsUtils: TabsUtils) {
+              this.tabsUtils.hide();
 
                 const userAuth = this.auth.user.subscribe(user => {
                 if (user) {

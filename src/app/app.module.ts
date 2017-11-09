@@ -19,8 +19,8 @@ import { Facebook } from '@ionic-native/facebook';
 import { PhotoLibrary } from '@ionic-native/photo-library';
 import { FCM } from '@ionic-native/fcm';
 import { Badge } from '@ionic-native/badge';
-import { NativeStorage } from '@ionic-native/native-storage';
 import { GoogleMaps }  from '@ionic-native/google-maps';
+import { IonicStorageModule } from '@ionic/storage';
 
 // PAGE
 import { MyApp } from './app.component';
@@ -31,6 +31,7 @@ import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { UserProvider } from '../providers/user/userProvider';
 import { FavorisProvider } from '../providers/favoris/favorisProvider';
 import { SpotProvider } from '../providers/spot/spotProvider';
+import { TabsUtils } from '../utils/tabsUtils';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -68,7 +69,8 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFirestoreModule,
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -83,14 +85,14 @@ export function createTranslateLoader(http: HttpClient) {
     PhotoLibrary,
     FCM,
     Badge,
-    NativeStorage,
     GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,
     FavorisProvider,
     SpotProvider,
-    AuthProvider
+    AuthProvider,
+    TabsUtils
   ]
 })
 export class AppModule {}

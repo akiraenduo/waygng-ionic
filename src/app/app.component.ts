@@ -10,7 +10,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { UserProvider } from '../providers/user/userProvider';
 import { TranslateService } from '@ngx-translate/core';
 import { Badge } from '@ionic-native/badge';
-import { NativeStorage } from '@ionic-native/native-storage';
+import { Storage } from '@ionic/storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,6 +22,7 @@ export class MyApp {
   user:any;
   notifications:any;
   unread:number;
+  loader:any;
 
   pages: Array<{title: string,icon: string, component: any}>;
 
@@ -36,7 +37,7 @@ export class MyApp {
               public fcm: FCM,
               public alertCtrl: AlertController, 
               private badge: Badge,
-              private nativeStorage: NativeStorage,
+              private storage: Storage,
               private translate: TranslateService) {   
                 
       this.initTranslate();
@@ -45,15 +46,25 @@ export class MyApp {
         if(user){
           this.unread = user.unread;
           this.user = user;
-          this.rootPage = 'TabsPage';
           this.menu.close();
+          this.rootPage = 'FavroisPage';
+          if(this.loader){
+            this.loader.dismiss();
+          }
         }else{
           this.user = null;
-          this.rootPage = 'HomePage';
+          // Check if the user has already seen the tutorial
+          this.storage.get('hasSeenTutorial')
+          .then((hasSeenTutorial) => {
+            if (hasSeenTutorial) {
+              this.rootPage = "HomePage";
+            }else{
+              this.rootPage = 'TutorialPage'; 
+            } 
+          })       
         }
 
         this.initializeApp();
-        moment.locale('fr-fr');
 
       }); 
       
@@ -74,32 +85,6 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => { 
-
-      if(this.platform.is('cordova')){
-        //this.nativeStorage.clear();
-        this.nativeStorage.getItem('launchCount').then(
-          data => {
-            if(!data){
-              alert("ICI");
-              // first launch
-            this.nativeStorage.setItem('launchCount', 1).then(() => {
-              this.rootPage = 'TutorialPage';
-            })
-            }else{
-              //alert("LA");
-            }
-
-          },
-          error => {
-            // first launch
-            this.nativeStorage.setItem('launchCount', 1).then(() => {
-              this.rootPage = 'TutorialPage';
-            })
-          }
-        );
-      }
-
-
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.overlaysWebView(false);
@@ -123,9 +108,9 @@ export class MyApp {
   initTranslate() {
     // Set the default language for translation strings, and the current language.
     this.translate.setDefaultLang('fr');
-
-    if (this.translate.getBrowserLang() !== undefined) {
-      this.translate.use(this.translate.getBrowserLang());
+    moment.locale('fr-fr');
+    if (this.translate.getDefaultLang() !== undefined) {
+      this.translate.use(this.translate.getDefaultLang());
     } else {
       this.translate.use('fr'); // Set your language here
     }
@@ -143,11 +128,11 @@ export class MyApp {
   }
 
   presentLoading() {
-    let loader = this.loadingCtrl.create({
+    this.loader = this.loadingCtrl.create({
       content: "Please wait...",
       dismissOnPageChange: true
     });
-    loader.present();
+    this.loader.present();
   }
 
   facebookLogin(){

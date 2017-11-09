@@ -4,13 +4,13 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { AuthProvider } from '../../providers/auth/auth';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
 
 import * as _ from 'lodash'
 import spotUtils from './spotUtils'
+import { TabsUtils } from '../../utils/tabsUtils';
 
 
 
@@ -34,31 +34,33 @@ export class SpotPage {
   lastDate = ''      // key to offset next query from
   finished = false  // boolean when end of database is reached
   userUid: any;
-  subscription: Subscription;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public spotProvider: SpotProvider,
               public db: AngularFireDatabase,
               public auth: AuthProvider,
-              public modalCtrl: ModalController) {
-
-
-                this.searchSpots = true;
-                const userAuth = this.auth.user.subscribe(user => {
-                  if (user) {
-                    this.userUid = user.uid;
-                    this.finished = false;
-                    this.lastDate = '';
-                    this.getSpots(null,null); 
-                  }else{
-                    this.userUid = null;
-                  }
-                  userAuth.unsubscribe();
-                });
+              public modalCtrl: ModalController,
+              public tabsUtils: TabsUtils) {
 
   }
-
+  
+  ionViewDidEnter() {
+    this.tabsUtils.show();
+    this.searchSpots = true;
+    const userAuth = this.auth.user.subscribe(user => {
+      if (user) {
+        this.userUid = user.uid;
+        this.finished = false;
+        this.lastDate = '';
+        this.getSpots(null,null); 
+      }else{
+        this.userUid = null;
+      }
+      userAuth.unsubscribe();
+    });
+  }
+  
   doRefresh(refresher) {
     this.finished = false;
     this.lastDate = '';
@@ -88,7 +90,7 @@ export class SpotPage {
       }
       return
     } 
-     this.subscription = this.spotProvider
+     this.spotProvider
         .getSpotList(this.batch+1, this.lastDate).stateChanges(['added'])
         .map(spots => {
           return spots.map(s => {

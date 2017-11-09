@@ -102,7 +102,7 @@ export class ProfilePage {
   }
 
   logout() {
-    this.navCtrl.setRoot(HomePage); 
+    this.navCtrl.setRoot('TabsPage'); 
     this.auth.logout();
   }
 

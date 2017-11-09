@@ -21,6 +21,9 @@ export class FavorisPage {
               public favorisProvider: FavorisProvider,
               private auth: AuthProvider) {
 
+  }
+
+  ionViewDidLoad() {
     this.loading = true;
     const userAuth = this.auth.user.subscribe(user => {
       if (user) {
@@ -38,6 +41,7 @@ export class FavorisPage {
   }
 
   ionViewWillLeave() {
+    this.loading = false;
     if(this.subscription){
       this.subscription.unsubscribe();
     }

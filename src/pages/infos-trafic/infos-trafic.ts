@@ -3,6 +3,7 @@ import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { InfosTrafic } from '../../models/infosTrafic';
 import { Observable } from 'rxjs/Observable';
+import { TabsUtils } from '../../utils/tabsUtils';
 
 /**
  * Generated class for the InfosTraficPage page.
@@ -21,7 +22,9 @@ export class InfosTraficPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public ginkoProvider: GinkoProvider,) {
+              public ginkoProvider: GinkoProvider,
+              public tabsUtils: TabsUtils) {
+                this.tabsUtils.show();
 
   }
 
