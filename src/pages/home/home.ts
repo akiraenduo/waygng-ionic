@@ -48,38 +48,34 @@ export class HomePage {
 
     this.station = navParams.get("station");
 
+    this.isInfavoris = false;
+    
+        this.storage.get('userUid')
+        .then((userUid) => {
+          if (userUid && this.station) {
+            this.userUid = userUid;
+            this.subscription = this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
+                snapshot.forEach(station => {
+                 if(station && station["name"]){
+                    this.isInfavoris = true;
+                  }
+                }); 
+              })
+          }else{
+            this.userUid = null;
+          }
+          if(this.station){
+            this.searchModel = this.station.name;
+            this.getTempsLieu(this.station,null);
+          }
+        })   
+
   }
 
   ionViewWillLeave() {
     if(this.subscription){
       this.subscription.unsubscribe();
     }
-  }
-
-  ionViewDidLoad() {
-    this.isInfavoris = false;
-
-    this.storage.get('userUid')
-    .then((userUid) => {
-      if (userUid && this.station) {
-        this.userUid = userUid;
-        this.subscription = this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
-            snapshot.forEach(station => {
-             if(station && station["name"]){
-                this.isInfavoris = true;
-              }
-            }); 
-          })
-      }else{
-        this.userUid = null;
-      }
-    })   
-  
-    if(this.station){
-      this.searchModel = this.station.name;
-      this.getTempsLieu(this.station,null);
-    }
-    
   }
 
   getTempsLieu(station,refresher){
