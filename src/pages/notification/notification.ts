@@ -74,11 +74,6 @@ export class NotificationPage {
 
   removeNotif(notif){
     this.removeNotification(notif.id);
-    this.toastCtrl.create({
-      message: 'Notification supprimée !',
-      duration: 3000,
-      position: 'bottom'
-    }).present();
   }
 
   removeNotification(notifId){
