@@ -7,11 +7,9 @@ import {
   GoogleMap,
   GoogleMapsEvent,
   GoogleMapOptions,
-  HtmlInfoWindow,
-  CameraPosition
+  HtmlInfoWindow
  } from '@ionic-native/google-maps';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
-import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the MapPage page.
@@ -28,7 +26,6 @@ import { Subscription } from 'rxjs/Subscription';
 export class MapPage {
 
   map: GoogleMap;
-  watchSub: Subscription;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -54,11 +51,6 @@ export class MapPage {
     });
   }
 
-  ionViewWillLeave() {
-    if(this.watchSub){
-      this.watchSub.unsubscribe();
-    }
-  }
 
   loadMap(latitude:number,longitude:number,stations:Station[]) {
     
@@ -85,19 +77,6 @@ export class MapPage {
         // Wait the MAP_READY before using any methods.
         this.map.one(GoogleMapsEvent.MAP_READY)
           .then(() => {
-
-            let watch = this.geolocation.watchPosition();
-            this.watchSub = watch.subscribe((data) => {
-              let cameraOptions: CameraPosition<any> = {
-                  target: {
-                    lat: data.coords.latitude,
-                    lng: data.coords.longitude
-                  },
-                  zoom: 15,
-                  tilt: 30
-              };
-              this.map.moveCamera(cameraOptions);
-            });
             
             // Now you can use all methods safely.
             stations.forEach((station) =>{

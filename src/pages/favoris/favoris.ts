@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
-import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -19,16 +19,17 @@ export class FavorisPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public favorisProvider: FavorisProvider,
-              private auth: AuthProvider) {
+              public storage: Storage) {
 
   }
 
   ionViewDidLoad() {
     this.loading = true;
-    const userAuth = this.auth.user.subscribe(user => {
-      if (user) {
-        this.userUid = user.uid;
-        this.subscription = this.favorisProvider.getFavorisList(user.uid).valueChanges().subscribe((favoris) => {
+    this.storage.get('userUid')
+    .then((userUid) => {
+      if (userUid) {
+        this.userUid = userUid;
+        this.subscription = this.favorisProvider.getFavorisList(userUid).valueChanges().subscribe((favoris) => {
           this.favoris = favoris;
           this.loading = false
         }) 
@@ -36,8 +37,7 @@ export class FavorisPage {
         this.favoris = null;
         this.loading = false;
       }
-      userAuth.unsubscribe();
-    });
+    })  
   }
 
   ionViewWillLeave() {

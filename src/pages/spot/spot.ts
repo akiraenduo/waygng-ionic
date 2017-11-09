@@ -4,6 +4,7 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { AuthProvider } from '../../providers/auth/auth';
+import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
@@ -41,6 +42,7 @@ export class SpotPage {
               public db: AngularFireDatabase,
               public auth: AuthProvider,
               public modalCtrl: ModalController,
+              public storage: Storage,
               public tabsUtils: TabsUtils) {
 
   }
@@ -48,17 +50,17 @@ export class SpotPage {
   ionViewDidEnter() {
     this.tabsUtils.show();
     this.searchSpots = true;
-    const userAuth = this.auth.user.subscribe(user => {
-      if (user) {
-        this.userUid = user.uid;
+    this.storage.get('userUid')
+    .then((userUid) => {
+      if (userUid) {
+        this.userUid = userUid;
         this.finished = false;
         this.lastDate = '';
         this.getSpots(null,null); 
       }else{
         this.userUid = null;
       }
-      userAuth.unsubscribe();
-    });
+    })
   }
   
   doRefresh(refresher) {

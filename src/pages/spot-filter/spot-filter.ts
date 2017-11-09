@@ -2,13 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-
+import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as _ from 'lodash'
 import { UserProvider } from '../../providers/user/userProvider';
-import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import { HashtagHisto } from '../../models/hashtagHisto';
 
@@ -47,19 +46,21 @@ export class SpotFilterPage {
               public Keyboard: Keyboard,
               public spotProvider: SpotProvider,
               public userProvider: UserProvider,
-              private auth: AuthProvider) {
+              public storage: Storage) {
 
                 this.loading = true;
-                const userAuth = this.auth.user.subscribe(user => {
-                  if (user) {
-                    this.userUid = user.uid;
+
+                this.storage.get('userUid')
+                .then((userUid) => {
+                  if (userUid) {
+                    this.userUid = userUid;
                     this.isHistorySearch = true;
                     this.getHistoryHashtags(this.userUid);
                   }else{
                     this.userUid = null;
                   }
-                  userAuth.unsubscribe();
-                });
+                })  
+
                 this.doFocus();
                 
   }

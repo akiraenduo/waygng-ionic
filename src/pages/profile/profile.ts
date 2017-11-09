@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController } from 'ionic-angular';
-import { HomePage } from '../home/home';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { Subscription } from 'rxjs/Subscription';
@@ -102,7 +101,7 @@ export class ProfilePage {
   }
 
   logout() {
-    this.navCtrl.setRoot('TabsPage'); 
+    this.navCtrl.setRoot('HomePage'); 
     this.auth.logout();
   }
 
