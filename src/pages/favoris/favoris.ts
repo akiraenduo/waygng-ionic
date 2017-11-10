@@ -32,7 +32,7 @@ export class FavorisPage {
         this.subscription = this.favorisProvider.getFavorisList(userUid).valueChanges().subscribe((favoris) => {
           this.favoris = favoris;
           this.loading = false
-        }) 
+        }); 
       }else{
         this.favoris = null;
         this.loading = false;

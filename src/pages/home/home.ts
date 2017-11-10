@@ -25,6 +25,7 @@ export class HomePage {
   longitude: number;
   errorMessage: string;
   loading: any = false;
+  loadFavoris: any = false;
   noResult: any = false;
   stationProches: Station[] = [];
   station: any;
@@ -36,6 +37,7 @@ export class HomePage {
   subscription: Subscription;
   dateUpdate:any;
   searchPosition:any;
+  favoris: any[] = [];
 
 
   constructor(public navCtrl: NavController, 
@@ -55,20 +57,22 @@ export class HomePage {
       this.getStationProches(null);
     }
 
-    this.isInfavoris = false;
+      this.isInfavoris = false;
     
-        this.storage.get('userUid')
-        .then((userUid) => {
-          this.userUid = userUid;
-          if (userUid && this.station) {
-            this.userUid = userUid;
+      this.storage.get('userUid').then((userUid) => {
+        this.userUid = userUid;
+        if(userUid){
+          if (this.station) {
             this.checkIfInFavoris();
+          }else{
+            this.getFavoris();
           }
-          if(this.station){
-            this.searchModel = this.station.name;
-            this.getTempsLieu(this.station,null);
-          }
-        })   
+        }
+        if(this.station){
+          this.searchModel = this.station.name;
+          this.getTempsLieu(this.station,null);
+        }
+      });   
 
   }
 
@@ -95,6 +99,14 @@ export class HomePage {
     this.checkIfInFavoris();
   }
 
+  getFavoris(){
+    this.loadFavoris = true;
+    this.subscription = this.favorisProvider.getFavorisList(this.userUid).valueChanges().subscribe((favoris) => {
+      this.favoris = favoris;
+      this.loadFavoris = false
+    }); 
+  }
+
   getStationProches(refresher){
     this.searchPosition = true;
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -119,6 +131,7 @@ export class HomePage {
     this.searchModel = null;
     this.station = null;
     this.getStationProches(null);
+    this.getFavoris();
   }
 
   getTempsLieu(station,refresher){

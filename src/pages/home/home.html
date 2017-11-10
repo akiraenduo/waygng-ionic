@@ -31,7 +31,7 @@
         </ion-refresher-content>
       </ion-refresher>
 
-  <ion-row *ngIf="noResult" class="warning-container">
+  <ion-row *ngIf="noResult && station" class="warning-container">
       <ion-col col-12>
           {{'WARNING.NO_PLANNED_PASSAGE' | translate }}
       </ion-col>
@@ -46,25 +46,41 @@
   <my-loader *ngIf="loading"></my-loader> 
 
   <div *ngIf="!station" >
-  <ion-list class="noBottomMargin">
-    <ion-list-header color="light">
-      <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;{{ 'NEAREST_STATION' | translate }}
-    </ion-list-header>
+    <ion-list class="noBottomMargin">
+      <ion-list-header color="light">
+        <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;{{ 'NEAREST_STATION' | translate }}
+      </ion-list-header>
 
-    <my-loader *ngIf="searchPosition"></my-loader> 
+      <my-loader *ngIf="searchPosition"></my-loader> 
 
-    <ion-row *ngIf="stationProches.length == 0 && !searchPosition && !station" class="warning-container noBottomMargin">
-        <ion-col col-12>
-            {{ 'WARNING.NO_STATION_NEARBY' | translate }}
-        </ion-col>
-    </ion-row>
-    <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
-      <ion-row>
-          <ion-col col-9>{{station.name}}</ion-col>
-          <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
+      <ion-row *ngIf="stationProches.length == 0 && !searchPosition && !station" class="warning-container noBottomMargin">
+          <ion-col col-12>
+              {{ 'WARNING.NO_STATION_NEARBY' | translate }}
+          </ion-col>
       </ion-row>
-    </button>
-  </ion-list>
+      <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
+        <ion-row>
+            <ion-col col-9>{{station.name}}</ion-col>
+            <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
+        </ion-row>
+      </button>
+      <ion-list-header color="light">
+        <ion-icon name="star"></ion-icon>&nbsp;&nbsp;{{ 'FAVORIS' | translate }}
+      </ion-list-header>
+
+      <my-loader *ngIf="loadFavoris"></my-loader> 
+
+      <ion-row *ngIf="favoris?.length==0" class="warning-container">
+        <ion-col col-12>
+            {{ 'WARNING.EMPTY_FAV' | translate }}
+        </ion-col>
+      </ion-row>
+      <button ion-item *ngFor="let fav of favoris"  (click)="itemSelected(fav)">
+        <ion-row>
+            <ion-col col-12>{{fav.name}}</ion-col>
+        </ion-row>
+      </button>
+    </ion-list>
   </div>
 
   <ion-list *ngIf="station">
