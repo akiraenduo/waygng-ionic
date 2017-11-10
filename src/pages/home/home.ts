@@ -35,6 +35,7 @@ export class HomePage {
   isInfavoris: any;
   subscription: Subscription;
   dateUpdate:any;
+  searchPosition:any;
 
 
   constructor(public navCtrl: NavController, 
@@ -50,22 +51,18 @@ export class HomePage {
 
     this.station = navParams.get("station");
     this.keyboard.close();
+    if(!this.station){
+      this.getStationProches(null);
+    }
 
     this.isInfavoris = false;
     
         this.storage.get('userUid')
         .then((userUid) => {
+          this.userUid = userUid;
           if (userUid && this.station) {
             this.userUid = userUid;
-            this.subscription = this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
-                snapshot.forEach(station => {
-                 if(station && station["name"]){
-                    this.isInfavoris = true;
-                  }
-                }); 
-              })
-          }else{
-            this.userUid = null;
+            this.checkIfInFavoris();
           }
           if(this.station){
             this.searchModel = this.station.name;
@@ -79,6 +76,49 @@ export class HomePage {
     if(this.subscription){
       this.subscription.unsubscribe();
     }
+  }
+
+  checkIfInFavoris(){
+    this.subscription = this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
+      snapshot.forEach(station => {
+       if(station && station["name"]){
+          this.isInfavoris = true;
+        }
+      }); 
+    });
+  }
+
+  itemSelected(station){
+    this.station = station;
+    this.searchModel = this.station.name;
+    this.getTempsLieu(this.station,null);
+    this.checkIfInFavoris();
+  }
+
+  getStationProches(refresher){
+    this.searchPosition = true;
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
+      this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
+      .subscribe((stations) => {
+        this.searchPosition = false;
+        this.stationProches = stations;
+        if(refresher){
+          refresher.complete();
+        }
+      }
+    );
+
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+  }
+
+  clearSearchBar(){
+    this.searchModel = null;
+    this.station = null;
+    this.getStationProches(null);
   }
 
   getTempsLieu(station,refresher){
@@ -140,7 +180,12 @@ export class HomePage {
   }
 
   doRefresh(refresher) {
-    this.getTempsLieu(this.station,refresher);
+    if(this.station){
+      this.getTempsLieu(this.station,refresher);
+    }else{
+      this.getStationProches(refresher);
+    }
+    
   }
 
   eventFavoris(){

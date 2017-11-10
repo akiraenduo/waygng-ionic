@@ -56,7 +56,6 @@ export class MyApp {
 
       this.auth.user.subscribe(user => {
         if(user){
-          console.log("login"); 
           this.unread = user.unread;
           this.user = user;
           this.storage.set('userUid', this.user.uid);
@@ -66,7 +65,6 @@ export class MyApp {
         }else{
           this.user = null;
           this.storage.remove('userUid'); 
-          console.log("logout");   
         }
 
       }); 

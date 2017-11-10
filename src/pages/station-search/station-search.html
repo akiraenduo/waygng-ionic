@@ -22,25 +22,6 @@
     </ion-refresher-content>
   </ion-refresher>
   
-  <ion-list class="noBottomMargin">
-    <ion-list-header color="light">
-      <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;{{ 'NEAREST_STATION' | translate }}
-    </ion-list-header>
-
-    <my-loader *ngIf="searchPosition"></my-loader> 
-    
-    <ion-row *ngIf="stationProches.length == 0 && !searchPosition" class="warning-container noBottomMargin">
-        <ion-col col-12>
-            {{ 'WARNING.NO_STATION_NEARBY' | translate }}
-        </ion-col>
-    </ion-row>
-    <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
-      <ion-row>
-          <ion-col col-9>{{station.name}}</ion-col>
-          <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
-      </ion-row>
-    </button>
-  </ion-list>
   <ion-list-header color="light">
     <ion-icon name="search"></ion-icon>&nbsp;&nbsp; {{ 'STATIONS' | translate }}
   </ion-list-header>

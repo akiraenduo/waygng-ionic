@@ -4,15 +4,23 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>{{ 'TITLE.TIMETABLE' | translate }}</ion-title>
-    <ion-buttons end *ngIf="userUid">
+    <ion-buttons end *ngIf="station">
       <button  ion-button icon-only (click)="eventFavoris()">
         <ion-icon [color]="isInfavoris ? 'yellown' : 'dark'" [name]="isInfavoris ? 'ios-star' : 'ios-star-outline'"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
-  <button ion-button full color="blue" class="button-margin" (click)="searchStation()">
-    <ion-searchbar class="home-searchbar" [(ngModel)] = "searchModel" placeholder="Station" > </ion-searchbar>
-  </button> 
+  <ion-toolbar no-border-top color="blue">
+        <button ion-button color="blue" full class="button-margin" (click)="searchStation()">
+            <ion-searchbar class="home-searchbar" [(ngModel)] = "searchModel" placeholder="Station" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>
+        </button>        
+    <ion-buttons *ngIf="searchModel && searchModel.length > 0" end>
+        <button ion-button icon-only (click)="clearSearchBar()">
+        <ion-icon name="md-close"></ion-icon> 
+        </button>
+    </ion-buttons>
+</ion-toolbar>
+
 </ion-header>
 
 <ion-content>
@@ -29,11 +37,6 @@
       </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="!station" class="warning-container">
-      <ion-col col-12>
-          {{ 'WARNING.SEARCH_TIMETABLE' | translate }}
-      </ion-col>
-  </ion-row>
   <ion-row *ngIf="station && !noResult" class="warning-container">
       <ion-col col-12>
           {{ 'WARNING.LAST_UPDATE' | translate }} {{dateUpdate | formatDate:'calendar'}}
@@ -42,7 +45,29 @@
 
   <my-loader *ngIf="loading"></my-loader> 
 
-  <ion-list>
+  <div *ngIf="!station" >
+  <ion-list class="noBottomMargin">
+    <ion-list-header color="light">
+      <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;{{ 'NEAREST_STATION' | translate }}
+    </ion-list-header>
+
+    <my-loader *ngIf="searchPosition"></my-loader> 
+
+    <ion-row *ngIf="stationProches.length == 0 && !searchPosition && !station" class="warning-container noBottomMargin">
+        <ion-col col-12>
+            {{ 'WARNING.NO_STATION_NEARBY' | translate }}
+        </ion-col>
+    </ion-row>
+    <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
+      <ion-row>
+          <ion-col col-9>{{station.name}}</ion-col>
+          <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
+      </ion-row>
+    </button>
+  </ion-list>
+  </div>
+
+  <ion-list *ngIf="station">
     <ion-item *ngFor="let tempsAttente of listeTemps">
       <ion-thumbnail item-start class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">
         {{tempsAttente.numLignePublic}}

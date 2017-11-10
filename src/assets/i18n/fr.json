@@ -28,7 +28,7 @@
         "EMPTY_SPOT":"Aucun spot",
         "NOT_CONNECTED_NOTIF": "Veuillez vous connecter pour accéder aux notifications",
         "EMPTY_NOTIF":"Aucune notification",
-        "SEARCH_TIMETABLE": "Sélèctionnez une station pour afficher les prochains passages",
+        "SEARCH_TIMETABLE": "Recherchez une station pour afficher les prochains passages",
         "LAST_UPDATE": "Dernière mise à jour",
         "NO_STATION_NEARBY": "Aucune station à proximité"
     },
