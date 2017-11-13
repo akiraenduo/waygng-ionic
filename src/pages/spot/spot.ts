@@ -48,15 +48,9 @@ export class SpotPage {
   goProfile(){
     this.navCtrl.push('ProfilePage');
   }
-
+  
   ionViewWillEnter() {
     this.tabsUtils.show();
-    this.storage.get('userUid').then((userUid) => {
-      this.userUid = userUid;
-    });
-  }
-  
-  ionViewDidLoad() {
     this.searchSpots = true;
     this.storage.get('userUid').then((userUid) => {
       if (userUid) {

@@ -54,13 +54,7 @@ export class HomePage {
     this.navCtrl.push('ProfilePage');
   }
 
-  ionViewWillEnter() {
-    this.storage.get('userUid').then((userUid) => {
-      this.userUid = userUid;
-    });
-  }
-
-  ionViewDidLoad(){
+  ionViewWillEnter(){
     this.station = this.navParams.get("station");
     if(!this.station){
       this.getStationProches(null);
@@ -103,7 +97,7 @@ export class HomePage {
 
   getFavoris(){
     this.loadFavoris = true;
-    this.subscription = this.favorisProvider.getFavorisList(this.userUid).valueChanges().subscribe((favoris) => {
+    this.favorisProvider.getFavorisList(this.userUid).valueChanges().subscribe((favoris) => {
       this.favoris = favoris;
       this.loadFavoris = false
     }); 

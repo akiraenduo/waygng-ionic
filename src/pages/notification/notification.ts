@@ -36,35 +36,25 @@ export class NotificationPage {
     this.navCtrl.push('ProfilePage');
   } 
 
-  ionViewWillEnter() {
+  ionViewWillEnter(){
     this.badge.clear();
     this.storage.get('userUid').then((userUid) => {
       this.userUid = userUid;
-    });
-  }
-
-  ionViewDidLoad(){
-    this.storage.get('userUid').then((userUid) => {
-      this.userUid = userUid;
       if(userUid){
+        this.userProvider.resetNotification(userUid);
         this.loading = true;
         this.userUid = userUid;
-        this.userProvider.getNotifications(userUid,true).snapshotChanges(['added','removed']).map(notifications => {
+        this.userProvider.getNotifications(userUid,true).snapshotChanges().map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
             return { id, ...data };
             })
           }).subscribe((notifications) => {
-          this.notifications = notifications;
-          notifications.forEach((notification) => {
-            this.userProvider.updateSawNotification(this.userUid,notification.id);            
-          })
-          this.loading = false
-        }) 
+            this.notifications = notifications;
+            this.loading = false});
       }else{
         this.notifications = null;
-        this.loading = false;
       }
 
     }); 

@@ -21,7 +21,6 @@ export class MyApp {
   rootPage: any;
   user:any;
   notifications:any;
-  unread:number;
   loader:any;
 
   constructor(public platform: Platform,
@@ -51,7 +50,6 @@ export class MyApp {
 
       this.auth.user.subscribe(user => {
         if(user){
-          this.unread = user.unread;
           this.user = user;
           this.storage.set('userUid', this.user.uid);
           if(this.loader){
@@ -78,7 +76,8 @@ export class MyApp {
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
             this.badge.clear();
-            this.userProviser.updateSawReadNotification(this.user.uid,data.notificationUid);
+            this.userProviser.resetNotification(this.user.uid);
+            this.userProviser.updateReadNotification(this.user.uid,data.notificationUid);
             this.nav.push('SpotDetailPage', {spotKey : data.spotUid});
           }
         })

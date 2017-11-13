@@ -7,6 +7,7 @@ import { Tab2Root } from '../pages';
 import { Tab3Root } from '../pages';
 import { Tab4Root } from '../pages';
 import { Tab5Root } from '../pages';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -14,6 +15,9 @@ import { Tab5Root } from '../pages';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
+
+  notificationNotSaw:number;
+
   tab1Root: any = Tab1Root;
   tab2Root: any = Tab2Root;
   tab3Root: any = Tab3Root;
@@ -26,7 +30,14 @@ export class TabsPage {
   tab4Title = " ";
   tab5Title = " ";
 
-  constructor(public navCtrl: NavController, public translateService: TranslateService) {
+  constructor(public navCtrl: NavController, 
+              public translateService: TranslateService,
+              public auth: AuthProvider) {
+    this.auth.user.subscribe(user => {
+        if(user){
+          this.notificationNotSaw = user.notificationNotSaw;
+        }
+    });
     translateService.get(['MENU.TIMETABLE', 'MENU.TRAFFIC_INFO', 'MENU.MAP', 'MENU.SPOTS', 'MENU.NOTIFICATIONS']).subscribe(values => {
       this.tab1Title = values['MENU.TIMETABLE'];
       this.tab2Title = values['MENU.TRAFFIC_INFO'];

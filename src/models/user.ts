@@ -5,5 +5,5 @@ export interface User{
     displayName?:string;
     firstName?:string;
     token?:string;
-    unread?:number;
+    notificationNotSaw?:number;
   }

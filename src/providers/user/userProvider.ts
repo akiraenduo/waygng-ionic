@@ -62,12 +62,8 @@ export class UserProvider {
     this.afs.doc('/users/'+userUid+'/notifications/'+notifId).update({read:true});
   }
 
-  updateSawNotification(userUid:string, notifId:string){
-    this.afs.doc('/users/'+userUid+'/notifications/'+notifId).update({saw:true});
-  }
-
-  updateSawReadNotification(userUid:string, notifId:string){
-    this.afs.doc('/users/'+userUid+'/notifications/'+notifId).update({saw:true,read:true});
+  resetNotification(userUid:string){
+    this.afs.doc('/users/'+userUid).update({notificationNotSaw:0}); 
   }
 
 }
