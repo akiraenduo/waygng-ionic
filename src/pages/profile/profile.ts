@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import { Subscription } from 'rxjs/Subscription';
 import spotUtils from '../spot/spotUtils'
 
 /**
@@ -21,7 +20,6 @@ export class ProfilePage {
   loading: any;
   user:any;
   mySpots:Array<any>;
-  subscription: Subscription; 
   userUid:any;
   loader:any;
 
@@ -46,7 +44,7 @@ ionViewDidLoad(){
       if(this.loader){
         this.loader.dismiss();
       }
-      this.subscription = this.spotProvider.getSpotsForCurrentUser(user.uid).snapshotChanges().map(spots => {
+      this.spotProvider.getSpotsForCurrentUser(user.uid).snapshotChanges().map(spots => {
         return spots.map(a => {
           const data = a.payload.doc.data();
           const id = a.payload.doc.id;

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, AlertController } from 'ionic-angular';
+import { Nav, Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -24,11 +24,7 @@ export class MyApp {
   unread:number;
   loader:any;
 
-  pages: Array<{title: string,icon: string, component: any}>;
-
-
   constructor(public platform: Platform,
-              public menu: MenuController,
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen,
               public auth: AuthProvider,
@@ -67,18 +63,6 @@ export class MyApp {
         }
 
       }); 
-      
-
-      this.translate.get('MENU').subscribe((menu) => {
-
-        this.pages = [
-          { title: menu.TIMETABLE, icon:'md-alarm', component: 'HomePage' },
-          { title: menu.MAP, icon:'md-navigate', component: 'MapPage' },
-          { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
-          { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },
-          { title: menu.NOTIFICATIONS, icon:'md-notifications', component: 'NotificationPage' },
-        ];
-  })
 
   }
 
@@ -119,11 +103,6 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
-  }
-
-  goProfile(){
-    this.menu.close();
-    this.nav.push('ProfilePage');
   }
 
 }

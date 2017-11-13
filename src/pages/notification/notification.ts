@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
-import { Subscription } from 'rxjs/Subscription';
 import { Badge } from '@ionic-native/badge';
 import { Storage } from '@ionic/storage';
 
@@ -22,7 +21,6 @@ export class NotificationPage {
   loading: any;
   notifications: Array<any>;
   userUid: any;
-  subscription: Subscription;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -51,7 +49,7 @@ export class NotificationPage {
       if(userUid){
         this.loading = true;
         this.userUid = userUid;
-        this.subscription = this.userProvider.getNotifications(userUid,true).snapshotChanges(['added','removed']).map(notifications => {
+        this.userProvider.getNotifications(userUid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
@@ -70,12 +68,6 @@ export class NotificationPage {
       }
 
     }); 
-  }
-
-  ionViewWillLeave() {
-    if(this.subscription){
-     // this.subscription.unsubscribe();
-    }
   }
 
   goDetailSpot(notif){
