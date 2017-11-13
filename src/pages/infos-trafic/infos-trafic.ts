@@ -28,8 +28,12 @@ export class InfosTraficPage {
 
   }
 
+  goProfile(){
+    this.navCtrl.push('ProfilePage');
+  }
+
   ionViewDidLoad() {
-    this. getInfosTrafic();
+    this.getInfosTrafic();
   }
 
   getInfosTrafic(){

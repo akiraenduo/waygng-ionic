@@ -6,8 +6,7 @@ import {
   GoogleMaps,
   GoogleMap,
   GoogleMapsEvent,
-  GoogleMapOptions,
-  HtmlInfoWindow
+  GoogleMapOptions
  } from '@ionic-native/google-maps';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 
@@ -26,6 +25,9 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 export class MapPage {
 
   map: GoogleMap;
+  station:any;
+  stationSelected:any;
+  showStationDetail:any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -36,15 +38,29 @@ export class MapPage {
 
   }
 
+  goProfile(){
+    this.navCtrl.push('ProfilePage');
+  }
+
   ionViewWillEnter(){
+
+    this.station = this.navParams.get("station");
+
     this.platform.ready().then(() => {
-      this.geolocation.getCurrentPosition().then((resp) => {
-        let latitude = resp.coords.latitude;
-        let longitude = resp.coords.longitude;
-        this.ginkoProvider.fetchStationsProche(latitude,longitude).subscribe((stations) => {
-          this.loadMap(latitude,longitude,stations);
-        })
-      });
+      if(this.station){
+        let stations = [];
+        stations.push(this.station);
+        this.loadMap(this.station.latitude,this.station.longitude,stations);
+      }else{
+        this.geolocation.getCurrentPosition().then((resp) => {
+          let latitude = resp.coords.latitude;
+          let longitude = resp.coords.longitude;
+          this.ginkoProvider.fetchStationsProche(latitude,longitude).subscribe((stations) => {
+            this.loadMap(latitude,longitude,stations);
+          })
+        });
+      }
+
       
     }).catch((error) => {
       alert('Error getting location');
@@ -77,28 +93,9 @@ export class MapPage {
         // Wait the MAP_READY before using any methods.
         this.map.one(GoogleMapsEvent.MAP_READY)
           .then(() => {
-            
+            let markerList = [];
             // Now you can use all methods safely.
             stations.forEach((station) =>{
-
-              let infoWindow = new HtmlInfoWindow();
-
-              var div = document.createElement('div');
-              div.innerHTML=station.name;
-              div.className = "align-center";
-              div.id = station.name;
-              var self = this;
-              div.addEventListener("click", function (event) {
-                var stationName = this.id
-                const s: Station = {
-                  name:stationName,
-                }
-                self.navCtrl.push('HomePage', {
-                  station:s
-                });
-              });
-              
-              infoWindow.setContent(div);
               
               this.map.addMarker({
                 icon: 'red',
@@ -108,14 +105,31 @@ export class MapPage {
                   lng: Number(station.longitude)
                 }
               }).then(marker => {
+                markerList.push(marker);
                 marker.on(GoogleMapsEvent.MARKER_CLICK)
                   .subscribe(() => {
-                    infoWindow.open(marker);
+                    markerList.forEach((marker) => {
+                      marker.setIcon('red');
+                    });
+                    marker.setIcon('blue');                    
+                    let stationDetails = document.getElementById("stationDetails");
+                    stationDetails.innerHTML = station.name;
+                    this.stationSelected = station;
+                    this.showStationDetail = true;
                   });
               });
             });
 
           });
+      }
+
+
+      goHomePage(){
+        if(this.stationSelected){
+          this.navCtrl.setRoot('HomePage', {
+            station:this.stationSelected
+          });
+        }
       }
 
 }

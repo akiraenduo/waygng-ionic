@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Station } from '../../models/station';
 
 /*
   Generated class for the FavorisProvider provider.
@@ -24,9 +25,10 @@ export class FavorisProvider {
     return this.afs.collection('/users/'+userUid+'/stations', ref => ref.where('name', '==', nomStation));
   }
 
-  addFavoris(userUid, nomStation){
+  addFavoris(userUid, station:Station){
+    station.latLong = null;
     const items = this.afs.collection('/users/'+userUid+'/stations/');
-    return items.add({name:nomStation});
+    return items.add(station);
   }
 
   removeFavoris(userUid, nomStation){

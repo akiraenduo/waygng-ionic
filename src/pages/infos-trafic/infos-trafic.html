@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="blue" hideBackButton>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+      <button  ion-button icon-only menuToggle (click)="goProfile()">
+        <ion-icon name="ios-person"></ion-icon>
       </button>
       <ion-title>{{ 'TITLE.TRAFFIC_INFO' | translate }}</ion-title>
   </ion-toolbar>

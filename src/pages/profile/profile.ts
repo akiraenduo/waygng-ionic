@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { Subscription } from 'rxjs/Subscription';
@@ -23,6 +23,7 @@ export class ProfilePage {
   mySpots:Array<any>;
   subscription: Subscription; 
   userUid:any;
+  loader:any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -30,35 +31,34 @@ export class ProfilePage {
               public modalCtrl: ModalController,
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
+              public loadingCtrl: LoadingController,
               public spotProvider: SpotProvider ) {
-
-                const userAuth = this.auth.user.subscribe(user => {
-                  if(user){
-                    this.loading = true;
-                    this.user = user;
-                    this.userUid = user.uid;
-                    this.subscription = spotProvider.getSpotsForCurrentUser(user.uid).snapshotChanges().map(spots => {
-                      return spots.map(a => {
-                        const data = a.payload.doc.data();
-                        const id = a.payload.doc.id;
-                        return { id, ...data };
-                        })
-                      }).subscribe(spots => {
-                      this.mySpots = spots;
-                      this.loading = false;
-                    })
-                  }
-                  userAuth.unsubscribe();
-                });
                 
 
   }
 
-  ionViewWillLeave() {
-    if(this.subscription){
-      this.subscription.unsubscribe();
+ionViewDidLoad(){
+  this.auth.user.subscribe(user => {
+    if(user){
+      this.loading = true;
+      this.user = user;
+      this.userUid = user.uid;
+      if(this.loader){
+        this.loader.dismiss();
+      }
+      this.subscription = this.spotProvider.getSpotsForCurrentUser(user.uid).snapshotChanges().map(spots => {
+        return spots.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+          })
+        }).subscribe(spots => {
+        this.mySpots = spots;
+        this.loading = false;
+      })
     }
-  }
+  });
+}
 
   incrementLike(spot){
     spotUtils.incrementLike(spot,this.userUid);
@@ -98,6 +98,19 @@ export class ProfilePage {
       ]
     });
     confirm.present();
+  }
+
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Please wait...",
+      dismissOnPageChange: true
+    });
+    this.loader.present();
+  }
+
+  facebookLogin(){
+    this.presentLoading();
+    this.auth.facebookLogin();
   }
 
   logout() {

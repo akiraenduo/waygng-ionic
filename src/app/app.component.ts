@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, MenuController, LoadingController, AlertController } from 'ionic-angular';
+import { Nav, Platform, MenuController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -33,7 +33,6 @@ export class MyApp {
               public splashScreen: SplashScreen,
               public auth: AuthProvider,
               public userProviser: UserProvider,
-              public loadingCtrl: LoadingController,
               public fcm: FCM,
               public alertCtrl: AlertController, 
               private badge: Badge,
@@ -46,7 +45,7 @@ export class MyApp {
       this.storage.get('hasSeenTutorial')
       .then((hasSeenTutorial) => {
         if (hasSeenTutorial) {
-          this.rootPage = "HomePage";
+          this.rootPage = "TabsPage";
         }else{
           this.rootPage = 'TutorialPage'; 
         } 
@@ -74,7 +73,6 @@ export class MyApp {
 
         this.pages = [
           { title: menu.TIMETABLE, icon:'md-alarm', component: 'HomePage' },
-          { title: menu.FAVORIS, icon:'star', component: 'FavorisPage' },
           { title: menu.MAP, icon:'md-navigate', component: 'MapPage' },
           { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
           { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },
@@ -126,19 +124,6 @@ export class MyApp {
   goProfile(){
     this.menu.close();
     this.nav.push('ProfilePage');
-  }
-
-  presentLoading() {
-    this.loader = this.loadingCtrl.create({
-      content: "Please wait...",
-      dismissOnPageChange: true
-    });
-    this.loader.present();
-  }
-
-  facebookLogin(){
-    this.presentLoading();
-    this.auth.facebookLogin();
   }
 
 }

@@ -27,9 +27,9 @@ export class TabsPage {
   tab5Title = " ";
 
   constructor(public navCtrl: NavController, public translateService: TranslateService) {
-    translateService.get(['MENU.TIMETABLE', 'MENU.FAVORIS', 'MENU.MAP', 'MENU.SPOTS', 'MENU.NOTIFICATIONS']).subscribe(values => {
+    translateService.get(['MENU.TIMETABLE', 'MENU.TRAFFIC_INFO', 'MENU.MAP', 'MENU.SPOTS', 'MENU.NOTIFICATIONS']).subscribe(values => {
       this.tab1Title = values['MENU.TIMETABLE'];
-      this.tab2Title = values['MENU.FAVORIS'];
+      this.tab2Title = values['MENU.TRAFFIC_INFO'];
       this.tab3Title = values['MENU.MAP'];
       this.tab4Title = values['MENU.SPOTS'];
       this.tab5Title = values['MENU.NOTIFICATIONS'];

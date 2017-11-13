@@ -1,10 +1,17 @@
 <ion-header>
     <ion-toolbar hideBackButton>
-        <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
+        <button  ion-button icon-only menuToggle (click)="goProfile()">
+          <ion-icon name="ios-person"></ion-icon>
         </button>
         <ion-title>{{ 'TITLE.MAP' | translate }}</ion-title>
     </ion-toolbar>
+    <ion-toolbar no-border-top color="blue">
+        <button ion-button full round class="button-margin" color="blueLight" (click)="goHomePage()">
+            <ion-icon name="md-alarm"></ion-icon>
+            <ion-item id="stationDetails" class="no-border" color="blueLight"></ion-item>
+          </button>   
+    </ion-toolbar>
+
   </ion-header>
 
 <ion-content>

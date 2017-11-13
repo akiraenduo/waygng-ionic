@@ -1,11 +1,10 @@
-<ion-header>
-  <ion-toolbar color="blue" hideBackButton>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-header no-border>
+    <ion-toolbar color="blue">
+        <ion-navbar>
+            <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>
+        </ion-navbar>
+    </ion-toolbar>
+  </ion-header>
 
 
 <ion-content>
@@ -88,5 +87,10 @@
         </ion-card>
   </ion-list>
   </div>
+
+  <button *ngIf="!user" ion-button full icon-left  (click)="facebookLogin()">
+      <ion-icon name="logo-facebook"></ion-icon>
+      connexion
+    </button>
 
 </ion-content>

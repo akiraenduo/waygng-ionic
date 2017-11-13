@@ -1,25 +1,31 @@
 <ion-header>
   <ion-toolbar color="blue" no-border-top>
-    <button  ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
+    <button  ion-button icon-only menuToggle (click)="goProfile()">
+      <ion-icon name="ios-person"></ion-icon>
     </button>
     <ion-title>{{ 'TITLE.TIMETABLE' | translate }}</ion-title>
-    <ion-buttons end *ngIf="station">
+    <ion-buttons end *ngIf="userUid && station">
+        <button  ion-button icon-only (click)="localizationMap()">
+            <ion-icon name="pin"></ion-icon>
+          </button>
       <button  ion-button icon-only (click)="eventFavoris()">
         <ion-icon [color]="isInfavoris ? 'yellown' : 'dark'" [name]="isInfavoris ? 'ios-star' : 'ios-star-outline'"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar no-border-top color="blue">
-        <button ion-button color="blue" full class="button-margin" (click)="searchStation()">
-            <ion-searchbar class="home-searchbar" [(ngModel)] = "searchModel" placeholder="Station" #searchBar (ionInput)="getItems($event)" (ionClear)="onClear($event)"></ion-searchbar>
-        </button>        
-    <ion-buttons *ngIf="searchModel && searchModel.length > 0" end>
-        <button ion-button icon-only (click)="clearSearchBar()">
-        <ion-icon name="md-close"></ion-icon> 
-        </button>
-    </ion-buttons>
-</ion-toolbar>
+    <button ion-button full round class="button-margin" color="blueLight" (click)="searchStation()">
+      <ion-item class="no-border" color="blueLight">
+        <ion-icon class="size-icon-search" item-start name="ios-search"></ion-icon>
+        <ion-input readonly [(ngModel)] = "searchModel" placeholder="Station"></ion-input>
+      </ion-item>
+    </button>        
+    <ion-buttons class="button-close" *ngIf="searchModel && searchModel.length > 0" end>
+      <button class="size-button-close" ion-button icon-only (click)="clearSearchBar()">
+        <ion-icon name="md-close"></ion-icon>               
+      </button>
+    </ion-buttons> 
+  </ion-toolbar>
 
 </ion-header>
 
@@ -49,37 +55,47 @@
     <ion-list class="noBottomMargin">
       <ion-list-header color="light">
         <ion-icon name="pin"></ion-icon>&nbsp;&nbsp;{{ 'NEAREST_STATION' | translate }}
+        <my-header-loader *ngIf="searchPosition"></my-header-loader>
       </ion-list-header>
-
-      <my-loader *ngIf="searchPosition"></my-loader> 
 
       <ion-row *ngIf="stationProches.length == 0 && !searchPosition && !station" class="warning-container noBottomMargin">
           <ion-col col-12>
               {{ 'WARNING.NO_STATION_NEARBY' | translate }}
           </ion-col>
       </ion-row>
-      <button ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
+      <button class="no-border-last" ion-item *ngFor="let station of stationProches | removeDuplicateStation | slice:0:4"  (click)="itemSelected(station)">
         <ion-row>
             <ion-col col-9>{{station.name}}</ion-col>
             <ion-col col-3>{{station.latLong | calculateDistance:latitude:longitude }}</ion-col>
         </ion-row>
       </button>
-      <ion-list-header color="light">
+  </ion-list>
+
+  <ion-list class="noBottomMargin">
+      <ion-list-header class="border-top" color="light">
         <ion-icon name="star"></ion-icon>&nbsp;&nbsp;{{ 'FAVORIS' | translate }}
+        <my-header-loader *ngIf="loadFavoris"></my-header-loader>
       </ion-list-header>
-
-      <my-loader *ngIf="loadFavoris"></my-loader> 
-
-      <ion-row *ngIf="favoris?.length==0" class="warning-container">
+      <ion-row *ngIf="!userUid"  class="warning-container">
+        <ion-col col-12>
+            {{ 'WARNING.NOT_CONNECTED_FAV' | translate }}
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="favoris?.length==0 && !loadFavoris && userUid" class="warning-container">
         <ion-col col-12>
             {{ 'WARNING.EMPTY_FAV' | translate }}
         </ion-col>
       </ion-row>
-      <button ion-item *ngFor="let fav of favoris"  (click)="itemSelected(fav)">
-        <ion-row>
-            <ion-col col-12>{{fav.name}}</ion-col>
-        </ion-row>
-      </button>
+          <ion-item-sliding *ngFor="let fav of favoris">
+              <button ion-item (click)="itemSelected(fav)">
+                  <ion-label>{{fav.name}}</ion-label>
+              </button>
+              <ion-item-options side="right">
+                  <button color="danger" ion-button icon-only (click)="removeFavoris(fav)">
+                      <ion-icon name="ios-trash-outline"></ion-icon>
+                  </button>
+              </ion-item-options>
+          </ion-item-sliding>
     </ion-list>
   </div>
 

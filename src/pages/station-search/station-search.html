@@ -7,7 +7,7 @@
 <ion-header no-border>
   <ion-toolbar color="blue">
       <ion-navbar>
-          <ion-searchbar [(ngModel)] = "searchModel" placeholder="{{ 'SEARCH_STATION' | translate }}" #searchBar></ion-searchbar>
+          <ion-searchbar [(ngModel)] = "searchModel" placeholder="{{ 'SEARCH_STATION' | translate }}" #searchBar (ionInput)="getItems($event)"></ion-searchbar>
       </ion-navbar>
   </ion-toolbar>
 </ion-header>
@@ -15,25 +15,12 @@
 
 
 <ion-content>
-
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      refreshingText="{{ 'REFRESHING' | translate }}">
-    </ion-refresher-content>
-  </ion-refresher>
-  
-  <ion-list-header color="light">
-    <ion-icon name="search"></ion-icon>&nbsp;&nbsp; {{ 'STATIONS' | translate }}
-  </ion-list-header>
-
-  <my-loader *ngIf="searchStation"></my-loader>
-  <ion-list [virtualScroll]="stations | removeDuplicateStation |filterStation:searchModel">
-    <button ion-item *virtualItem="let station"  (click)="itemSelected(station)">
-      <ion-row>
-        <ion-col col-9>{{station.name}}</ion-col>
-      </ion-row>
-    </button>    
+  <ion-list> 
+    <my-loader *ngIf="searchStation"></my-loader>
+    <button ion-item *ngFor="let station of stations | removeDuplicateStation"  (click)="itemSelected(station)">
+        <ion-row>
+          <ion-col col-9>{{station.name}}</ion-col>
+        </ion-row>
+      </button>    
   </ion-list>
-
-
 </ion-content>

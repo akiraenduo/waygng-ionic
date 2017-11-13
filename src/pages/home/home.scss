@@ -32,12 +32,33 @@ page-home {
         background-color: #0091D4 !important;
     }
 
-    .noBorder .item-inner{
-        border-bottom: none !important;
-    }
-
-    
     .noBottomMargin{
         margin-bottom: 0;
     }
+
+    .border-top{
+        border-top:0.55px solid #c8c7cc
+    }
+
+    .no-border .item-inner{
+        border-bottom: none !important;
+    }
+
+    .size-icon-search{
+        min-height: 2rem !important;
+        font-size: 2rem !important;
+    }
+
+    .size-button-close{
+        font-size: 1.1rem;
+    }
+
+    .button-close{
+        margin-top: 2px !important;
+        margin-right: 10px !important;
+        position: absolute;
+        right: 20px;
+    }
+    
+
 }

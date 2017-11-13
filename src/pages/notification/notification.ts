@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
-import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import { Badge } from '@ionic-native/badge';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the NotificationPage page.
@@ -26,21 +26,32 @@ export class NotificationPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public auth: AuthProvider,
               public userProvider: UserProvider,
               public toastCtrl: ToastController,
+              public storage: Storage,
               private badge: Badge) {
 
                 
   }
 
+  goProfile(){
+    this.navCtrl.push('ProfilePage');
+  } 
+
   ionViewWillEnter() {
     this.badge.clear();
-    this.loading = true;
-    const userAuth = this.auth.user.subscribe(user => {
-      if (user) {
-        this.userUid = user.uid;
-        this.subscription = this.userProvider.getNotifications(user.uid,true).snapshotChanges(['added','removed']).map(notifications => {
+    this.storage.get('userUid').then((userUid) => {
+      this.userUid = userUid;
+    });
+  }
+
+  ionViewDidLoad(){
+    this.storage.get('userUid').then((userUid) => {
+      this.userUid = userUid;
+      if(userUid){
+        this.loading = true;
+        this.userUid = userUid;
+        this.subscription = this.userProvider.getNotifications(userUid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
@@ -57,13 +68,13 @@ export class NotificationPage {
         this.notifications = null;
         this.loading = false;
       }
-      userAuth.unsubscribe();
-    });
+
+    }); 
   }
 
   ionViewWillLeave() {
     if(this.subscription){
-      this.subscription.unsubscribe();
+     // this.subscription.unsubscribe();
     }
   }
 

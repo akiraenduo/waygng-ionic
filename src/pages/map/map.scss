@@ -7,7 +7,8 @@ page-map {
         height: 100%;
     }
 
-    .align-center{
-        text-align: center;
+    .no-border .item-inner{
+        border-bottom: none !important;
     }
+
 }

@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar color="blue" hideBackButton>
-      <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+        <button  ion-button icon-only menuToggle (click)="goProfile()">
+            <ion-icon name="ios-person"></ion-icon>
+        </button>
       <ion-title>{{ 'TITLE.NOTIFICATIONS' | translate }}</ion-title>
     </ion-toolbar>
   </ion-header>

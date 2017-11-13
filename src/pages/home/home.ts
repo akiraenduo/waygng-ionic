@@ -9,7 +9,6 @@ import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
-import { Keyboard } from '@ionic-native/keyboard';
 
 
 @IonicPage()
@@ -48,11 +47,23 @@ export class HomePage {
               public favorisProvider: FavorisProvider,
               public auth: AuthProvider,
               public storage: Storage,
-              public keyboard: Keyboard,
               public toastCtrl: ToastController) {
 
-    this.station = navParams.get("station");
-    this.keyboard.close();
+  
+  }
+
+  goProfile(){
+    this.navCtrl.push('ProfilePage');
+  }
+
+  ionViewWillEnter() {
+    this.storage.get('userUid').then((userUid) => {
+      this.userUid = userUid;
+    });
+  }
+
+  ionViewDidLoad(){
+    this.station = this.navParams.get("station");
     if(!this.station){
       this.getStationProches(null);
     }
@@ -72,13 +83,13 @@ export class HomePage {
           this.searchModel = this.station.name;
           this.getTempsLieu(this.station,null);
         }
-      });   
-
-  }
+      }); 
+  }  
+  
 
   ionViewWillLeave() {
     if(this.subscription){
-      this.subscription.unsubscribe();
+     // this.subscription.unsubscribe();
     }
   }
 
@@ -107,6 +118,10 @@ export class HomePage {
     }); 
   }
 
+  removeFavoris(station){
+    this.favorisProvider.removeFavoris(this.userUid,station.name);
+  }
+
   getStationProches(refresher){
     this.searchPosition = true;
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -133,7 +148,7 @@ export class HomePage {
     this.getStationProches(null);
     this.getFavoris();
   }
-
+ 
   getTempsLieu(station,refresher){
     if(station){
       this.loading = true;
@@ -188,6 +203,12 @@ export class HomePage {
    }
   }
 
+  localizationMap(){
+    this.navCtrl.push('MapPage', {
+      station:this.station
+    });
+  }
+
   searchStation(){
     this.navCtrl.push('StationSearchPage');
   }
@@ -207,7 +228,7 @@ export class HomePage {
       this.favorisProvider.removeFavoris(this.userUid,this.nomExact);
       this.createToast(this.nomExact+' supprimé des favoris !');
     }else{
-      this.favorisProvider.addFavoris(this.userUid,this.nomExact).then(() => {
+      this.favorisProvider.addFavoris(this.userUid,this.station).then(() => {
         this.createToast(this.nomExact+' ajouté au favoris !');
       })
     }

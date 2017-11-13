@@ -59,31 +59,10 @@ export class StationSearchPage {
     this.subscriptionFetchStation = this.ginkoProvider.fetchStations()
     .subscribe((stations) => {
       this.allStations = stations;
-      this.stations = stations;
       this.searchStation = false;
-      this.getStationProches(null);
     });
   }
 
-  getStationProches(refresher){
-    this.searchPosition = true;
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.latitude = resp.coords.latitude;
-      this.longitude = resp.coords.longitude;
-     this.subscriptionFetchStationProche = this.ginkoProvider.fetchStationsProche(this.latitude,this.longitude)
-      .subscribe((stations) => {
-        this.stationProches = stations;
-        this.searchPosition = false;
-        if(refresher){
-          refresher.complete();
-        }
-      }
-    );
-
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
-  }
 
   doFocus(){
     setTimeout(()=>{
@@ -95,10 +74,6 @@ export class StationSearchPage {
     this.Keyboard.onKeyboardShow().subscribe((data)=>{
       this.searchBar.setFocus();
     })
-  }
-
-  doRefresh(refresher) {
-    this.getStationProches(refresher);
   }
 
   getItems(ev) {
@@ -119,7 +94,6 @@ export class StationSearchPage {
     this.navCtrl.push('HomePage', {
       station:station
     });
-
   }
 
 }
