@@ -57,6 +57,7 @@ export class HomePage {
   ionViewWillEnter(){
     this.station = this.navParams.get("station");
     if(!this.station){
+      this.searchModel = null;
       this.getStationProches(null);
     }
 

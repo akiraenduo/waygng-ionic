@@ -44,7 +44,7 @@ export class NotificationPage {
         this.userProvider.resetNotification(userUid);
         this.loading = true;
         this.userUid = userUid;
-        this.userProvider.getNotifications(userUid,true).snapshotChanges().map(notifications => {
+        this.userProvider.getNotifications(userUid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;
