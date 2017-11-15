@@ -33,11 +33,20 @@ export class InfosTraficPage {
   }
 
   ionViewDidLoad() {
-    this.getInfosTrafic();
+    this.getInfosTrafic(null);
   }
 
-  getInfosTrafic(){
+  getInfosTrafic(refresher){
     this.infosTrafic = this.ginkoProvider.fetchInfosTrafic();
+    this.infosTrafic.subscribe(() => {
+      if(refresher){
+        refresher.complete();
+      }
+    });
+  }
+
+  doRefresh(refresher){
+    this.getInfosTrafic(refresher);
   }
 
 }

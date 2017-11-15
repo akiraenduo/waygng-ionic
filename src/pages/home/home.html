@@ -31,11 +31,11 @@
 
 <ion-content>
 
-      <ion-refresher (ionRefresh)="doRefresh($event)">
-          <ion-refresher-content
-          refreshingText="{{ 'REFRESHING' | translate }}">
-        </ion-refresher-content>
-      </ion-refresher>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+      refreshingText="{{ 'REFRESHING' | translate }}">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <ion-row *ngIf="noResult && station" class="warning-container">
       <ion-col col-12>

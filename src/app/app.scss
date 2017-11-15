@@ -35,8 +35,12 @@
     text-align: right;
 }
 
-.bacground-light{
+.background-light{
     background-color:#f4f4f4;
+}
+
+.fixed-content{
+    background-color: #0091D4 !important;
 }
 
 .hashtag{
@@ -71,4 +75,8 @@ ion-card{
 
 .menu .item-inner{
     background-image: none !important;
+}
+
+.refresher-pulling{
+    background-color: #0091D4;
 }

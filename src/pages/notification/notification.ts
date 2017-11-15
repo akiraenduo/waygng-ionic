@@ -36,12 +36,17 @@ export class NotificationPage {
     this.navCtrl.push('ProfilePage');
   } 
 
-  ionViewDidLoad(){
+  ionViewWillEnter(){
     this.badge.clear();
+    if(this.userUid){
+      this.userProvider.resetNotification(this.userUid);
+    }
+  }
+
+  ionViewDidLoad(){
     this.auth.user.subscribe(user => {
       if(user){
         this.userUid = user.uid;
-        this.userProvider.resetNotification(this.userUid);
         this.loading = true;
         this.userProvider.getNotifications(this.userUid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
