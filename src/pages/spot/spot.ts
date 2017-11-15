@@ -3,7 +3,6 @@ import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angu
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import { Storage } from '@ionic/storage';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
@@ -11,6 +10,7 @@ import 'rxjs/add/operator/take';
 import * as _ from 'lodash'
 import spotUtils from './spotUtils'
 import { TabsUtils } from '../../utils/tabsUtils';
+import { AuthProvider } from '../../providers/auth/auth';
 
 
 
@@ -40,7 +40,7 @@ export class SpotPage {
               public spotProvider: SpotProvider,
               public db: AngularFireDatabase,
               public modalCtrl: ModalController,
-              public storage: Storage,
+              public auth: AuthProvider,
               public tabsUtils: TabsUtils) {
 
   }
@@ -48,20 +48,24 @@ export class SpotPage {
   goProfile(){
     this.navCtrl.push('ProfilePage');
   }
-  
-  ionViewWillEnter() {
+
+  ionViewWillEnter(){
     this.tabsUtils.show();
+  }
+  
+  ionViewDidLoad() {
+    
     this.searchSpots = true;
-    this.storage.get('userUid').then((userUid) => {
-      if (userUid) {
-        this.userUid = userUid;
+    this.auth.user.subscribe(user => {
+      if (user) {
+        this.userUid = user.uid;
         this.finished = false;
         this.lastDate = '';
         this.getSpots(null,null); 
       }else{
         this.userUid = null;
       }
-    })
+    });
   }
   
   doRefresh(refresher) {

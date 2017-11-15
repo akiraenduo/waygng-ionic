@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import { Badge } from '@ionic-native/badge';
-import { Storage } from '@ionic/storage';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the NotificationPage page.
@@ -26,7 +26,7 @@ export class NotificationPage {
               public navParams: NavParams,
               public userProvider: UserProvider,
               public toastCtrl: ToastController,
-              public storage: Storage,
+              public auth: AuthProvider,
               private badge: Badge) {
 
                 
@@ -36,15 +36,14 @@ export class NotificationPage {
     this.navCtrl.push('ProfilePage');
   } 
 
-  ionViewWillEnter(){
+  ionViewDidLoad(){
     this.badge.clear();
-    this.storage.get('userUid').then((userUid) => {
-      this.userUid = userUid;
-      if(userUid){
-        this.userProvider.resetNotification(userUid);
+    this.auth.user.subscribe(user => {
+      if(user){
+        this.userUid = user.uid;
+        this.userProvider.resetNotification(this.userUid);
         this.loading = true;
-        this.userUid = userUid;
-        this.userProvider.getNotifications(userUid,true).snapshotChanges(['added','removed']).map(notifications => {
+        this.userProvider.getNotifications(this.userUid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
             const id = a.payload.doc.id;

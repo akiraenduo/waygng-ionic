@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, IonicPage, ToastController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Station } from '../../models/station';
 import { TempsAttente } from '../../models/tempsattente';
@@ -44,7 +43,6 @@ export class HomePage {
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
               public auth: AuthProvider,
-              public storage: Storage,
               public toastCtrl: ToastController) {
 
   
@@ -54,7 +52,7 @@ export class HomePage {
     this.navCtrl.push('ProfilePage');
   }
 
-  ionViewWillEnter(){
+  ionViewDidLoad(){
     this.station = this.navParams.get("station");
     if(!this.station){
       this.searchModel = null;
@@ -63,9 +61,9 @@ export class HomePage {
 
       this.isInfavoris = false;
     
-      this.storage.get('userUid').then((userUid) => {
-        this.userUid = userUid;
-        if(userUid){
+      this.auth.user.subscribe(user => {
+        if(user){
+          this.userUid = user.uid;
           if (this.station) {
             this.checkIfInFavoris();
           }else{
