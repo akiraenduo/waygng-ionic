@@ -1,98 +1,107 @@
-<ion-header no-border>
-    <ion-toolbar color="blue">
-        <ion-navbar>
-            <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>
-        </ion-navbar>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-header>
+  <ion-navbar *ngIf="user" no-border-bottom>
+    <ion-segment color="white" [(ngModel)]="segment">
+      <ion-segment-button value="profil">
+        Profil
+      </ion-segment-button>
+      <ion-segment-button value="spots">
+        Mes spots
+      </ion-segment-button>
+    </ion-segment>
+  </ion-navbar> 
+  <ion-toolbar *ngIf="!user" color="blue">
+      <ion-navbar>
+          <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>
+      </ion-navbar>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-
-  <div *ngIf="user">
-      <ion-grid>
-          <ion-row>
-            <ion-col col-6>
-                <ion-avatar item-start>
-                    <img [src]="user.photoURL" />
-                  </ion-avatar>
-            </ion-col>
-            <ion-col col-6>
-                <button ion-button full color="danger" round (click)="logout()">
-                    {{ 'SIGN_OUT' | translate }}
-                </button>
-            </ion-col>
-          </ion-row>
-
-        </ion-grid>
-
-
-
-    <ion-list padding>
-
-      <ion-item>
-        <ion-icon item-start name="ios-contact-outline"></ion-icon>
-        <ion-label floating>{{ 'NAME' | translate }}</ion-label>
-        <ion-input readonly type="text" [(ngModel)]="user.displayName"></ion-input>
-      </ion-item>
-    </ion-list>
-
-    <ion-list class="background-light mySpotsList">
-      <ion-list-header class="border-top" color="light">
-        {{ 'MY_SPOTS' | translate }}
-        <my-header-loader *ngIf="loading"></my-header-loader>
-      </ion-list-header>
-
-        <ion-card *ngFor="let spot of mySpots">
-          <ion-item>
-            <ion-avatar *ngIf="!spot.anonyme" item-start>
-                <img [src]="(spot.userPicture)" />
-            </ion-avatar>
-            <ion-avatar *ngIf="spot.anonyme" item-start>
-                <ion-icon class="icon-anonyme-size" name="contact"></ion-icon>
-            </ion-avatar>
-            <ion-avatar item-end>
-                <button color="danger" clear ion-button icon-only (click)="showConfirm(spot)">
-                    <ion-icon name="ios-trash-outline"></ion-icon>
-                </button>
-            </ion-avatar>
-            
-            <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
-            <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
-            <p>{{spot.dateUpdate | formatDate:'relative'}}</p>  
-          </ion-item>
-        
-          <ion-card-content>
-            <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
-          </ion-card-content> 
-        
-          <ion-row justify-content-center align-items-center class="border-top row-margin">
-              <ion-col>
-                <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
-                  <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
-                  <div class="greyColor">J'aime</div>
-                </button>
+  <div [ngSwitch]="segment">
+      <div *ngSwitchCase="'profil'">
+        <ion-grid *ngIf="user" >
+            <ion-row>
+              <ion-col col-6>
+                  <ion-avatar item-start>
+                      <img [src]="user.photoURL" />
+                    </ion-avatar>
               </ion-col>
-              <ion-col>
-                <button  (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
-                  <ion-icon color="blue" name="thumbs-up"></ion-icon>
-                  <div class="greyColor">{{spot.likes | formatLikes}}</div>
-                </button>
-              </ion-col> 
-              <ion-col> 
-              <button (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
-                <ion-icon name="text"></ion-icon>
-                <div class="greyColor">Commenter</div>
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-card>
-  </ion-list>
-  </div>
+              <ion-col col-6>
+                  <button ion-button full color="danger" round (click)="logout()">
+                      {{ 'SIGN_OUT' | translate }}
+                  </button>
+              </ion-col>
+            </ion-row>
+  
+          </ion-grid>
+      <ion-list *ngIf="user" >
+        <ion-item>
+          <ion-icon item-start name="ios-contact-outline"></ion-icon>
+          <ion-label floating>{{ 'NAME' | translate }}</ion-label>
+          <ion-input readonly type="text" [(ngModel)]="user.displayName"></ion-input>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'spots'">
+        <ion-list class="background-light mySpotsList">
+            <ion-list-header class="border-top" color="light">
+              {{ 'MY_SPOTS' | translate }}
+              <my-header-loader *ngIf="loading"></my-header-loader>
+            </ion-list-header>
+      
+              <ion-card *ngFor="let spot of mySpots">
+                <ion-item>
+                  <ion-avatar *ngIf="!spot.anonyme" item-start>
+                      <img [src]="(spot.userPicture)" />
+                  </ion-avatar>
+                  <ion-avatar *ngIf="spot.anonyme" item-start>
+                      <ion-icon class="icon-anonyme-size" name="contact"></ion-icon>
+                  </ion-avatar>
+                  <ion-avatar item-end>
+                      <button color="danger" clear ion-button icon-only (click)="showConfirm(spot)">
+                          <ion-icon name="ios-trash-outline"></ion-icon>
+                      </button>
+                  </ion-avatar>
+                  
+                  <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
+                  <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>
+                  <p>{{spot.dateUpdate | formatDate:'relative'}}</p>  
+                </ion-item>
+              
+                <ion-card-content>
+                  <p class="paragraphe-height" [innerHTML]="spot.message  | formatHashtag"></p>
+                </ion-card-content> 
+              
+                <ion-row justify-content-center align-items-center class="border-top row-margin">
+                    <ion-col>
+                      <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
+                        <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
+                        <div class="greyColor">J'aime</div>
+                      </button>
+                    </ion-col>
+                    <ion-col>
+                      <button  (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
+                        <ion-icon color="blue" name="thumbs-up"></ion-icon>
+                        <div class="greyColor">{{spot.likes | formatLikes}}</div>
+                      </button>
+                    </ion-col> 
+                    <ion-col> 
+                    <button (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
+                      <ion-icon name="text"></ion-icon>
+                      <div class="greyColor">Commenter</div>
+                    </button>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+        </ion-list>
+    </div>
+  </div> 
 
-  <button *ngIf="!user" ion-button full icon-left  (click)="facebookLogin()">
+  <ion-footer *ngIf="!user">
+    <button ion-button full icon-left round  (click)="facebookLogin()">
       <ion-icon name="logo-facebook"></ion-icon>
       connexion
     </button>
+  </ion-footer>
 
 </ion-content>

@@ -9,7 +9,6 @@ import 'rxjs/add/operator/take';
 
 import * as _ from 'lodash'
 import spotUtils from './spotUtils'
-import { TabsUtils } from '../../utils/tabsUtils';
 import { AuthProvider } from '../../providers/auth/auth';
 
 
@@ -40,8 +39,7 @@ export class SpotPage {
               public spotProvider: SpotProvider,
               public db: AngularFireDatabase,
               public modalCtrl: ModalController,
-              public auth: AuthProvider,
-              public tabsUtils: TabsUtils) {
+              public auth: AuthProvider) {
 
   }
 
@@ -49,10 +47,6 @@ export class SpotPage {
     this.navCtrl.push('ProfilePage');
   }
 
-  ionViewWillEnter(){
-    this.tabsUtils.show();
-  }
-  
   ionViewDidLoad() {
     
     this.searchSpots = true;

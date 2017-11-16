@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { UserProvider } from '../../providers/user/userProvider';
 import { Badge } from '@ionic-native/badge';
 import { AuthProvider } from '../../providers/auth/auth';
-import { TabsUtils } from '../../utils/tabsUtils';
 
 /**
  * Generated class for the NotificationPage page.
@@ -28,8 +27,7 @@ export class NotificationPage {
               public userProvider: UserProvider,
               public toastCtrl: ToastController,
               public auth: AuthProvider,
-              private badge: Badge,
-              public tabsUtils: TabsUtils) {
+              private badge: Badge) {
 
                  
   }
@@ -39,7 +37,6 @@ export class NotificationPage {
   } 
 
   ionViewWillEnter(){
-    this.tabsUtils.show();
     this.badge.clear();
     if(this.userUid){
       this.userProvider.resetNotification(this.userUid);

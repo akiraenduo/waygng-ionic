@@ -23,6 +23,7 @@ export class ProfilePage {
   mySpots:Array<any>;
   userUid:any;
   loader:any;
+  segment = 'profil';
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -33,10 +34,18 @@ export class ProfilePage {
               public loadingCtrl: LoadingController,
               public spotProvider: SpotProvider,
               public tabsUtils: TabsUtils ) {
- 
-                this.tabsUtils.hide();
                 
 
+  }
+
+  ionViewWillEnter() {
+    // the root left menu should be disabled on the tutorial page
+    this.tabsUtils.hide();
+  }
+
+  ionViewWillLeave() {
+    // enable the root left menu when leaving the tutorial page
+    this.tabsUtils.show();
   }
 
 ionViewDidLoad(){

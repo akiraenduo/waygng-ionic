@@ -53,7 +53,7 @@ export class HomePage {
   }
 
   ionViewWillEnter(){
-    this.tabsUtils.show();
+    //this.tabsUtils.show();
   }
 
   ionViewDidLoad(){
