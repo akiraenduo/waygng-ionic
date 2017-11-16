@@ -85,7 +85,7 @@ export class SpotProvider {
 
   getSpotList(batch, lastDate): AngularFirestoreCollection<any>{
     if(lastDate){
-      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate','desc').limit(batch).startAt(lastDate));
+      return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate','desc').startAt(lastDate).limit(batch));
     }else{
       return this.afs.collection('/spots', ref => ref.orderBy('dateUpdate','desc').limit(batch));
     }
