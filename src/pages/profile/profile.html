@@ -38,8 +38,10 @@
     </ion-list>
 
     <ion-list class="background-light mySpotsList">
-      <ion-list-header color="light">{{ 'MY_SPOTS' | translate }}</ion-list-header>
-      <my-loader *ngIf="loading"></my-loader>
+      <ion-list-header class="border-top" color="light">
+        {{ 'MY_SPOTS' | translate }}
+        <my-header-loader *ngIf="loading"></my-header-loader>
+      </ion-list-header>
 
         <ion-card *ngFor="let spot of mySpots">
           <ion-item>

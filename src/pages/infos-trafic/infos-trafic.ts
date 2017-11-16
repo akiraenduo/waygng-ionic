@@ -24,12 +24,15 @@ export class InfosTraficPage {
               public navParams: NavParams,
               public ginkoProvider: GinkoProvider,
               public tabsUtils: TabsUtils) {
-                this.tabsUtils.show();
 
   }
 
   goProfile(){
     this.navCtrl.push('ProfilePage');
+  }
+
+  ionViewWillEnter(){
+    this.tabsUtils.show();
   }
 
   ionViewDidLoad() {

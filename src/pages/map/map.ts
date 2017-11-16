@@ -9,6 +9,7 @@ import {
   GoogleMapOptions
  } from '@ionic-native/google-maps';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
+import { TabsUtils } from '../../utils/tabsUtils';
 
 /**
  * Generated class for the MapPage page.
@@ -34,7 +35,8 @@ export class MapPage {
               public platform: Platform,
               public geolocation: Geolocation,
               public ginkoProvider: GinkoProvider, 
-              public googleMaps: GoogleMaps) {
+              public googleMaps: GoogleMaps,
+              public tabsUtils: TabsUtils) {
 
   }
 
@@ -42,8 +44,10 @@ export class MapPage {
     this.navCtrl.push('ProfilePage');
   }
 
-  ionViewWillEnter(){
 
+
+  ionViewWillEnter(){
+    this.tabsUtils.show();
     this.station = this.navParams.get("station");
 
     this.platform.ready().then(() => {

@@ -7,6 +7,7 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
+import { TabsUtils } from '../../utils/tabsUtils';
 
 
 @IonicPage()
@@ -43,13 +44,16 @@ export class HomePage {
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
               public auth: AuthProvider,
-              public toastCtrl: ToastController) {
-
-  
+              public toastCtrl: ToastController,
+              public tabsUtils: TabsUtils) {
   }
 
   goProfile(){
     this.navCtrl.push('ProfilePage');
+  }
+
+  ionViewWillEnter(){
+    this.tabsUtils.show();
   }
 
   ionViewDidLoad(){
