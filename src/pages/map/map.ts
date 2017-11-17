@@ -40,7 +40,7 @@ export class MapPage {
 
   goProfile(){
     this.navCtrl.push('ProfilePage');
-  }
+  } 
 
 
 

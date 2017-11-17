@@ -10,6 +10,7 @@ import 'rxjs/add/operator/take';
 import * as _ from 'lodash'
 import spotUtils from './spotUtils'
 import { AuthProvider } from '../../providers/auth/auth';
+import { Spot } from '../../models/spot';
 
 
 
@@ -74,7 +75,7 @@ export class SpotPage {
     this.getSpots(infiniteScroll,null);
   }
 
-  goDetailSpot(spot){
+  goDetailSpot(spot:Spot){
     this.navCtrl.push('SpotDetailPage', {spotKey : spot.id});
   }
 

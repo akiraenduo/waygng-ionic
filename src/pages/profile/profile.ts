@@ -39,12 +39,11 @@ export class ProfilePage {
   }
 
   ionViewWillEnter() {
-    // the root left menu should be disabled on the tutorial page
     this.tabsUtils.hide();
+    this.segment = 'profil';
   }
 
   ionViewWillLeave() {
-    // enable the root left menu when leaving the tutorial page
     this.tabsUtils.show();
   }
 

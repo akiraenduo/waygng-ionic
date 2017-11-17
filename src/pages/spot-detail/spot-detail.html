@@ -1,10 +1,22 @@
-  <ion-header no-border>
+<ion-header no-border>
       <ion-toolbar color="blue">
           <ion-navbar>
               <ion-title>{{ 'TITLE.SPOT' | translate }}</ion-title>
           </ion-navbar>
       </ion-toolbar>
-  </ion-header>
+      <ion-toolbar no-border-top color="blue">
+              <ion-item class="no-border" color="blueLight">
+                <ion-icon class="size-icon-text" item-start name="text"></ion-icon>
+                <ion-input clearInput [(ngModel)] = "commentModel" placeholder="Commenter..."></ion-input>
+              </ion-item>
+       
+            <ion-buttons class="button-close" *ngIf="commentModel && commentModel.length > 0" end>
+              <button class="size-button-send" ion-button icon-only (click)="sendComment()">
+                <ion-icon name="md-send"></ion-icon>               
+              </button>
+            </ion-buttons> 
+          </ion-toolbar>
+</ion-header>
 
 
 <ion-content class="background-light">
@@ -45,12 +57,24 @@
                    </ion-col> 
                 <ion-col> 
                     <button (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
-                        <ion-icon name="text"></ion-icon>
+                        <ion-icon color="blue" name="text"></ion-icon>
                         <div class="greyColor">Commenter</div>
                     </button>
                 </ion-col>
               </ion-row>
-        
-        </ion-card>
+            </ion-card>
+
+            <ion-list *ngFor="let comment of comments | async">
+
+                    <ion-item>
+                            <ion-avatar item-start>
+                              <img src="assets/img/avatar-ts-woody.png">
+                            </ion-avatar>
+                            <h2>Woody</h2>
+                            <p>{{comment.content}}</p>
+                            <ion-note item-end>3:43 pm</ion-note>
+                      </ion-item>
+
+            </ion-list>
 
 </ion-content>

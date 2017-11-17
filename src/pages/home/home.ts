@@ -52,10 +52,6 @@ export class HomePage {
     this.navCtrl.push('ProfilePage');
   }
 
-  ionViewWillEnter(){
-    //this.tabsUtils.show();
-  }
-
   ionViewDidLoad(){
     this.station = this.navParams.get("station");
     if(!this.station){

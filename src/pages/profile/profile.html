@@ -1,19 +1,19 @@
 <ion-header>
-  <ion-navbar *ngIf="user" no-border-bottom>
-    <ion-segment color="white" [(ngModel)]="segment">
-      <ion-segment-button value="profil">
-        Profil
-      </ion-segment-button>
-      <ion-segment-button value="spots">
-        Mes spots
-      </ion-segment-button>
-    </ion-segment>
+  <ion-navbar>
+    <div *ngIf="userUid">
+      <ion-segment color="white" [(ngModel)]="segment">
+        <ion-segment-button value="profil">
+          Profil
+        </ion-segment-button>
+        <ion-segment-button value="spots">
+          Mes spots
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+    <div *ngIf="!userUid">
+        <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>        
+    </div>
   </ion-navbar> 
-  <ion-toolbar *ngIf="!user" color="blue">
-      <ion-navbar>
-          <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>
-      </ion-navbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content>

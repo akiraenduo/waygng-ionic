@@ -7,6 +7,8 @@ import { Hashtag } from '../../models/hashtag';
 import { Observable } from 'rxjs/Observable';
 
 import * as _ from 'lodash'
+import { User } from '../../models/user';
+import { Comment } from '../../models/comment';
 
 /*
   Generated class for the SpotProvider provider.
@@ -163,8 +165,26 @@ export class SpotProvider {
       })
     })
    }
+  }
+
+  addComment(spotId:string,content:string,user:User){
+    const createdAt = new Date().getTime();
+    const autoId = createdAt.toString();
+    const comment: Comment = {
+      id:autoId,
+      content:content,
+      createdAt:createdAt,
+      userName:user.displayName,
+      userPicture:user.photoURL,
+      userUid:user.uid
+    }
+    const item = this.afs.doc('/spots/'+spotId+'/comments/'+autoId);
+    item.set(comment);
+  }
 
 
+  getComments(spotId:string): AngularFirestoreCollection<Comment>{
+    return this.afs.collection('/spots/'+spotId+'/comments');
   }
 
 }

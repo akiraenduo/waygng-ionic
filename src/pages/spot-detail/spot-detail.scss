@@ -16,5 +16,18 @@ page-spot-detail {
         text-align: center;
     }
 
+    .size-icon-text{
+        min-height: 2rem !important;
+        font-size: 2rem !important;
+    }
+
+    .size-button-send{
+        font-size: 1.1rem;
+    }
+
+    .no-border .item-inner{
+        border-bottom: none !important;
+    }
+
 
 }
