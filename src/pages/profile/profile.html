@@ -11,8 +11,8 @@
       </ion-segment>
     </div>
     <div *ngIf="!userUid">
-        <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>        
-    </div>
+      <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>        
+  </div>
   </ion-navbar> 
 </ion-header>
 
@@ -95,13 +95,11 @@
               </ion-card>
         </ion-list>
     </div>
-  </div> 
-
+  </div>
   <ion-footer *ngIf="!user">
     <button ion-button full icon-left round  (click)="facebookLogin()">
       <ion-icon name="logo-facebook"></ion-icon>
       connexion
     </button>
   </ion-footer>
-
 </ion-content>

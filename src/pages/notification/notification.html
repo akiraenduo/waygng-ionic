@@ -35,7 +35,7 @@
                                   <ion-avatar item-start>
                                         <img [src]="(notif?.userLikerPhoto)" />
                                   </ion-avatar>
-                                  <h3> <b>{{ notif?.userLikerName  }}</b> {{ 'NOTIF_LIKE_SPOT' | translate }}</h3>
+                                  <h3> <b>{{ notif?.userLikerName  }}</b> {{ notif.type | formatTypeNotification | translate }}</h3>
                                   <p>{{notif.dateUpdate | formatDate:'calendar'}}</p> 
                                 </button>
       

@@ -46,7 +46,7 @@ export class SpotPage {
 
   goProfile(){
     this.navCtrl.push('ProfilePage');
-  }
+  } 
 
   ionViewDidLoad() {
     

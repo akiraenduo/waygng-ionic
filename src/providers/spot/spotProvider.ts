@@ -184,7 +184,7 @@ export class SpotProvider {
 
 
   getComments(spotId:string): AngularFirestoreCollection<Comment>{
-    return this.afs.collection('/spots/'+spotId+'/comments');
+    return this.afs.collection('/spots/'+spotId+'/comments', ref => ref.orderBy('createdAt','desc'));
   }
 
 }

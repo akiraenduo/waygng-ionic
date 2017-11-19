@@ -36,6 +36,7 @@ export class NotificationPage {
     this.navCtrl.push('ProfilePage');
   } 
 
+
   ionViewWillEnter(){
     this.badge.clear();
     if(this.userUid){

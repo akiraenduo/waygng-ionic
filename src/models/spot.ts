@@ -7,4 +7,5 @@ export interface Spot {
     userPicture: string;
     likes?:string[];
     anonyme?:boolean;
+    commentCount?:number;
 }

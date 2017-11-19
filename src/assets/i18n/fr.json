@@ -40,6 +40,7 @@
     "SIGN_OUT":"Déconnexion",
     "MY_SPOTS": "Mes spots",
     "NOTIF_LIKE_SPOT": "a aimé votre spot",
+    "NOTIF_COMMENT_SPOT": "a commenté votre spot",
     "REFRESHING": "Chargement...",
     "NEAREST_STATION": "Stations les plus proches",
     "SEARCH_STATION": "Recherche une station",

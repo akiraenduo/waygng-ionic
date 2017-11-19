@@ -46,4 +46,5 @@ export class TabsPage {
       this.tab5Title = values['MENU.NOTIFICATIONS'];
     });
   }
+
 }

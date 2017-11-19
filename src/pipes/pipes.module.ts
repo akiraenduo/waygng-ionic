@@ -10,6 +10,7 @@ import { CalculateDistancePipe } from './calculate-distance/calculate-distance';
 import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
 import { FormatBackgroundNotifPipe } from './format-background-notif/format-background-notif';
 import { FormatNumberNotificationPipe } from './format-number-notification/format-number-notification';
+import { FormatTypeNotificationPipe } from './format-type-notification/format-type-notification';
 @NgModule({
     declarations: [SafeHtmlPipe,
     ShowTwoTimePipe,
@@ -21,7 +22,8 @@ import { FormatNumberNotificationPipe } from './format-number-notification/forma
     FormatLikeIconPipe,
     FormatColorIconPipe,
     FormatBackgroundNotifPipe,
-    FormatNumberNotificationPipe],
+    FormatNumberNotificationPipe,
+    FormatTypeNotificationPipe],
 	imports: [],
     exports: [SafeHtmlPipe,
     ShowTwoTimePipe,
@@ -33,6 +35,7 @@ import { FormatNumberNotificationPipe } from './format-number-notification/forma
     FormatLikeIconPipe,
     FormatColorIconPipe,
     FormatBackgroundNotifPipe,
-    FormatNumberNotificationPipe]
+    FormatNumberNotificationPipe,
+    FormatTypeNotificationPipe]
 })
 export class PipesModule {}

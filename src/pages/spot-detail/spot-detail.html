@@ -56,25 +56,31 @@
                     </button>
                    </ion-col> 
                 <ion-col> 
-                    <button (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
+                    <button ion-button item-end icon-only clear small>
                         <ion-icon color="blue" name="text"></ion-icon>
-                        <div class="greyColor">Commenter</div>
+                        <div class="greyColor">{{spot?.commentCount}} Commentaires</div>
                     </button>
                 </ion-col>
               </ion-row>
             </ion-card>
 
-            <ion-list *ngFor="let comment of comments | async">
-
-                    <ion-item>
-                            <ion-avatar item-start>
-                              <img src="assets/img/avatar-ts-woody.png">
-                            </ion-avatar>
-                            <h2>Woody</h2>
-                            <p>{{comment.content}}</p>
-                            <ion-note item-end>3:43 pm</ion-note>
+            <div class="message-wrap">
+              
+                      <ion-item class="message left no-border" *ngFor="let comment of comments | async">
+                        <ion-avatar item-start>
+                          <img [src]="(comment.userPicture)" />
+                        </ion-avatar>
+                          <div class="msg-detail">
+                              <div class="msg-info">
+                                <p>{{comment.userName}}&nbsp;&nbsp;&nbsp;{{comment.createdAt | formatDate:'relative'}}</p>
+                              </div>
+                              <div class="msg-content">
+                                  <span class="triangle"></span>
+                                  <p class="line-breaker">{{comment.content}}</p>
+                              </div>
+                          </div>
                       </ion-item>
-
-            </ion-list>
+              
+                  </div>
 
 </ion-content>

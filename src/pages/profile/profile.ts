@@ -109,7 +109,6 @@ ionViewDidLoad(){
     });
     confirm.present();
   }
-
   presentLoading() {
     this.loader = this.loadingCtrl.create({
       content: "Please wait...",
@@ -122,7 +121,6 @@ ionViewDidLoad(){
     this.presentLoading();
     this.auth.facebookLogin();
   }
-
   logout() {
     this.navCtrl.setRoot('HomePage'); 
     this.auth.logout();

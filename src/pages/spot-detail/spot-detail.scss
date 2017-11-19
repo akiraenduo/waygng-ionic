@@ -1,5 +1,7 @@
 page-spot-detail {
 
+    $toUserBackgroundColor: #fff;
+
     .button-padding{
         padding:0;
     }
@@ -29,5 +31,84 @@ page-spot-detail {
         border-bottom: none !important;
     }
 
+      .line-breaker {
+        white-space: pre-line;
+      }
+
+    .message-wrap {
+        .message {
+          position: relative;
+          .user-img {
+            position: absolute;
+            border-radius: 45px;
+            width: 45px;
+            height: 45px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+          }
+    
+          .msg-detail {
+            width: 100%;
+            display: inline-block;
+            p {
+              margin: 0;
+            }
+            .msg-info {
+              p {
+                font-size: .8em;
+                color: #888;
+              }
+            }
+    
+            .msg-content {
+              position: relative;
+              margin-top: 5px;
+              border-radius: 5px;
+              padding: 8px;
+              border: 1px solid #ddd;
+              color: #fff;
+              width: auto;
+    
+              span.triangle {
+                background-color: #f4f4f4;
+                border-radius: 2px;
+                height: 8px;
+                width: 8px;
+                top: 12px;
+                display: block;
+                border-style: solid;
+                border-color: #ddd;
+                border-width: 1px;
+                -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
+                position: absolute;
+              }
+            }
+    
+          }
+        }
+
+        .message.left {
+            .msg-content {
+              background-color: #f4f4f4;
+              float: left;
+            }
+            .msg-detail {
+              padding-left: 10px;
+            }
+            .user-img {
+              left: 0;
+            }
+            .msg-content {
+              color: #343434;
+              span.triangle {
+                border-top-width: 0;
+                border-right-width: 0;
+                left: -5px;
+              }
+            }
+      
+          }
+      
+        }
 
 }
