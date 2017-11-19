@@ -182,9 +182,20 @@ export class SpotProvider {
     item.set(comment);
   }
 
+  updateComment(spotId:string, comment:Comment){
+    comment.createdAt = new Date().getTime();
+    const item = this.afs.doc('/spots/'+spotId+'/comments/'+comment.id);
+    item.update(comment);
+  }
+
 
   getComments(spotId:string): AngularFirestoreCollection<Comment>{
     return this.afs.collection('/spots/'+spotId+'/comments', ref => ref.orderBy('createdAt','desc'));
+  }
+
+  removeComment(spotId:string, commentId:String){
+    const item = this.afs.doc('/spots/'+spotId+'/comments/'+commentId);
+    return item.delete();
   }
 
 }

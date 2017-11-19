@@ -1,21 +1,23 @@
 <ion-header no-border>
-      <ion-toolbar color="blue">
-          <ion-navbar>
-              <ion-title>{{ 'TITLE.SPOT' | translate }}</ion-title>
-          </ion-navbar>
-      </ion-toolbar>
-      <ion-toolbar no-border-top color="blue">
-              <ion-item class="no-border" color="blueLight">
-                <ion-icon class="size-icon-text" item-start name="text"></ion-icon>
-                <ion-input clearInput [(ngModel)] = "commentModel" placeholder="Commenter..."></ion-input>
-              </ion-item>
-       
-            <ion-buttons class="button-close" *ngIf="commentModel && commentModel.length > 0" end>
-              <button class="size-button-send" ion-button icon-only (click)="sendComment()">
+    <ion-toolbar color="blue">
+        <ion-navbar>
+            <ion-buttons *ngIf="commentUpdate" end>
+                <button ion-button icon-end outline (click)="cancelUpdateComment()">Annuler</button>
+            </ion-buttons>
+            <ion-title>{{ 'TITLE.SPOT' | translate }}</ion-title>
+        </ion-navbar>
+    </ion-toolbar>
+    <ion-toolbar no-border-top color="blue">
+        <ion-item class="no-border" color="blueLight">
+            <ion-icon class="size-icon-text" item-start name="text"></ion-icon>
+            <ion-input #commentInput clearInput autocorrect [(ngModel)] = "commentModel" placeholder="Commenter..." maxlength="200"></ion-input>
+        </ion-item>
+        <ion-buttons class="button-close" *ngIf="commentModel && commentModel.length > 0" end>
+            <button class="size-button-send padding-send-button" ion-button icon-only (click)="sendComment()">
                 <ion-icon name="md-send"></ion-icon>               
-              </button>
-            </ion-buttons> 
-          </ion-toolbar>
+            </button>
+        </ion-buttons> 
+    </ion-toolbar>
 </ion-header>
 
 
@@ -65,22 +67,24 @@
             </ion-card>
 
             <div class="message-wrap">
-              
-                      <ion-item class="message left no-border" *ngFor="let comment of comments | async">
-                        <ion-avatar item-start>
-                          <img [src]="(comment.userPicture)" />
-                        </ion-avatar>
-                          <div class="msg-detail">
-                              <div class="msg-info">
-                                <p>{{comment.userName}}&nbsp;&nbsp;&nbsp;{{comment.createdAt | formatDate:'relative'}}</p>
-                              </div>
-                              <div class="msg-content">
-                                  <span class="triangle"></span>
-                                  <p class="line-breaker">{{comment.content}}</p>
-                              </div>
-                          </div>
-                      </ion-item>
-              
-                  </div>
+                <ion-item class="message left no-border" *ngFor="let comment of comments | async">
+                    <ion-avatar item-start>
+                        <img [src]="(comment.userPicture)" />
+                    </ion-avatar>
+                    <div class="msg-detail">
+                        <div class="msg-info">
+                            <p>{{comment.userName}}&nbsp;&nbsp;&nbsp;{{comment.createdAt | formatDate:'relative'}}</p>
+                        </div>
+                        <button *ngIf="userUid == comment.userUid" class="msg-content" (click)="editComment(comment)">
+                            <span class="triangle"></span>
+                            <p class="line-breaker">{{comment.content}}</p>
+                        </button>
+                        <div *ngIf="userUid !== comment.userUid" class="msg-content" (click)="editComment(comment)">
+                            <span class="triangle"></span>
+                            <p class="line-breaker">{{comment.content}}</p>
+                        </div>
+                    </div>
+                </ion-item>
+            </div>
 
 </ion-content>

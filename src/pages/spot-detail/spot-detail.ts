@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams, ModalController, IonicPage, ActionSheetController } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import spotUtils from '../spot/spotUtils'
 import { TabsUtils } from '../../utils/tabsUtils';
+import { Comment } from '../../models/comment';
 
 /**
  * Generated class for the SpotDetailPage page.
@@ -19,6 +20,8 @@ import { TabsUtils } from '../../utils/tabsUtils';
 })
 export class SpotDetailPage {
 
+  @ViewChild('commentInput') commentInput ;
+
   user:any;
   spot:any;
   spotId:any;
@@ -27,6 +30,7 @@ export class SpotDetailPage {
   loading:boolean;
   commentModel: any;
   comments:any;
+  commentUpdate:Comment;
 
 
   constructor(public navCtrl: NavController, 
@@ -34,6 +38,7 @@ export class SpotDetailPage {
               public auth: AuthProvider,
               public spotProvider: SpotProvider,
               public modalCtrl: ModalController,
+              public actionsheetCtrl: ActionSheetController,
               public tabsUtils: TabsUtils) {
                 
 
@@ -78,7 +83,56 @@ export class SpotDetailPage {
   }
 
   sendComment(){
-    this.spotProvider.addComment(this.spotId,this.commentModel,this.user);
+    if(this.commentUpdate){
+      this.commentUpdate.content = this.commentModel; 
+      this.spotProvider.updateComment(this.spotId,this.commentUpdate);      
+    }else{
+      this.spotProvider.addComment(this.spotId,this.commentModel,this.user);      
+    }
+    this.commentModel = null;
+    this.commentUpdate = null;
+  }
+
+  editComment(comment:Comment){
+    let actionSheet = this.actionsheetCtrl.create({
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Modifier',
+          handler: () => {
+           this.updateComment(comment);
+          }
+        },
+        {
+          text: 'Supprimer',
+          role: 'destructive',
+          handler: () => {
+            this.removeComment(comment.id);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel', // will always sort to be on the bottom
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  removeComment(commentId:String){
+    this.spotProvider.removeComment(this.spotId,commentId);
+  }
+
+  updateComment(comment:Comment){
+    this.commentUpdate = comment;
+    this.commentModel = comment.content;
+    setTimeout(() => {
+      this.commentInput.setFocus();
+    },600);
+  }
+
+  cancelUpdateComment(){
+    this.commentUpdate = null;
     this.commentModel = null;
   }
 

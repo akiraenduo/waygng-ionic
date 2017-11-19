@@ -5,7 +5,6 @@ import { Spot } from '../../models/spot';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 
 import * as _ from 'lodash';
-import { Keyboard } from '@ionic-native/keyboard';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastController } from 'ionic-angular';
@@ -39,7 +38,6 @@ export class AddSpotPage {
               public userProvider: UserProvider,
               public spotProvider: SpotProvider,
               public auth: AuthProvider,
-              public Keyboard: Keyboard,
               public toastCtrl: ToastController,
               public tabsUtils: TabsUtils) {
               this.tabsUtils.hide();
