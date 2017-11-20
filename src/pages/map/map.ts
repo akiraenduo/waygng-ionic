@@ -9,6 +9,7 @@ import {
   GoogleMapOptions
  } from '@ionic-native/google-maps';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
+import * as _ from 'lodash'
 
 /**
  * Generated class for the MapPage page.
@@ -28,6 +29,7 @@ export class MapPage {
   station:any;
   stationSelected:any;
   showStationDetail:any;
+  stationsAdded:Station[];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -46,6 +48,7 @@ export class MapPage {
 
   ionViewWillEnter(){
     this.station = this.navParams.get("station");
+    this.stationsAdded = [];
 
     this.platform.ready().then(() => {
       if(this.station){
@@ -58,7 +61,7 @@ export class MapPage {
           let longitude = resp.coords.longitude;
           this.ginkoProvider.fetchStationsProche(latitude,longitude).subscribe((stations) => {
             this.loadMap(latitude,longitude,stations);
-          })
+          });
         });
       }
 
@@ -94,34 +97,47 @@ export class MapPage {
         // Wait the MAP_READY before using any methods.
         this.map.one(GoogleMapsEvent.MAP_READY)
           .then(() => {
-            let markerList = [];
-            // Now you can use all methods safely.
-            stations.forEach((station) =>{
-              
-              this.map.addMarker({
-                icon: 'red',
-                animation: 'DROP',
-                position: {
-                  lat: Number(station.latitude),
-                  lng: Number(station.longitude)
-                }
-              }).then(marker => {
-                markerList.push(marker);
-                marker.on(GoogleMapsEvent.MARKER_CLICK)
-                  .subscribe(() => {
-                    markerList.forEach((marker) => {
-                      marker.setIcon('red');
-                    });
-                    marker.setIcon('blue');                    
-                    let stationDetails = document.getElementById("stationDetails");
-                    stationDetails.innerHTML = station.name;
-                    this.stationSelected = station;
-                    this.showStationDetail = true;
-                  });
+
+            this.map.on(GoogleMapsEvent.CAMERA_MOVE_END)
+            .subscribe((location) => {
+              this.ginkoProvider.fetchStationsProche(location[0].target.lat,location[0].target.lng).subscribe((stations) => {
+                this.addStations(stations);
               });
+
             });
 
+            this.addStations(stations);
           });
+      }
+
+      addStations(stations:Station[]){
+        let markerList = [];
+        // Now you can use all methods safely.
+        stations.forEach((station) =>{
+          if(!_.find(this.stationsAdded, station)){
+            this.map.addMarker({
+              icon: 'red',
+              position: {
+                lat: Number(station.latitude),
+                lng: Number(station.longitude)
+              }
+            }).then(marker => {
+              markerList.push(marker);
+              marker.on(GoogleMapsEvent.MARKER_CLICK)
+                .subscribe(() => {
+                  markerList.forEach((marker) => {
+                    marker.setIcon('red');
+                  });
+                  marker.setIcon('blue');                    
+                  let stationDetails = document.getElementById("stationDetails");
+                  stationDetails.innerHTML = station.name;
+                  this.stationSelected = station;
+                  this.showStationDetail = true;
+                });
+            });
+            this.stationsAdded.push(station);
+        }
+        });
       }
 
 
