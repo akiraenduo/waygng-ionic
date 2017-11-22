@@ -30,6 +30,7 @@ export class MapPage {
   stationSelected:any;
   showStationDetail:any;
   stationsAdded:Station[];
+  searchModel: string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -111,6 +112,7 @@ export class MapPage {
       }
 
       addStations(stations:Station[]){
+        stations = this.removeDuplicate(stations);
         let markerList = [];
         // Now you can use all methods safely.
         stations.forEach((station) =>{
@@ -129,14 +131,19 @@ export class MapPage {
                     marker.setIcon('red');
                   });
                   marker.setIcon('blue');                    
-                  let stationDetails = document.getElementById("stationDetails");
-                  stationDetails.innerHTML = station.name;
+                  this.searchModel = station.name;
                   this.stationSelected = station;
                   this.showStationDetail = true;
                 });
             });
             this.stationsAdded.push(station);
         }
+        });
+      }
+
+      removeDuplicate(stations:Station[]):Station[]{
+        return _.uniqWith(stations, function(first, second){
+          return first.name === second.name;
         });
       }
 

@@ -40,7 +40,6 @@ export class AddSpotPage {
               public auth: AuthProvider,
               public toastCtrl: ToastController,
               public tabsUtils: TabsUtils) {
-              this.tabsUtils.hide();
 
                 const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
@@ -51,7 +50,12 @@ export class AddSpotPage {
                
   }
 
+  ionViewWillEnter() {
+    this.tabsUtils.hide();
+  }
+
   ionViewWillLeave() {
+    this.tabsUtils.show();
     if(this.subscription){
       this.subscription.unsubscribe();      
     }

@@ -13,12 +13,10 @@
       </button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar no-border-top color="blue">
-    <button ion-button full round class="button-margin" color="blueLight" (click)="searchStation()">
-      <ion-item class="no-border" color="blueLight">
+  <ion-toolbar class="height" no-border-top color="blue">
+    <button ion-button full round small class="button-margin" color="blueLight" (click)="searchStation()">
         <ion-icon class="size-icon-search" item-start name="ios-search"></ion-icon>
         <ion-input readonly [(ngModel)] = "searchModel" placeholder="Station"></ion-input>
-      </ion-item>
     </button>        
     <ion-buttons class="button-close" *ngIf="searchModel && searchModel.length > 0" end>
       <button class="size-button-close" ion-button icon-only (click)="clearSearchBar()">

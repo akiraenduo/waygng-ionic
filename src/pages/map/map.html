@@ -6,9 +6,9 @@
         <ion-title>{{ 'TITLE.MAP' | translate }}</ion-title>
     </ion-toolbar>
     <ion-toolbar no-border-top color="blue">
-        <button ion-button full round class="button-margin" color="blueLight" (click)="goHomePage()">
-            <ion-icon name="md-alarm"></ion-icon>
-            <ion-item id="stationDetails" class="no-border" color="blueLight"></ion-item>
+        <button ion-button full round small class="button-margin" color="blueLight" (click)="goHomePage()">
+            <ion-icon class="padding-icon" name="md-alarm"></ion-icon>
+            <ion-input readonly [(ngModel)] = "searchModel" placeholder="Sélectionnez une station"></ion-input>
           </button>   
     </ion-toolbar>
 
