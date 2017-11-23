@@ -4,7 +4,7 @@
             <ion-icon name="ios-person"></ion-icon>
         </button>
       <ion-title>{{ 'TITLE.SPOTS' | translate }}</ion-title>
-      <ion-buttons end>
+      <ion-buttons end *ngIf="userUid">
         <button  ion-button icon-only (click)="goFiltreSpot()">
           <ion-icon name="ios-search"></ion-icon>
         </button>
@@ -24,11 +24,7 @@
     </ion-refresher>
 
     <ng-template #guest>
-        <ion-row class="warning-container">
-            <ion-col col-12>
-                {{ 'WARNING.NOT_CONNECTED_SPOT' | translate }}
-            </ion-col>
-        </ion-row>
+        <login-button warningMessage="WARNING.NOT_CONNECTED_SPOT"></login-button>
     </ng-template>
 
     <ng-template #authenticated>
@@ -99,6 +95,5 @@
     <ion-fab *ngIf="userUid" right bottom>
         <button color="blue" ion-fab (click)="goAddSpot()"><ion-icon name="add"></ion-icon></button>
     </ion-fab>
-      
-
+    
 </ion-content>

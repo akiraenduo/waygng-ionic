@@ -13,12 +13,7 @@
     <div *ngIf="userUid; then authenticated else guest">  </div>
     
         <ng-template #guest>
-            <ion-row  class="warning-container">
-                <ion-col col-12>
-                    {{ 'WARNING.NOT_CONNECTED_NOTIF' | translate }}
-                </ion-col>
-            </ion-row>
-    
+            <login-button warningMessage="WARNING.NOT_CONNECTED_NOTIF"></login-button>
         </ng-template>
     
         <ng-template #authenticated>

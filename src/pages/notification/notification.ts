@@ -60,6 +60,7 @@ export class NotificationPage {
             this.loading = false});
       }else{
         this.notifications = null;
+        this.userUid = null;
       }
 
     }); 
