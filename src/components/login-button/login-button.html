@@ -1,4 +1,4 @@
-<ion-row  class="warning-container">
+<ion-row *ngIf="warningMessage"  class="warning-container">
     <ion-col col-12>
         {{ warningMessage | translate }}
     </ion-col>
