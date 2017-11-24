@@ -3,7 +3,6 @@ import { NavController, NavParams, IonicPage, ModalController, AlertController, 
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import spotUtils from '../spot/spotUtils'
-import { TabsUtils } from '../../utils/tabsUtils';
 
 /**
  * Generated class for the ProfilePage page.
