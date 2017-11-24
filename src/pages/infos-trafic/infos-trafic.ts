@@ -26,7 +26,7 @@ export class InfosTraficPage {
   }
 
   goProfile(){
-    this.navCtrl.push('ProfilePage');
+    this.navCtrl.setRoot('ProfilePage');
   }
 
   ionViewDidLoad() {

@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-row *ngIf="warningMessage"  class="warning-container">
+        <ion-col col-12>
+            {{ warningMessage | translate }}
+        </ion-col>
+    </ion-row>
+    <button ion-button full (click)="facebookLogin()" color="facebook">
+        <ion-icon name="logo-facebook" class="padding-right"></ion-icon>
+        connexion
+    </button>
+
+
+</ion-content>

@@ -10,12 +10,7 @@
 
 <ion-content class="background-light">
 
-    <div *ngIf="userUid; then authenticated else guest">  </div>
-    
-        <ng-template #guest>
-            <login-button warningMessage="WARNING.NOT_CONNECTED_NOTIF"></login-button>
-        </ng-template>
-    
+    <div *ngIf="userUid; then authenticated else guest">  </div>    
         <ng-template #authenticated>
     
             <ion-row *ngIf="notifications?.length==0" class="warning-container">

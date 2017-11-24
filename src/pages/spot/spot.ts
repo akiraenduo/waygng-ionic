@@ -45,8 +45,16 @@ export class SpotPage {
   }
 
   goProfile(){
-    this.navCtrl.push('ProfilePage');
+    this.navCtrl.setRoot('ProfilePage');
   } 
+
+  ionViewWillEnter(){
+    if(!this.userUid){
+      this.navCtrl.setRoot("LoginPage",{
+        from:"SpotPage"
+      });
+    }
+  }
 
   ionViewDidLoad() {
     

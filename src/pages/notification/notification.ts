@@ -33,7 +33,7 @@ export class NotificationPage {
   }
 
   goProfile(){
-    this.navCtrl.push('ProfilePage');
+    this.navCtrl.setRoot('ProfilePage');
   } 
 
 
@@ -41,6 +41,10 @@ export class NotificationPage {
     this.badge.clear();
     if(this.userUid){
       this.userProvider.resetNotification(this.userUid);
+    }else{
+      this.navCtrl.setRoot("LoginPage",{
+        from:"NotificationPage"
+      });
     }
   }
 

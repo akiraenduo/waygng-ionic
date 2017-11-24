@@ -32,20 +32,20 @@ export class ProfilePage {
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
-              public spotProvider: SpotProvider,
-              public tabsUtils: TabsUtils ) {
+              public spotProvider: SpotProvider) {
                 
 
   }
 
-  ionViewWillEnter() {
-    this.tabsUtils.hide();
+  ionViewWillEnter(){
     this.segment = 'profil';
+    if(!this.userUid){
+      this.navCtrl.setRoot("LoginPage",{
+        from:"ProfilePage"
+      });
+    }
   }
 
-  ionViewWillLeave() {
-    this.tabsUtils.show();
-  }
 
 ionViewDidLoad(){
   this.auth.user.subscribe(user => {

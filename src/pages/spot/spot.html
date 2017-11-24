@@ -23,10 +23,6 @@
           </ion-refresher-content>
     </ion-refresher>
 
-    <ng-template #guest>
-        <login-button warningMessage="WARNING.NOT_CONNECTED_SPOT"></login-button>
-    </ng-template>
-
     <ng-template #authenticated>
        
         <my-loader *ngIf="searchSpots"></my-loader>
