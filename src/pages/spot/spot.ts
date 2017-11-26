@@ -42,28 +42,15 @@ export class SpotPage {
               public modalCtrl: ModalController,
               public auth: AuthProvider) {
 
+
   }
 
-  goProfile(){
-    if(this.userUid){
-      this.navCtrl.push('ProfilePage');
-    }else{
-      this.goLogin();
-    }
-  }
 
   goLogin(){
     this.navCtrl.setRoot('LoginPage');
   }
 
-  ionViewWillEnter(){
-    if(!this.userUid){
-      this.goLogin();
-    }
-  }
-
-  ionViewDidLoad() {
-    
+  ionViewDidLoad() {  
     this.searchSpots = true;
     this.auth.user.subscribe(user => {
       if (user) {
@@ -73,6 +60,7 @@ export class SpotPage {
         this.getSpots(null,null); 
       }else{
         this.userUid = null;
+        this.goLogin();
       }
     });
   }

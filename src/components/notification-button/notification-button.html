@@ -1,0 +1,6 @@
+<ion-buttons end *ngIf="userUid">
+    <button  id="notification-button" ion-button icon-only (click)="goNotification()">
+        <ion-icon class="size-icon" name="md-notifications"></ion-icon>
+        <ion-badge *ngIf="countNotification > 0" id="notifications-badge" color="danger">{{countNotification}}</ion-badge>
+      </button>
+</ion-buttons>

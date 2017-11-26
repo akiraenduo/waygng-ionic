@@ -4,12 +4,13 @@
         "FAVORIS": "Favoris",
         "TRAFFIC_INFO": "Info trafic",
         "SPOTS": "Spots",
-        "SEND_SPOT": "Envoyé un spot",
+        "SEND_SPOT": "Envoyer un spot",
         "THEY_LIKED": "Ils ont aimé",
         "PROFILE": "Profil",
         "SPOT": "Spot",
         "NOTIFICATIONS": "Notifications",
-        "MAP":"À proximité"
+        "MAP":"À proximité",
+        "LOGIN": "Bienvenue"
     },
 
     "MENU":{

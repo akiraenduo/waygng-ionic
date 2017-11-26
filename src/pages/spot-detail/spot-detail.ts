@@ -4,7 +4,6 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import spotUtils from '../spot/spotUtils'
-import { TabsUtils } from '../../utils/tabsUtils';
 import { Comment } from '../../models/comment';
 
 /**
@@ -38,8 +37,7 @@ export class SpotDetailPage {
               public auth: AuthProvider,
               public spotProvider: SpotProvider,
               public modalCtrl: ModalController,
-              public actionsheetCtrl: ActionSheetController,
-              public tabsUtils: TabsUtils) {
+              public actionsheetCtrl: ActionSheetController) {
                 
 
               this.spotId = navParams.get("spotKey");
@@ -60,12 +58,7 @@ export class SpotDetailPage {
 
     }
 
-    ionViewWillEnter() {
-      this.tabsUtils.hide();
-    }
-
     ionViewWillLeave() {
-      this.tabsUtils.show();
       if(this.subscription){
         this.subscription.unsubscribe();        
       }

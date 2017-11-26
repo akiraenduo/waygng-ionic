@@ -3,7 +3,6 @@ import { Storage } from '@ionic/storage';
 import { IonicPage, MenuController, NavController, Platform } from 'ionic-angular';
 
 import { TranslateService } from '@ngx-translate/core';
-import { TabsUtils } from '../../utils/tabsUtils';
 
 export interface Slide {
   title: string;
@@ -25,7 +24,6 @@ export class TutorialPage {
               public menu: MenuController, 
               public translate: TranslateService,
               public storage: Storage,
-              public tabsUtils: TabsUtils, 
               public platform: Platform) {
     this.dir = platform.dir();
     translate.get(["TUTORIAL_SLIDE1_TITLE",
@@ -68,16 +66,6 @@ export class TutorialPage {
 
   onSlideChangeStart(slider) {
     this.showSkip = !slider.isEnd();
-  }
-
-  ionViewDidEnter() {
-    // the root left menu should be disabled on the tutorial page
-    this.tabsUtils.hide();
-  }
-
-  ionViewWillLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.tabsUtils.show();
   }
 
 }

@@ -8,7 +8,6 @@ import * as _ from 'lodash';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Subscription } from 'rxjs/Subscription';
 import { ToastController } from 'ionic-angular';
-import { TabsUtils } from '../../utils/tabsUtils';
 
 /**
  * Generated class for the AddSpotPage page.
@@ -38,8 +37,7 @@ export class AddSpotPage {
               public userProvider: UserProvider,
               public spotProvider: SpotProvider,
               public auth: AuthProvider,
-              public toastCtrl: ToastController,
-              public tabsUtils: TabsUtils) {
+              public toastCtrl: ToastController) {
 
                 const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
@@ -50,12 +48,7 @@ export class AddSpotPage {
                
   }
 
-  ionViewWillEnter() {
-    this.tabsUtils.hide();
-  }
-
   ionViewWillLeave() {
-    this.tabsUtils.show();
     if(this.subscription){
       this.subscription.unsubscribe();      
     }

@@ -1,6 +1,10 @@
 <ion-header>
   <ion-navbar>
-    <div *ngIf="userUid">
+      <ion-toolbar hideBackButton>
+          <button  ion-button icon-only menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
+
       <ion-segment color="white" [(ngModel)]="segment">
         <ion-segment-button value="profil">
           Profil
@@ -9,10 +13,7 @@
           Mes spots
         </ion-segment-button>
       </ion-segment>
-    </div>
-    <div *ngIf="!userUid">
-      <ion-title>{{ 'TITLE.PROFILE' | translate }}</ion-title>        
-  </div>
+    </ion-toolbar>
   </ion-navbar> 
 </ion-header>
 

@@ -32,33 +32,18 @@ export class NotificationPage {
                  
   }
 
-  goProfile(){
-    if(this.userUid){
-      this.navCtrl.push('ProfilePage');
-    }else{
-      this.goLogin();
-    }
-  }
-
   goLogin(){
     this.navCtrl.push('LoginPage');
   }
 
 
-  ionViewWillEnter(){
-    this.badge.clear();
-    if(this.userUid){
-      this.userProvider.resetNotification(this.userUid);
-    }else{
-      this.goLogin();
-    }
-  }
-
   ionViewDidLoad(){
+    this.badge.clear();
     this.auth.user.subscribe(user => {
       if(user){
         this.userUid = user.uid;
         this.loading = true;
+        this.userProvider.resetNotification(this.userUid);
         this.userProvider.getNotifications(this.userUid,true).snapshotChanges(['added','removed']).map(notifications => {
           return notifications.map(a => {
             const data = a.payload.doc.data();
@@ -71,6 +56,7 @@ export class NotificationPage {
       }else{
         this.notifications = null;
         this.userUid = null;
+        this.goLogin();
       }
 
     }); 

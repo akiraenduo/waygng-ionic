@@ -1,0 +1,26 @@
+notification-button {
+
+    #notification-button {            
+        position: relative;
+        padding-right: 8px;
+        top:1px;
+        right: 1px;
+        overflow: visible!important;
+    }
+
+
+    #notifications-badge {
+        background-color: red;
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        border-radius: 100%;
+    }
+
+    .size-icon{
+        min-height: 2.5rem !important;
+        font-size: 2.5rem !important;
+        padding-top: 5px !important;
+    }
+
+}

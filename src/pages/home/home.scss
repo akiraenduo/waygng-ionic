@@ -37,13 +37,12 @@ page-home {
     }
 
     .size-icon-search{
-        min-height: 2rem !important;
-        font-size: 2rem !important;
         padding-right: 10px;
     }
 
     .size-button-close{
         font-size: 1.1rem;
+        padding-bottom: 10px;
     }
 
     .button-close{
@@ -56,7 +55,9 @@ page-home {
     .fixed-content{
         background-color: #0091D4 !important;
     }
-    
-    
+
+    .fab-bottom{
+        bottom:10px !important;
+    }    
 
 }

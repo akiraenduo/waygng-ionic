@@ -41,11 +41,6 @@ export class MapPage {
 
   }
 
-  goProfile(){
-    this.navCtrl.push('ProfilePage');
-  } 
-
-
 
   ionViewWillEnter(){
     this.station = this.navParams.get("station");
@@ -53,6 +48,7 @@ export class MapPage {
 
     this.platform.ready().then(() => {
       if(this.station){
+        this.searchModel = this.station.name;
         let stations = [];
         stations.push(this.station);
         this.loadMap(this.station.latitude,this.station.longitude,stations);

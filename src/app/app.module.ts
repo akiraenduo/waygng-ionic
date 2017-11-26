@@ -31,7 +31,6 @@ import { GinkoProvider } from '../providers/ginko/ginkoProvider';
 import { UserProvider } from '../providers/user/userProvider';
 import { FavorisProvider } from '../providers/favoris/favorisProvider';
 import { SpotProvider } from '../providers/spot/spotProvider';
-import { TabsUtils } from '../utils/tabsUtils';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -91,8 +90,7 @@ export function createTranslateLoader(http: HttpClient) {
     UserProvider,
     FavorisProvider,
     SpotProvider,
-    AuthProvider,
-    TabsUtils
+    AuthProvider
   ]
 })
 export class AppModule {}

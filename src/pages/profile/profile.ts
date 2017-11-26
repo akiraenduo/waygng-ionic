@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
-import spotUtils from '../spot/spotUtils'
-import { TabsUtils } from '../../utils/tabsUtils';
+import spotUtils from '../spot/spotUtils';
 
 /**
  * Generated class for the ProfilePage page.
@@ -32,19 +31,13 @@ export class ProfilePage {
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
-              public tabsUtils: TabsUtils,
               public spotProvider: SpotProvider) {
                 
 
   }
 
   ionViewWillEnter(){
-    this.tabsUtils.hide();
     this.segment = 'profil';
-  }
-
-  ionViewWillLeave() {
-    this.tabsUtils.show();
   }
 
 

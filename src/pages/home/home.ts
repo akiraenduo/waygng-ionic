@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, IonicPage, ToastController } from 'ionic-angular';
+import { Component, ViewChild, NgZone } from '@angular/core';
+import { NavController, NavParams, IonicPage, ToastController, Content } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Station } from '../../models/station';
 import { TempsAttente } from '../../models/tempsattente';
@@ -7,7 +7,6 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
-import { TabsUtils } from '../../utils/tabsUtils';
 
 
 @IonicPage()
@@ -18,6 +17,8 @@ import { TabsUtils } from '../../utils/tabsUtils';
 
 
 export class HomePage {
+
+  @ViewChild(Content) content: Content;
 
   latitude: number;
   longitude: number;
@@ -35,6 +36,7 @@ export class HomePage {
   dateUpdate:any;
   searchPosition:any;
   favoris: any[] = [];
+  atBottom: any;
 
 
   constructor(public navCtrl: NavController, 
@@ -44,17 +46,10 @@ export class HomePage {
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
               public auth: AuthProvider,
-              public toastCtrl: ToastController,
-              public tabsUtils: TabsUtils) {
+              public zone: NgZone,
+              public toastCtrl: ToastController) {
   }
 
-  goProfile(){
-    if(this.userUid){
-      this.navCtrl.push('ProfilePage');
-    }else{
-      this.navCtrl.push('LoginPage');
-    }
-  }
 
   ionViewDidLoad(){
     this.station = this.navParams.get("station");
@@ -192,7 +187,7 @@ export class HomePage {
   }
 
   localizationMap(){
-    this.navCtrl.push('MapPage', {
+    this.navCtrl.setRoot('MapPage', {
       station:this.station
     });
   }
@@ -228,6 +223,20 @@ export class HomePage {
       duration: 3000,
       position: 'bottom'
     }).present();
+  }
+
+  scrollHandler(event) {
+    this.atBottom = false;
+    if(this.content.getContentDimensions().scrollHeight !== this.content.getContentDimensions().contentHeight){
+      this.zone.run(()=>{
+        if (event.scrollTop + this.content.getContentDimensions().contentHeight > this.content.getContentDimensions().scrollHeight) {
+          this.atBottom = true;
+        }else{
+          this.atBottom = false;
+        }
+      });
+    }
+
   }
   
 
