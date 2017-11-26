@@ -42,7 +42,7 @@ export class MapPage {
   }
 
   goProfile(){
-    this.navCtrl.setRoot('ProfilePage');
+    this.navCtrl.push('ProfilePage');
   } 
 
 

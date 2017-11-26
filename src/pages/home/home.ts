@@ -49,7 +49,11 @@ export class HomePage {
   }
 
   goProfile(){
-    this.navCtrl.setRoot('ProfilePage');
+    if(this.userUid){
+      this.navCtrl.push('ProfilePage');
+    }else{
+      this.navCtrl.push('LoginPage');
+    }
   }
 
   ionViewDidLoad(){

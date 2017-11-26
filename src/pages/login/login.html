@@ -1,13 +1,14 @@
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>login</ion-title>
-  </ion-navbar>
-
+    <ion-toolbar color="blue" no-border-top>
+        <button  ion-button icon-only menuToggle (click)="goHome()">
+          <ion-icon name="md-home"></ion-icon>
+        </button>
+        <ion-title>login</ion-title>
+      </ion-toolbar>
 </ion-header>
 
 
-<ion-content>
+<ion-content padding>
 
     <ion-row *ngIf="warningMessage"  class="warning-container">
         <ion-col col-12>

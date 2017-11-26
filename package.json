@@ -29,6 +29,7 @@
     "@ionic-native/globalization": "^4.3.3",
     "@ionic-native/google-maps": "^4.3.3",
     "@ionic-native/keyboard": "^4.3.2",
+    "@ionic-native/native-page-transitions": "^4.4.2",
     "@ionic-native/native-storage": "^4.3.2",
     "@ionic-native/photo-library": "^4.3.2",
     "@ionic-native/push": "^4.3.2",

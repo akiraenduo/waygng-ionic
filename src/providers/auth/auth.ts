@@ -41,7 +41,7 @@ facebookLogin(){
       return firebase.auth().signInWithCredential(facebookCredential).then(user => {
         this.getFacebookUser(user.uid);
       });
-    })
+    });
   }else{
     const provider = new firebase.auth.FacebookAuthProvider();
     provider.addScope('email');
@@ -54,15 +54,7 @@ facebookLogin(){
         displayName: credential.user.displayName,
         photoURL: credential.user.photoURL
       }
-      const getUser = this.getUser(data.uid).valueChanges().subscribe(user => {
-          if(user){
-            data.token = user.token;
-          }
-          this.updateUserData(data);
-          getUser.unsubscribe();
-      });
-
-
+      this.getUser(data);
     })
   }
 
@@ -75,20 +67,15 @@ facebookLogin(){
         return this.fb.api('me?fields=id,name,email,first_name,picture.width(100).height(100).as(picture_small)', []).then(profile => {
           const data: User = {
             uid:uid,
-            email:profile['email'],
             displayName: profile['name'],
             photoURL: profile['picture_small']['data']['url'],
             firstName: profile['first_name']
           }
-            const getUser = this.getUser(data.uid).valueChanges().subscribe(user => {
-              this.fcm.getToken().then(token=>{
-                data.token = token;
-                this.updateUserData(data);
-                getUser.unsubscribe();
-              })
-          });
-          
-        });
+          if(profile['email']){
+            data.email = profile['email'];
+          }
+          this.getUser(data);
+        })
       }
     });
   }
@@ -100,8 +87,12 @@ facebookLogin(){
     return userRef.set(user);
   }
 
-  private getUser(userUid):AngularFirestoreDocument<User>{
-    return this.afs.doc(`users/${userUid}`);
+  private getUser(user:User){
+    const item = this.afs.doc('/users/'+user.uid);
+    this.fcm.getToken().then(token=>{
+      user.token = token;
+      item.set(user);
+    });
   }
 
   logout() {

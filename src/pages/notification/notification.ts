@@ -33,8 +33,16 @@ export class NotificationPage {
   }
 
   goProfile(){
-    this.navCtrl.setRoot('ProfilePage');
-  } 
+    if(this.userUid){
+      this.navCtrl.push('ProfilePage');
+    }else{
+      this.goLogin();
+    }
+  }
+
+  goLogin(){
+    this.navCtrl.push('LoginPage');
+  }
 
 
   ionViewWillEnter(){
@@ -42,9 +50,7 @@ export class NotificationPage {
     if(this.userUid){
       this.userProvider.resetNotification(this.userUid);
     }else{
-      this.navCtrl.setRoot("LoginPage",{
-        from:"NotificationPage"
-      });
+      this.goLogin();
     }
   }
 
