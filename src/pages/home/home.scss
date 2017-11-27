@@ -46,10 +46,8 @@ page-home {
     }
 
     .button-close{
-        margin-top: 2px !important;
-        margin-right: 10px !important;
         position: absolute;
-        right: 20px;
+        right: 45px;
     }
 
     .fixed-content{
@@ -58,6 +56,10 @@ page-home {
 
     .fab-bottom{
         bottom:10px !important;
-    }    
+    }
+    
+    .margin-left{
+        margin-left: 15px;
+    }
 
 }

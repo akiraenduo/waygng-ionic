@@ -5,8 +5,9 @@
         </button>
     <ion-title>{{ 'TITLE.TIMETABLE' | translate }}</ion-title>
     <notification-button></notification-button>
+
   </ion-toolbar>
-  <ion-toolbar class="height" no-border-top color="blue">
+  <ion-toolbar no-border-top color="blue">
     <button ion-button full round small class="button-margin" color="blueLight" (click)="searchStation()">
         <ion-icon class="size-icon-search" item-start name="ios-search"></ion-icon>
         <ion-input readonly [(ngModel)] = "searchModel" placeholder="Station"></ion-input>
@@ -15,18 +16,17 @@
       <button class="size-button-close" ion-button icon-only (click)="clearSearchBar()">
         <ion-icon name="md-close"></ion-icon>               
       </button>
+    </ion-buttons>
+    <ion-buttons class="margin-left" end *ngIf="userUid && station && !atBottom">
+        <button class="size-button-close"  ion-button icon-only (click)="localizationMap()">
+          <ion-icon name="pin"></ion-icon>
+        </button>
     </ion-buttons> 
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content (ionScroll)="scrollHandler($event)">
-
-    <ion-fab *ngIf="userUid && station && !atBottom" class="fab-bottom" bottom left edge>
-        <button ion-fab color="blueLight" (click)="localizationMap()">
-          <ion-icon name="pin"></ion-icon>
-        </button>
-    </ion-fab>
     <ion-fab *ngIf="userUid && station && !atBottom" class="fab-bottom" bottom right edge>
         <button ion-fab color="blueLight" (click)="eventFavoris()">
           <ion-icon [color]="isInfavoris ? 'yellown' : 'dark'" [name]="isInfavoris ? 'ios-star' : 'ios-star-outline'"></ion-icon>

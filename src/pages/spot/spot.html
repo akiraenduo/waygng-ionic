@@ -4,14 +4,12 @@
         <ion-icon name="menu"></ion-icon>
       </button>
       <ion-title>{{ 'TITLE.SPOTS' | translate }}</ion-title>
-      
       <notification-button></notification-button>
-
       <ion-buttons end *ngIf="userUid">
             <button  ion-button icon-only (click)="goFiltreSpot()">
               <ion-icon name="ios-search"></ion-icon>
             </button>
-          </ion-buttons>
+        </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
