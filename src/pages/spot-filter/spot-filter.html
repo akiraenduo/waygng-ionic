@@ -43,6 +43,7 @@
                     </ion-avatar>
                     <h3 *ngIf="!((spot|async)?.anonyme)">{{ (spot|async)?.userName  }}</h3>
                     <h3 *ngIf="((spot|async)?.anonyme)">{{ 'ANONYME' | translate }}</h3>
+                    <p>{{(spot | async)?.dateUpdate | formatDate:'relative'}}</p>  
                 </ion-item>
                     
                 <ion-card-content>
