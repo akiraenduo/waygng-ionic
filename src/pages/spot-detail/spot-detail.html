@@ -4,19 +4,16 @@
             <ion-buttons *ngIf="commentUpdate" end>
                 <button ion-button icon-end outline (click)="cancelUpdateComment()">Annuler</button>
             </ion-buttons>
-            <ion-title>{{ 'TITLE.SPOT' | translate }}</ion-title>
+            <ion-item class="no-border" color="blueLight">
+                    <ion-icon class="size-icon-text" item-start name="text"></ion-icon>
+                    <ion-input #commentInput clearInput autocorrect [(ngModel)] = "commentModel" placeholder="Commenter..." maxlength="200"></ion-input>
+                </ion-item>
+                <ion-buttons class="button-close" *ngIf="commentModel && commentModel.length > 0" end>
+                    <button class="size-button-send padding-send-button" ion-button icon-only (click)="sendComment()">
+                        <ion-icon name="md-send"></ion-icon>               
+                    </button>
+                </ion-buttons> 
         </ion-navbar>
-    </ion-toolbar>
-    <ion-toolbar no-border-top color="blue">
-        <ion-item class="no-border" color="blueLight">
-            <ion-icon class="size-icon-text" item-start name="text"></ion-icon>
-            <ion-input #commentInput clearInput autocorrect [(ngModel)] = "commentModel" placeholder="Commenter..." maxlength="200"></ion-input>
-        </ion-item>
-        <ion-buttons class="button-close" *ngIf="commentModel && commentModel.length > 0" end>
-            <button class="size-button-send padding-send-button" ion-button icon-only (click)="sendComment()">
-                <ion-icon name="md-send"></ion-icon>               
-            </button>
-        </ion-buttons> 
     </ion-toolbar>
 </ion-header>
 
