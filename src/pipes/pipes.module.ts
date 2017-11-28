@@ -11,6 +11,7 @@ import { FormatColorIconPipe } from './format-color-icon/format-color-icon';
 import { FormatBackgroundNotifPipe } from './format-background-notif/format-background-notif';
 import { FormatNumberNotificationPipe } from './format-number-notification/format-number-notification';
 import { FormatTypeNotificationPipe } from './format-type-notification/format-type-notification';
+import { FormatCommentsPipe } from './format-comments/format-comments';
 @NgModule({
     declarations: [SafeHtmlPipe,
     ShowTwoTimePipe,
@@ -23,7 +24,8 @@ import { FormatTypeNotificationPipe } from './format-type-notification/format-ty
     FormatColorIconPipe,
     FormatBackgroundNotifPipe,
     FormatNumberNotificationPipe,
-    FormatTypeNotificationPipe],
+    FormatTypeNotificationPipe,
+    FormatCommentsPipe],
 	imports: [],
     exports: [SafeHtmlPipe,
     ShowTwoTimePipe,
@@ -36,6 +38,7 @@ import { FormatTypeNotificationPipe } from './format-type-notification/format-ty
     FormatColorIconPipe,
     FormatBackgroundNotifPipe,
     FormatNumberNotificationPipe,
-    FormatTypeNotificationPipe]
+    FormatTypeNotificationPipe,
+    FormatCommentsPipe]
 })
 export class PipesModule {}

@@ -14,9 +14,13 @@ export class FormatLikesPipe implements PipeTransform {
    */
   transform(likes: string[]) {
     if(likes){
-      return likes.length
+      if(likes.length > 1){
+        return likes.length+" J'aimes";
+      }else{
+        return likes.length+" J'aime";
+      }
     }else{
-      return 0;
+      return 0+" J'aime";
     }
   }
 }
