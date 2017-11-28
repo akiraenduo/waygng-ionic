@@ -19,10 +19,6 @@ page-spot-detail {
         font-size: 2.5em !important;
     }
 
-    .col{
-        text-align: center;
-    }
-
     .size-icon-text{
         min-height: 2rem !important;
         font-size: 2rem !important;
@@ -39,6 +35,32 @@ page-spot-detail {
       .line-breaker {
         white-space: pre-line;
       }
+
+      .row-margin{
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+      .noPadding{
+        padding: 0px;
+    }
+
+    .rowNotification p{
+        margin:0px;
+        font-size: 1.2rem;
+    }
+
+    .margin-right-comment{
+        margin-right: 10px;
+    }
+
+    .align-center{
+      text-align: center;
+  }
+
+    .align-end{
+        text-align: end;
+    }
 
     .message-wrap {
         .message {

@@ -41,27 +41,33 @@
             <p [innerHTML]="spot.message | formatHashtag"></p>
           </ion-card-content>
 
-          <ion-row justify-content-center align-items-center class="border-top row-margin">
-                <ion-col>
+          <ion-row class="border-top row-margin rowNotification">
+            <ion-col class="noPadding">
+                    <button (click)="openModalLike(spot)"  ion-button item-start icon-only clear small>
+                        <ion-icon color="blue" name="thumbs-up"></ion-icon>
+                        <p>{{spot.likes | formatLikes}}</p>
+                    </button>
+                </ion-col> 
+            <ion-col class="noPadding align-end"> 
+                <button class="margin-right-comment"  ion-button item-end icon-only clear small>
+                    <p>{{spot?.commentCount | formatComments}}</p>
+                </button>
+            </ion-col>
+        </ion-row>
+        <ion-row justify-content-center align-items-center class="border-top row-margin">
+                <ion-col class="align-center">
                   <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
                     <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
                     <div class="greyColor">J'aime</div>
-                </button>
-                </ion-col>
-                <ion-col>
-                    <button  (click)="openModalLike(spot)"  ion-button item-end icon-only clear small>
-                        <ion-icon color="blue" name="thumbs-up"></ion-icon>
-                        <div class="greyColor">{{spot.likes | formatLikes}}</div>
                     </button>
-                   </ion-col> 
-                <ion-col> 
+
                     <button ion-button item-end icon-only clear small>
-                        <ion-icon color="blue" name="text"></ion-icon>
-                        <div class="greyColor">{{spot?.commentCount}} Commentaires</div>
-                    </button>
+                            <ion-icon class="greyColor" name="ios-text-outline"></ion-icon>
+                            <div class="greyColor"> Commenter</div>
+                        </button>
                 </ion-col>
-              </ion-row>
-            </ion-card>
+            </ion-row>
+        </ion-card>
 
             <div class="message-wrap">
                 <ion-item class="message left no-border" *ngFor="let comment of comments | async">
