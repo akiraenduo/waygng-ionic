@@ -6,7 +6,8 @@ import {
   GoogleMaps,
   GoogleMap,
   GoogleMapsEvent,
-  GoogleMapOptions
+  GoogleMapOptions,
+  HtmlInfoWindow
  } from '@ionic-native/google-maps';
 import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import * as _ from 'lodash'
@@ -109,9 +110,28 @@ export class MapPage {
 
       addStations(stations:Station[]){
         stations = this.removeDuplicate(stations);
-        let markerList = [];
         // Now you can use all methods safely.
         stations.forEach((station) =>{
+
+          let infoWindow = new HtmlInfoWindow();
+          
+          var div = document.createElement('div');
+          div.innerHTML=station.name;
+          div.className = "align-center";
+          div.id = station.name;
+          var self = this;
+          div.addEventListener("click", function (event) {
+            var stationName = this.id
+            const s: Station = {
+              name:stationName,
+            }
+            self.navCtrl.push('HomePage', {
+              station:s
+            });
+          });
+          
+          infoWindow.setContent(div);
+
           if(!_.find(this.stationsAdded, station)){
             this.map.addMarker({
               icon: 'red',
@@ -120,13 +140,9 @@ export class MapPage {
                 lng: Number(station.longitude)
               }
             }).then(marker => {
-              markerList.push(marker);
               marker.on(GoogleMapsEvent.MARKER_CLICK)
                 .subscribe(() => {
-                  markerList.forEach((marker) => {
-                    marker.setIcon('red');
-                  });
-                  marker.setIcon('blue');                    
+                  infoWindow.open(marker);                  
                   this.searchModel = station.name;
                   this.stationSelected = station;
                   this.showStationDetail = true;
