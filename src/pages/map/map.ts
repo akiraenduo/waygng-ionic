@@ -117,7 +117,7 @@ export class MapPage {
           
           var div = document.createElement('div');
           div.innerHTML=station.name;
-          div.className = "align-center";
+          div.className = "infoWindow-style";
           div.id = station.name;
           var self = this;
           div.addEventListener("click", function (event) {

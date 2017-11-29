@@ -66,4 +66,8 @@ export class UserProvider {
     this.afs.doc('/users/'+userUid).update({notificationNotSaw:0}); 
   }
 
+  updateReceiveNotif(userUid:string, receiveNotif:boolean){
+    this.afs.doc('/users/'+userUid).update({receiveNotif:receiveNotif});
+  }
+
 }

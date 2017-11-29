@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import spotUtils from '../spot/spotUtils';
 import { Spot } from '../../models/spot';
+import { UserProvider } from '../../providers/user/userProvider';
 
 /**
  * Generated class for the ProfilePage page.
@@ -24,6 +25,7 @@ export class ProfilePage {
   userUid:any;
   loader:any;
   segment = 'profil';
+  receiveNotif:boolean;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -32,6 +34,7 @@ export class ProfilePage {
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
+              public userProvider: UserProvider,
               public spotProvider: SpotProvider) {
                 
 
@@ -47,6 +50,11 @@ ionViewDidLoad(){
     if(user){
       this.loading = true;
       this.user = user;
+      if(this.user.receiveNotif === undefined){
+        this.receiveNotif = true;
+      }else{
+        this.receiveNotif = this.user.receiveNotif;
+      }
       this.userUid = user.uid;
       if(this.loader){
         this.loader.dismiss();
@@ -123,6 +131,10 @@ ionViewDidLoad(){
 
   goDetailSpot(spot:Spot){
     this.navCtrl.push('SpotDetailPage', {spotKey : spot.id});
+  }
+
+  updateProfile(receiveNotif){
+    this.userProvider.updateReceiveNotif(this.userUid,receiveNotif);
   }
 
 }
