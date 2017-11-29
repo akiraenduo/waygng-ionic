@@ -66,18 +66,18 @@
                         </ion-col>
                     </ion-row>
                     <ion-row justify-content-center align-items-center class="border-top row-margin">
-                            <ion-col class="align-center">
-                              <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
-                                <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
-                                <div class="greyColor">J'aime</div>
-                                </button>
+                        <ion-col class="align-center">
+                            <button class="button-padding" (click)="incrementLike(spot)" ion-button icon-only clear small>
+                            <ion-icon [color]="spot.likes | formatColorIcon:userUid" [name]="spot.likes | formatLikeIcon:userUid"></ion-icon>
+                            <div class="greyColor">J'aime</div>
+                            </button>
 
-                                <button (click)="goDetailSpot(spot)"  ion-button item-end icon-only clear small>
-                                        <ion-icon class="greyColor" name="ios-text-outline"></ion-icon>
-                                        <div class="greyColor"> Commenter</div>
-                                    </button>
-                            </ion-col>
-                        </ion-row>
+                            <button (click)="goDetailSpot(spot)"  ion-button item-end icon-only clear small>
+                                    <ion-icon class="greyColor" name="ios-text-outline"></ion-icon>
+                                    <div class="greyColor"> Commenter</div>
+                                </button>
+                        </ion-col>
+                    </ion-row>
                 
                 </ion-card>
     

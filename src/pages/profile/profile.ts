@@ -3,6 +3,7 @@ import { NavController, NavParams, IonicPage, ModalController, AlertController, 
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import spotUtils from '../spot/spotUtils';
+import { Spot } from '../../models/spot';
 
 /**
  * Generated class for the ProfilePage page.
@@ -118,6 +119,10 @@ ionViewDidLoad(){
   logout() {
     this.navCtrl.setRoot('HomePage'); 
     this.auth.logout();
+  }
+
+  goDetailSpot(spot:Spot){
+    this.navCtrl.push('SpotDetailPage', {spotKey : spot.id});
   }
 
 }
