@@ -26,6 +26,7 @@ export class ProfilePage {
   loader:any;
   segment = 'profil';
   receiveNotif:boolean;
+  shareFav:boolean;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -54,6 +55,11 @@ ionViewDidLoad(){
         this.receiveNotif = true;
       }else{
         this.receiveNotif = this.user.receiveNotif;
+      }
+      if(this.user.shareFav === undefined){
+        this.shareFav = true;
+      }else{
+        this.shareFav = this.user.shareFav;
       }
       this.userUid = user.uid;
       if(this.loader){
@@ -133,8 +139,12 @@ ionViewDidLoad(){
     this.navCtrl.push('SpotDetailPage', {spotKey : spot.id});
   }
 
-  updateProfile(receiveNotif){
+  updateReceiveNotif(receiveNotif){
     this.userProvider.updateReceiveNotif(this.userUid,receiveNotif);
+  }
+
+  updateShareFav(shareFav){
+    this.userProvider.updateShareFav(this.userUid,shareFav);
   }
 
 }

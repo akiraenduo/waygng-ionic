@@ -6,4 +6,6 @@ export interface User{
     firstName?:string;
     token?:string;
     notificationNotSaw?:number;
+    receiveNotif?:boolean;
+    shareFav?:boolean;
   }

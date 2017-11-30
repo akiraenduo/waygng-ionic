@@ -43,7 +43,11 @@
         </ion-item>
         <ion-item>
           <ion-label> {{ 'RECEIVE_NOTIFICATION' | translate }} </ion-label>
-          <ion-toggle color="secondary" [(ngModel)]="receiveNotif" (ngModelChange)="updateProfile(receiveNotif)" checked="true"></ion-toggle>
+          <ion-toggle color="secondary" [(ngModel)]="receiveNotif" (ngModelChange)="updateReceiveNotif(receiveNotif)" checked="true"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label> {{ 'SHARE_FAVORIS' | translate }} </ion-label>
+          <ion-toggle color="secondary" [(ngModel)]="shareFav" (ngModelChange)="updateShareFav(shareFav)" checked="true"></ion-toggle>
         </ion-item>
       </ion-list>
     </div>

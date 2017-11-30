@@ -70,4 +70,8 @@ export class UserProvider {
     this.afs.doc('/users/'+userUid).update({receiveNotif:receiveNotif});
   }
 
+  updateShareFav(userUid:string, shareFav:boolean){
+    this.afs.doc('/users/'+userUid).update({receiveNotif:shareFav});
+  }
+
 }

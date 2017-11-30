@@ -46,5 +46,6 @@
     "NEAREST_STATION": "Stations les plus proches",
     "SEARCH_STATION": "Recherche une station",
     "STATIONS": "Stations",
-    "RECEIVE_NOTIFICATION": "Recevoir les notifications"
+    "RECEIVE_NOTIFICATION": "Recevoir les notifications",
+    "SHARE_FAVORIS": "Partager ses favoris"
 }
