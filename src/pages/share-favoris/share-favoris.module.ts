@@ -11,5 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicPageModule.forChild(ShareFavorisPage),
     TranslateModule.forChild(),
   ],
+  exports: [
+    ShareFavorisPage
+  ]
 })
 export class ShareFavorisPageModule {}

@@ -7,6 +7,15 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+    <ion-list *ngFor="let share of shareFavoris | async">
+
+                    <ion-avatar item-start>
+                        <img [src]="(share?.photoURL)" />
+                    </ion-avatar>
+                    <h3> <b>{{ share?.diplayName  }}</b></h3>
+
+    </ion-list> 
 
 </ion-content>

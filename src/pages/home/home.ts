@@ -214,6 +214,7 @@ export class HomePage {
       this.favorisProvider.removeFavoris(this.userUid,this.nomExact);
       this.createToast(this.nomExact+' supprimé des favoris !');
     }else{
+      this.favorisProvider.addShareFavoris(this.user,this.station);
       this.favorisProvider.addFavoris(this.userUid,this.station).then(() => {
         this.createToast(this.nomExact+' ajouté au favoris !');
       })
