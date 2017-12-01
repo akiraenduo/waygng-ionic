@@ -51,6 +51,7 @@ ionViewDidLoad(){
     if(user){
       this.loading = true;
       this.user = user;
+      this.userUid = user.uid;
       if(this.user.receiveNotif === undefined){
         this.receiveNotif = true;
       }else{
@@ -61,7 +62,6 @@ ionViewDidLoad(){
       }else{
         this.shareFav = this.user.shareFav;
       }
-      this.userUid = user.uid;
       if(this.loader){
         this.loader.dismiss();
       }

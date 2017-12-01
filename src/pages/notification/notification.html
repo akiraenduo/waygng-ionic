@@ -7,34 +7,27 @@
 </ion-header>
 
 
-<ion-content class="background-light">
-
-    <div *ngIf="userUid; then authenticated else guest">  </div>    
-        <ng-template #authenticated>
-    
-            <ion-row *ngIf="notifications?.length==0" class="warning-container">
-                <ion-col col-12>
-                    {{ 'WARNING.EMPTY_NOTIF' | translate }}
-                </ion-col>
-            </ion-row>
-            <my-loader *ngIf="loading"></my-loader>
-            <ion-list>
-                <ion-item-sliding *ngFor="let notif of notifications">
-                        <button ion-item [class]="notif.read | formatBackgroundNotif" (click)="goDetailSpot(notif)">
-                                  <ion-avatar item-start>
-                                        <img [src]="(notif?.userLikerPhoto)" />
-                                  </ion-avatar>
-                                  <h3> <b>{{ notif?.userLikerName  }}</b> {{ notif.type | formatTypeNotification | translate }}</h3>
-                                  <p>{{notif.dateUpdate | formatDate:'calendar'}}</p> 
-                                </button>
-      
-                    <ion-item-options side="right" (ionSwipe)="removeNotif(notif)">
-                        <button color="danger" expandable ion-button icon-only (click)="removeNotif(notif)">
-                            <ion-icon name="ios-trash-outline"></ion-icon>
-                        </button>
-                    </ion-item-options>
-                </ion-item-sliding>   
-            </ion-list> 
-        </ng-template>
-
+<ion-content class="background-light">    
+    <ion-row *ngIf="notifications?.length==0" class="warning-container">
+        <ion-col col-12>
+            {{ 'WARNING.EMPTY_NOTIF' | translate }}
+        </ion-col>
+    </ion-row>
+    <my-loader *ngIf="loading"></my-loader>
+    <ion-list>
+        <ion-item-sliding *ngFor="let notif of notifications">
+                <button ion-item [class]="notif.read | formatBackgroundNotif" (click)="goDetailSpot(notif)">
+                    <ion-avatar item-start>
+                        <img [src]="(notif?.userLikerPhoto)" />
+                    </ion-avatar>
+                    <h3> <b>{{ notif?.userLikerName  }}</b> {{ notif.type | formatTypeNotification | translate }}</h3>
+                    <p>{{notif.dateUpdate | formatDate:'calendar'}}</p> 
+                </button>
+            <ion-item-options side="right" (ionSwipe)="removeNotif(notif)">
+                <button color="danger" expandable ion-button icon-only (click)="removeNotif(notif)">
+                    <ion-icon name="ios-trash-outline"></ion-icon>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>   
+    </ion-list> 
 </ion-content>

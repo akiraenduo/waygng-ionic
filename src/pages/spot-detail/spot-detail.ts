@@ -104,7 +104,7 @@ export class SpotDetailPage {
           }
         },
         {
-          text: 'Cancel',
+          text: 'Annuler',
           role: 'cancel', // will always sort to be on the bottom
         }
       ]

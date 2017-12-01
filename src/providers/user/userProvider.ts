@@ -26,7 +26,7 @@ export class UserProvider {
   }
 
   fetchUsers():AngularFirestoreCollection<any>{
-    return this.afs.collection('/users/')
+    return this.afs.collection('/users/');
   }
 
 
@@ -71,7 +71,7 @@ export class UserProvider {
   }
 
   updateShareFav(userUid:string, shareFav:boolean){
-    this.afs.doc('/users/'+userUid).update({receiveNotif:shareFav});
+    this.afs.doc('/users/'+userUid).update({shareFav:shareFav});
   }
 
 }

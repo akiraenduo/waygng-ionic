@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { NavController, NavParams, IonicPage, ToastController, Content } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, ToastController, Content, ActionSheetController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Station } from '../../models/station';
 import { TempsAttente } from '../../models/tempsattente';
@@ -37,6 +37,7 @@ export class HomePage {
   searchPosition:any;
   favoris: any[] = [];
   atBottom: any;
+  user:any;
 
 
   constructor(public navCtrl: NavController, 
@@ -45,6 +46,7 @@ export class HomePage {
               public userProvider: UserProvider, 
               public ginkoProvider: GinkoProvider,
               public favorisProvider: FavorisProvider,
+              public actionsheetCtrl: ActionSheetController,
               public auth: AuthProvider,
               public zone: NgZone,
               public toastCtrl: ToastController) {
@@ -62,6 +64,7 @@ export class HomePage {
     
       this.auth.user.subscribe(user => {
         if(user){
+          this.user = user;
           this.userUid = user.uid;
           if (this.station) {
             this.checkIfInFavoris();
@@ -236,7 +239,37 @@ export class HomePage {
         }
       });
     }
+  }
 
+  showMore(){
+    let actionSheet = this.actionsheetCtrl.create({
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Voir sur la carte',
+          handler: () => {
+           this.localizationMap();
+          }
+        },
+        {
+          text: 'Voir les personnes ayant cette station en favoris',
+          handler: () => {
+           this.goShareFavoris();
+          }
+        },
+        {
+          text: 'Annuler',
+          role: 'cancel', // will always sort to be on the bottom
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  goShareFavoris(){
+    this.navCtrl.push('ShareFavorisPage', {
+      stationId:this.station.id
+    });
   }
   
 

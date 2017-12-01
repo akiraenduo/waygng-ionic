@@ -18,8 +18,8 @@
       </button>
     </ion-buttons>
     <ion-buttons class="marginIconPin" end *ngIf="userUid && station && !atBottom">
-        <button class="size-button-close"  ion-button icon-only (click)="localizationMap()">
-          <ion-icon name="pin"></ion-icon>
+        <button class="size-button-close"  ion-button icon-only (click)="showMore()">
+          <ion-icon name="ios-more"></ion-icon>
         </button>
     </ion-buttons> 
   </ion-toolbar>
@@ -106,7 +106,7 @@
       <ion-thumbnail item-start class="numLigne" style.color="#{{tempsAttente.couleurTexte}}" style.background-color="#{{tempsAttente.couleurFond}}">
         {{tempsAttente.numLignePublic}}
       </ion-thumbnail>
-      <h2>{{tempsAttente.destination}}</h2>
+      <h3>{{tempsAttente.destination}}</h3>
       <p>{{tempsAttente.precisionDestination}}</p>
       <p item-end>{{tempsAttente.lstTemps | showTwoTime}}</p>
     </ion-item>

@@ -3,13 +3,9 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Station } from '../../models/station';
+import { User } from '../../models/user';
 
-/*
-  Generated class for the FavorisProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
 @Injectable()
 export class FavorisProvider {
 
@@ -26,9 +22,32 @@ export class FavorisProvider {
   }
 
   addFavoris(userUid, station:Station){
-    station.latLong = null;
+    const s:Station = {
+      id:station.id,
+      name:station.name,
+      latitude:station.latitude,
+      longitude:station.longitude
+    }
     const items = this.afs.collection('/users/'+userUid+'/stations/');
-    return items.add(station);
+    return items.add(s);
+  }
+
+  addShareFavoris(user:User, station:Station){
+
+    const u: User = {
+      uid:user.uid,
+      displayName:user.displayName,
+      photoURL:user.photoURL,
+      shareFav:user.shareFav
+    }
+
+    const item = this.afs.doc('/shareFavoris/'+station.id+'/users/'+u.uid);
+    item.set(u);
+
+  }
+
+  getShareFavoris(stationId:string){
+    return this.afs.collection('/shareFavoris/'+stationId+'/users/', ref => ref.where('shareFav', '==', true));
   }
 
   removeFavoris(userUid, nomStation){
@@ -39,7 +58,7 @@ export class FavorisProvider {
       snapshots.forEach(snapshot => {
         itemsCollection.doc(snapshot.payload.doc.id).delete();
       });
-    })
+    });
 
   }
 

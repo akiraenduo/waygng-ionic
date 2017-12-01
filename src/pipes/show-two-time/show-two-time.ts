@@ -15,7 +15,11 @@ export class ShowTwoTimePipe implements PipeTransform {
    */
   transform(lstTemps: string, ...args) {
     if(lstTemps.length == 2){
-      return lstTemps[0]+" "+lstTemps[1];
+      if(lstTemps[0] == lstTemps[1] && lstTemps[0].length > 6 ){
+        return lstTemps[0];
+      }else{
+        return lstTemps[0]+" "+lstTemps[1];
+      }
     }else{
       return lstTemps[0]
     }
