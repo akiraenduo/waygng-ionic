@@ -7,6 +7,7 @@ import { GinkoProvider } from '../../providers/ginko/ginkoProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 import { UserProvider } from '../../providers/user/userProvider';
 import { AuthProvider } from '../../providers/auth/auth';
+import { User } from '../../models/user';
 
 
 @IonicPage()
@@ -37,7 +38,7 @@ export class HomePage {
   searchPosition:any;
   favoris: any[] = [];
   atBottom: any;
-  user:any;
+  user:User;
 
 
   constructor(public navCtrl: NavController, 
@@ -102,10 +103,6 @@ export class HomePage {
       this.favoris = favoris;
       this.loadFavoris = false
     }); 
-  }
-
-  removeFavoris(station){
-    this.favorisProvider.removeFavoris(this.userUid,station.name);
   }
 
   getStationProches(refresher){
@@ -211,10 +208,13 @@ export class HomePage {
   eventFavoris(){
     if(this.isInfavoris){
       this.isInfavoris = false;
+      this.favorisProvider.removeShareFavoris(this.userUid,this.station.id);
       this.favorisProvider.removeFavoris(this.userUid,this.nomExact);
       this.createToast(this.nomExact+' supprimé des favoris !');
     }else{
-      this.favorisProvider.addShareFavoris(this.user,this.station);
+      if(this.user.shareFav){
+        this.favorisProvider.addShareFavoris(this.user,this.station.id);        
+      }
       this.favorisProvider.addFavoris(this.userUid,this.station).then(() => {
         this.createToast(this.nomExact+' ajouté au favoris !');
       })
@@ -269,7 +269,7 @@ export class HomePage {
 
   goShareFavoris(){
     this.navCtrl.push('ShareFavorisPage', {
-      stationId:this.station.id
+      station:this.station
     });
   }
   

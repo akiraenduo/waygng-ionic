@@ -1,21 +1,25 @@
 <ion-header>
-
   <ion-navbar>
-    <ion-title>shareFavoris</ion-title>
+      <ion-title>{{stationName}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content>
-
-    <ion-list *ngFor="let share of shareFavoris | async">
-
-                    <ion-avatar item-start>
-                        <img [src]="(share?.photoURL)" />
-                    </ion-avatar>
-                    <h3> <b>{{ share?.diplayName  }}</b></h3>
-
-    </ion-list> 
-
+<ion-content class="background-light">
+  <my-loader *ngIf="loading"></my-loader>
+  <ion-row *ngIf="!loading && shareFavoris?.length == 0" class="warning-container">
+    <ion-col col-12>
+        {{'WARNING.NO_USER_SHARE_STATION' | translate }}
+    </ion-col>
+  </ion-row>
+  <ion-list *ngFor="let share of shareFavoris">
+    <ion-item>
+      <ion-avatar item-start>
+          <img [src]="share.photoURL" />
+        </ion-avatar>
+      <ion-label>
+        {{ share.displayName }}
+      </ion-label>
+    </ion-item>
+  </ion-list> 
 </ion-content>

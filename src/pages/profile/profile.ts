@@ -5,6 +5,7 @@ import { SpotProvider } from '../../providers/spot/spotProvider';
 import spotUtils from '../spot/spotUtils';
 import { Spot } from '../../models/spot';
 import { UserProvider } from '../../providers/user/userProvider';
+import { FavorisProvider } from '../../providers/favoris/favorisProvider';
 
 /**
  * Generated class for the ProfilePage page.
@@ -36,6 +37,7 @@ export class ProfilePage {
               public toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
               public userProvider: UserProvider,
+              public favorisProvider: FavorisProvider,
               public spotProvider: SpotProvider) {
                 
 
@@ -145,6 +147,15 @@ ionViewDidLoad(){
 
   updateShareFav(shareFav){
     this.userProvider.updateShareFav(this.userUid,shareFav);
+    this.favorisProvider.getFavorisList(this.userUid).valueChanges().take(1).subscribe(snapshots => {
+      snapshots.forEach(snapshot => {
+        if(shareFav){
+          this.favorisProvider.addShareFavoris(this.user,snapshot.id);
+        }else{
+          this.favorisProvider.removeShareFavoris(this.userUid,snapshot.id);
+        }
+      });
+    });
   }
 
 }

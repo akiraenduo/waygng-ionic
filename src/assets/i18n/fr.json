@@ -31,7 +31,8 @@
         "EMPTY_NOTIF":"Aucune notification",
         "SEARCH_TIMETABLE": "Recherchez une station pour afficher les prochains passages",
         "LAST_UPDATE": "Dernière mise à jour",
-        "NO_STATION_NEARBY": "Aucune station à proximité"
+        "NO_STATION_NEARBY": "Aucune station à proximité",
+        "NO_USER_SHARE_STATION":"Aucune personne ne partage cette station"
     },
     "ANONYME":"Anonyme",
     "MESSAGE":"Message",

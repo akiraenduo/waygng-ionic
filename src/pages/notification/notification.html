@@ -8,7 +8,7 @@
 
 
 <ion-content class="background-light">    
-    <ion-row *ngIf="notifications?.length==0" class="warning-container">
+    <ion-row *ngIf="!loading && notifications?.length==0" class="warning-container">
         <ion-col col-12>
             {{ 'WARNING.EMPTY_NOTIF' | translate }}
         </ion-col>

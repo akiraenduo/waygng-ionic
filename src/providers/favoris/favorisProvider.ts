@@ -32,24 +32,6 @@ export class FavorisProvider {
     return items.add(s);
   }
 
-  addShareFavoris(user:User, station:Station){
-
-    const u: User = {
-      uid:user.uid,
-      displayName:user.displayName,
-      photoURL:user.photoURL,
-      shareFav:user.shareFav
-    }
-
-    const item = this.afs.doc('/shareFavoris/'+station.id+'/users/'+u.uid);
-    item.set(u);
-
-  }
-
-  getShareFavoris(stationId:string){
-    return this.afs.collection('/shareFavoris/'+stationId+'/users/', ref => ref.where('shareFav', '==', true));
-  }
-
   removeFavoris(userUid, nomStation){
 
     const itemsCollection  = this.getFavoris(userUid, nomStation);
@@ -60,6 +42,28 @@ export class FavorisProvider {
       });
     });
 
+  }
+
+  addShareFavoris(user:User, stationId:string){
+    
+    const u: User = {
+      uid:user.uid,
+      displayName:user.displayName,
+      photoURL:user.photoURL
+    }
+
+    const item = this.afs.doc('/shareFavoris/'+stationId+'/users/'+u.uid);
+    item.set(u);
+
+  }
+    
+  removeShareFavoris(userUid:string, stationId:string){
+        const item = this.afs.doc('/shareFavoris/'+stationId+'/users/'+userUid);
+        item.delete();
+  }
+
+  getShareFavoris(stationId:string){
+    return this.afs.collection('/shareFavoris/'+stationId+'/users/');
   }
 
 }
