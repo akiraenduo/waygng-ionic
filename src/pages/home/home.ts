@@ -81,12 +81,12 @@ export class HomePage {
   }  
 
   checkIfInFavoris(){
-    this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().subscribe(snapshot => {
-      snapshot.forEach(station => {
-       if(station && station["name"]){
-          this.isInfavoris = true;
-        }
-      }); 
+    this.favorisProvider.getFavoris(this.userUid, this.station.name).valueChanges().take(1).subscribe(stations => {
+      if(stations && stations.length > 0){
+        this.isInfavoris = true;
+      }else{
+        this.isInfavoris = false;
+      }
     });
   }
 
@@ -212,7 +212,8 @@ export class HomePage {
       this.favorisProvider.removeFavoris(this.userUid,this.nomExact);
       this.createToast(this.nomExact+' supprimé des favoris !');
     }else{
-      if(this.user.shareFav){
+      this.isInfavoris = true;
+      if(this.user.shareFav || this.user.shareFav === undefined){
         this.favorisProvider.addShareFavoris(this.user,this.station.id);        
       }
       this.favorisProvider.addFavoris(this.userUid,this.station).then(() => {
