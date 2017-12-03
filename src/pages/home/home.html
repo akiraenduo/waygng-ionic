@@ -10,14 +10,14 @@
   <ion-toolbar no-border-top color="blue">
     <button ion-button full round small class="button-margin" color="blueLight" (click)="searchStation()">
         <ion-icon class="size-icon-search" item-start name="ios-search"></ion-icon>
-        <ion-input readonly [(ngModel)] = "searchModel" placeholder="Station"></ion-input>
+        <ion-input  readonly [(ngModel)] = "searchModel" placeholder="Station"></ion-input>
     </button>        
     <ion-buttons class="button-close" *ngIf="searchModel && searchModel.length > 0" end>
       <button class="size-button-close" ion-button icon-only (click)="clearSearchBar()">
         <ion-icon name="md-close"></ion-icon>               
       </button>
     </ion-buttons>
-    <ion-buttons class="marginIconPin" end *ngIf="userUid && station && !atBottom">
+    <ion-buttons class="marginIconPin" end *ngIf="userUid && station">
         <button class="size-button-close"  ion-button icon-only (click)="showMore()">
           <ion-icon name="ios-more"></ion-icon>
         </button>
