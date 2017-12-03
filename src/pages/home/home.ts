@@ -91,6 +91,7 @@ export class HomePage {
   }
 
   itemSelected(station){
+    this.atBottom = false;
     this.station = station;
     this.searchModel = this.station.name;
     this.getTempsLieu(this.station,null);
