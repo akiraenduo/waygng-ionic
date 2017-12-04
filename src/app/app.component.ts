@@ -11,6 +11,7 @@ import { UserProvider } from '../providers/user/userProvider';
 import { TranslateService } from '@ngx-translate/core';
 import { Badge } from '@ionic-native/badge';
 import { Storage } from '@ionic/storage';
+import { Globalization } from '@ionic-native/globalization';
 
 @Component({
   templateUrl: 'app.html'
@@ -35,10 +36,10 @@ export class MyApp {
               public alertCtrl: AlertController, 
               private badge: Badge,
               private storage: Storage,
+              private globalization: Globalization,
               private translate: TranslateService) {   
 
-
-      this.initTranslate();
+      this.initializeApp();
 
       this.storage.get('hasSeenTutorial')
       .then((hasSeenTutorial) => {
@@ -57,7 +58,7 @@ export class MyApp {
                     { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },                  ];
             });
 
-        this.initializeApp();
+
       })  
 
       this.auth.user.subscribe(user => {
@@ -84,6 +85,13 @@ export class MyApp {
       this.statusBar.backgroundColorByHexString("#0091D4");
       this.splashScreen.hide();
 
+      this.globalization.getPreferredLanguage().then(res => 
+        {
+          var lang = res.value.split('-');
+          this.initTranslate(lang[0]);
+        })
+      .catch(e => this.initTranslate(undefined));
+
       if(this.platform.is('cordova')){
         this.fcm.onNotification().subscribe(data=>{
           if(data.wasTapped){
@@ -99,14 +107,16 @@ export class MyApp {
     });
   }
 
-  initTranslate() {
+  initTranslate(lang) {
     // Set the default language for translation strings, and the current language.
-    this.translate.setDefaultLang('fr');
-    moment.locale('fr-fr');
-    if (this.translate.getDefaultLang() !== undefined) {
-      this.translate.use(this.translate.getDefaultLang());
+    if (lang !== undefined) {
+      this.translate.setDefaultLang(lang);
+      this.translate.use(lang);
+      moment.locale(lang);
     } else {
+      this.translate.setDefaultLang('fr');
       this.translate.use('fr'); // Set your language here
+      moment.locale('fr');
     }
 }
 

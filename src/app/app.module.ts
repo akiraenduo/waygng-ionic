@@ -21,6 +21,8 @@ import { FCM } from '@ionic-native/fcm';
 import { Badge } from '@ionic-native/badge';
 import { GoogleMaps }  from '@ionic-native/google-maps';
 import { IonicStorageModule } from '@ionic/storage';
+import { Globalization } from '@ionic-native/globalization';
+
 
 // PAGE
 import { MyApp } from './app.component';
@@ -85,6 +87,7 @@ export function createTranslateLoader(http: HttpClient) {
     FCM,
     Badge,
     GoogleMaps,
+    Globalization,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     GinkoProvider,
     UserProvider,

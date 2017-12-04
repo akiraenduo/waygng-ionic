@@ -102,4 +102,5 @@
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyC_2U8ffh7rfnP49f1nreUCXTuwIoBY_co" />
         <variable name="API_KEY_FOR_IOS" value="AIzaSyDkd1JgDz24_bVWxITTfoH8KKiBOi3UHjg" />
     </plugin>
+    <plugin name="cordova-plugin-globalization" spec="^1.0.8" />
 </widget>
