@@ -22,8 +22,6 @@ import { ToastController } from 'ionic-angular';
 })
 export class AddSpotPage {
 
-  @ViewChild('inputMessage') inputMessage: any;  
-
   isAnonyme:boolean = false;;
   message:string;
   hashtags: Array<any[]>;
