@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, NavParams, IonicPage } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/userProvider';
 import { Spot } from '../../models/spot';

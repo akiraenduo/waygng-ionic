@@ -34,7 +34,9 @@ export class ShareFavorisPage {
   }
 
   ionViewDidLeave(){
-    this.subscription.unsubscribe();
+    if(this.subscription){
+     this.subscription.unsubscribe();
+    }
   }
 
 }
