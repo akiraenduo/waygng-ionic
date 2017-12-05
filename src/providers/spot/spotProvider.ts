@@ -77,6 +77,11 @@ export class SpotProvider {
     })
   }
 
+  updateSpot(spot:Spot){
+    this.removeSpot(spot);
+    this.addSpot(spot);
+  }
+
   getSpotsForCurrentUser(userUid:string): AngularFirestoreCollection<any>{
     return this.afs.collection('/spots', ref => ref.where('userUid', '==', userUid).orderBy('dateUpdate','desc'));
   }

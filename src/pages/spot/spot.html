@@ -35,7 +35,7 @@
     
             <ion-card *ngFor="let spot of spots | async">
                 
-                  <ion-item>
+                  <ion-item (click)="editSpot(spot)">
                     <ion-avatar *ngIf="!spot.anonyme" item-start>
                         <img [src]="(spot.userPicture)" />
                     </ion-avatar>

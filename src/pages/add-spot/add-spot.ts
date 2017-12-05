@@ -28,6 +28,7 @@ export class AddSpotPage {
   loading:boolean;
   subscription: Subscription;
   user:any;
+  spot:Spot;
 
 
   constructor(public navCtrl: NavController, 
@@ -36,6 +37,12 @@ export class AddSpotPage {
               public spotProvider: SpotProvider,
               public auth: AuthProvider,
               public toastCtrl: ToastController) {
+
+                this.spot = this.navParams.get("spot");
+                if(this.spot){
+                  this.isAnonyme = this.spot.anonyme;
+                  this.message = this.spot.message;
+                }
 
                 const userAuth = this.auth.user.subscribe(user => {
                 if (user) {
@@ -54,22 +61,35 @@ export class AddSpotPage {
 
   addSpot(){
 
-    const spot: Spot = {
-      message: this.message,
-      dateUpdate: new Date().getTime(),
-      userUid: this.user.uid,
-      userName: this.user.displayName,
-      userPicture: this.user.photoURL,
-      anonyme:this.isAnonyme
-    }
+    if(!this.spot){
+      const spot: Spot = {
+        message: this.message,
+        dateUpdate: new Date().getTime(),
+        userUid: this.user.uid,
+        userName: this.user.displayName,
+        userPicture: this.user.photoURL,
+        anonyme:this.isAnonyme
+      }
 
-    this.spotProvider.addSpot(spot);
-    this.navCtrl.setRoot('SpotPage')
-    this.toastCtrl.create({
-      message: 'Spot ajouté !',
-      duration: 3000,
-      position: 'bottom'
-    }).present();
+      this.spotProvider.addSpot(spot);
+      this.navCtrl.setRoot('SpotPage')
+      this.toastCtrl.create({
+        message: 'Spot ajouté !',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
+    }else{
+      this.spot.message = this.message;
+      this.spot.anonyme = this.isAnonyme;
+      this.spotProvider.updateSpot(this.spot);
+      this.navCtrl.setRoot('SpotPage')
+      this.toastCtrl.create({
+        message: 'Mise à jour du spot !',
+        duration: 3000,
+        position: 'bottom'
+      }).present();
+    }
+  
   }
 
   eventInputMessage(ev){

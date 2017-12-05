@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angular';
+import { NavController, NavParams, ModalController, IonicPage, ActionSheetController } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
@@ -13,13 +13,6 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { Spot } from '../../models/spot';
 
 
-
-/**
- * Generated class for the SpotPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
  
 @IonicPage()
 @Component({
@@ -40,6 +33,7 @@ export class SpotPage {
               public spotProvider: SpotProvider,
               public db: AngularFireDatabase,
               public modalCtrl: ModalController,
+              public actionsheetCtrl: ActionSheetController,
               public auth: AuthProvider) {
 
 
@@ -142,6 +136,44 @@ export class SpotPage {
     let myModal = this.modalCtrl.create('ModalLikePage', { 'usersUid': spot.likes });
     myModal.present();
   }
+
+  editSpot(spot:Spot){
+    if(spot.userUid == this.userUid){
+    let actionSheet = this.actionsheetCtrl.create({
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Modifier',
+          handler: () => {
+           this.updateSpot(spot);
+          }
+        },
+        {
+          text: 'Supprimer',
+          role: 'destructive',
+          handler: () => {
+            this.removeSpot(spot);
+          }
+        },
+        {
+          text: 'Annuler',
+          role: 'cancel', // will always sort to be on the bottom
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+}
+
+removeSpot(spot:Spot){
+  this.spotProvider.removeSpot(spot);
+}
+
+updateSpot(spot:Spot){
+  this.navCtrl.push('AddSpotPage', {
+    spot:spot
+  });
+}
 
 
 
