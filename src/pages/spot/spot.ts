@@ -45,6 +45,7 @@ export class SpotPage {
   }
 
   ionViewDidLoad() {  
+    this.spots = new BehaviorSubject([]);
     this.searchSpots = true;
     this.auth.user.subscribe(user => {
       if (user) {
@@ -89,7 +90,7 @@ export class SpotPage {
       return
     } 
      this.spotProvider
-        .getSpotList(this.batch+1, this.lastDate).stateChanges(['added'])
+        .getSpotList(this.batch+1, this.lastDate).snapshotChanges()
         .map(spots => {
           return spots.map(s => {
             const data = s.payload.doc.data();

@@ -55,7 +55,8 @@ export class MyApp {
                     { title: menu.TIMETABLE, icon:'md-alarm', component: 'HomePage' },
                     { title: menu.MAP, icon:'md-navigate', component: 'MapPage' },
                     { title: menu.TRAFFIC_INFO, icon:'information-circle', component: 'InfosTraficPage' },
-                    { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },                  ];
+                    { title: menu.SPOTS, icon:'md-eye', component: 'SpotPage' },
+                    { title: "test", icon:'md-eye', component: 'SpotPaginationPage' },                       ];
             });
 
 
