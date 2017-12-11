@@ -6,6 +6,7 @@ import { QueryConfig } from '../../models/queryConfig';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/take';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Injectable()
@@ -19,14 +20,18 @@ export class PaginationService {
   data: Observable<any>;
   done: Observable<boolean> = this._done.asObservable();
   loading: Observable<boolean> = this._loading.asObservable(); 
+  subscription: Subscription;
   constructor(private afs: AngularFirestore) { }
   // Initial query sets options and defines the Observable
   // passing opts will override the defaults
-  init(path: string, field: string, opts?: any) {
+  init(path: string, field: string, opts?: any, refresher?:any) { 
+    this._data = new BehaviorSubject([]);
+    this._done.next(false);
+    this._loading.next(false);    
     this.query = { 
       path,
       field,
-      limit: 15,
+      limit: 20,
       reverse: false,
       prepend: false,
       ...opts
@@ -36,7 +41,7 @@ export class PaginationService {
               .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
               .limit(this.query.limit)
     })
-    this.mapAndUpdate(first)
+    this.mapAndUpdate(first,{refresher:refresher})
     // Create the observable array for consumption in components
     this.data = this._data.asObservable()
         .scan( (acc, val) => { 
@@ -45,7 +50,7 @@ export class PaginationService {
   }
  
   // Retrieves additional data from firestore
-  more() {
+  more(infiniteScroll) {
     const cursor = this.getCursor()
     const more = this.afs.collection(this.query.path, ref => {
       return ref
@@ -53,7 +58,7 @@ export class PaginationService {
               .limit(this.query.limit)
               .startAfter(cursor)
     })
-    this.mapAndUpdate(more)
+    this.mapAndUpdate(more,{infiniteScroll:infiniteScroll})
   }
   // Determines the doc snapshot to paginate query 
   private getCursor() {
@@ -64,12 +69,17 @@ export class PaginationService {
     return null
   }
   // Maps the snapshot to usable format the updates source
-  private mapAndUpdate(col: AngularFirestoreCollection<any>) {
-    if (this._done.value || this._loading.value) { return };
+  private mapAndUpdate(col: AngularFirestoreCollection<any>,loader?:any) {
+    if (this._done.value || this._loading.value) { 
+        this.handleLoader(loader);
+        return 
+    
+    };
     // loading
     this._loading.next(true)
-    // Map snapshot with doc ref (needed for cursor)
-    return col.snapshotChanges()
+    // Map snapshot with doc ref (needed for cursor) 
+    
+    this.subscription = col.snapshotChanges(['added'])
       .do(arr => {
         let values = arr.map(snap => {
           const data = snap.payload.doc.data()
@@ -82,12 +92,28 @@ export class PaginationService {
         // update source with new values, done loading
         this._data.next(values)
         this._loading.next(false)
+        this.handleLoader(loader);
         // no more values, mark done
         if (!values.length) {
           this._done.next(true)
         }
     })
-    .take(1)
-    .subscribe()
+    .subscribe(() => {
+        this.subscription.unsubscribe();
+    });
+
+    return this.subscription;
   }
+
+  handleLoader(loader:any){
+    if(loader){
+      if(loader.infiniteScroll){
+        loader.infiniteScroll.complete();            
+    }
+      if(loader.refresher){
+        loader.refresher.complete();         
+      }
+    }
+  }
+
 }

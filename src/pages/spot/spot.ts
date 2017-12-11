@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, IonicPage, ActionSheetController } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 
 
-import * as _ from 'lodash'
 import spotUtils from './spotUtils'
 import { AuthProvider } from '../../providers/auth/auth';
 import { Spot } from '../../models/spot';
+import { PaginationService } from '../../providers/spot/paginationService';
+import { Subscription } from 'rxjs/Subscription';
 
 
  
@@ -21,18 +21,15 @@ import { Spot } from '../../models/spot';
 })
 export class SpotPage {
 
-  searchSpots: any;
-  spots = new BehaviorSubject([]);
-  batch = 15        // size of each query
-  lastDate = ''      // key to offset next query from
-  finished = false  // boolean when end of database is reached
   userUid: any;
+  subscription: Subscription;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public spotProvider: SpotProvider,
               public db: AngularFireDatabase,
               public modalCtrl: ModalController,
+              public page: PaginationService,
               public actionsheetCtrl: ActionSheetController,
               public auth: AuthProvider) {
 
@@ -44,32 +41,33 @@ export class SpotPage {
     this.navCtrl.setRoot('LoginPage');
   }
 
-  ionViewDidLoad() {  
-    this.spots = new BehaviorSubject([]);
-    this.searchSpots = true;
-    this.auth.user.subscribe(user => {
+  ionViewWillLeave() {
+    if(this.subscription){
+      this.subscription.unsubscribe();        
+    }
+  }
+
+  ionViewWillEnter() {  
+
+    this.subscription = this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        this.finished = false;
-        this.lastDate = '';
-        this.getSpots(null,null); 
+        this.page.init('spots', 'dateUpdate', { reverse: true, prepend: false }); 
       }else{
         this.userUid = null;
         this.goLogin();
       }
+      this.subscription.unsubscribe();
     });
   }
   
   doRefresh(refresher) {
-    this.finished = false;
-    this.lastDate = '';
-    this.spots = new BehaviorSubject([]);
-    this.getSpots(null,refresher);
+    this.page.init('spots', 'dateUpdate', { reverse: true, prepend: false }, refresher); 
   }
 
 
   doInfinite(infiniteScroll) {
-    this.getSpots(infiniteScroll,null);
+    this.page.more(infiniteScroll);
   }
 
   goDetailSpot(spot:Spot){
@@ -79,49 +77,6 @@ export class SpotPage {
   incrementLike(spot){
     spotUtils.incrementLike(spot,this.userUid);
     this.spotProvider.incrementLikes(spot.id,spot);
-  }
- 
-
-  private getSpots(infiniteScroll,refresher) {
-    if (this.finished){
-      if(infiniteScroll){
-        infiniteScroll.complete();
-      }
-      return
-    } 
-     this.spotProvider
-        .getSpotList(this.batch+1, this.lastDate).snapshotChanges()
-        .map(spots => {
-          return spots.map(s => {
-            const data = s.payload.doc.data();
-            const id = s.payload.doc.id;
-            return { id, ...data };
-          });
-        })
-        .do(spots => {
-          if(spots.length > 0){
-            /// set the lastKey in preparation for next query 
-            this.lastDate = _.last(spots).dateUpdate;
-            const newSpots = _.slice(spots, 0, this.batch)
-            /// Get current spots in BehaviorSubject
-            const currentSpots = this.spots.getValue()
-            /// If data is identical, stop making queries
-            if (this.lastDate == _.last(newSpots).dateUpdate) {
-              this.finished = true
-            }
-            /// Concatenate new spots to current spots
-            this.spots.next( _.concat(currentSpots, newSpots) )
-          }
-        }).take(1).subscribe(() =>{
-          if(infiniteScroll){
-            infiniteScroll.complete();
-          }else{
-            this.searchSpots = false
-            if(refresher){
-              refresher.complete();
-            }
-          }
-        });
   }
 
 

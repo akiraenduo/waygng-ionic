@@ -10,12 +10,7 @@ import * as _ from 'lodash'
 import { User } from '../../models/user';
 import { Comment } from '../../models/comment';
 
-/*
-  Generated class for the SpotProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
 @Injectable()
 export class SpotProvider {
 
@@ -56,7 +51,7 @@ export class SpotProvider {
             }
             h.spotKeyList.push(autoId);
             const hashtagRef = this.afs.doc('/hashtags/'+id);
-            hashtagRef.update(h);
+            return hashtagRef.update(h);
           });
         }else{
           let spotKeyList = [];
@@ -67,7 +62,7 @@ export class SpotProvider {
             spotKeyList:spotKeyList
           }
           const hashtagRef = this.afs.collection('/hashtags');
-          hashtagRef.add(h);
+          return hashtagRef.add(h);
         }
 
       })
@@ -128,6 +123,7 @@ export class SpotProvider {
 
   incrementLikes(spotUid:string, spot){
     const item = this.afs.doc('/spots/'+spotUid);
+    delete spot.doc;
     item.update(spot); 
   }
 
