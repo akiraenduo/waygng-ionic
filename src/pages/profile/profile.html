@@ -52,10 +52,10 @@
         <ion-list class="background-light mySpotsList">
             <ion-list-header class="border-top" color="light">
               {{ 'MY_SPOTS' | translate }}
-              <my-header-loader *ngIf="loading"></my-header-loader>
+              <my-header-loader *ngIf="page.loading | async"></my-header-loader>
             </ion-list-header>
       
-              <ion-card *ngFor="let spot of mySpots">
+            <ion-card *ngFor="let spot of page.data | async">
                 <ion-item>
                   <ion-avatar *ngIf="!spot.anonyme" item-start>
                       <img [src]="(spot.userPicture)" />

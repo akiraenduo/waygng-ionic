@@ -3,5 +3,6 @@ export interface QueryConfig {
     field: string, // field to orderBy
     limit: number, // limit per query
     reverse: boolean, // reverse order?
-    prepend: boolean // prepend to source?
+    prepend: boolean, // prepend to source?
+    userUid?: string
   }

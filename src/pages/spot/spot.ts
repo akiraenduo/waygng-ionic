@@ -52,7 +52,7 @@ export class SpotPage {
     this.subscription = this.auth.user.subscribe(user => {
       if (user) {
         this.userUid = user.uid;
-        this.page.init('spots', 'dateUpdate', { reverse: true, prepend: false }); 
+        this.page.init('spots', 'dateUpdate', { reverse: true, prepend: false}); 
       }else{
         this.userUid = null;
         this.goLogin();

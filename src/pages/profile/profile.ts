@@ -6,6 +6,7 @@ import spotUtils from '../spot/spotUtils';
 import { Spot } from '../../models/spot';
 import { UserProvider } from '../../providers/user/userProvider';
 import { FavorisProvider } from '../../providers/favoris/favorisProvider';
+import { PaginationService } from '../../providers/spot/paginationService';
 
 /**
  * Generated class for the ProfilePage page.
@@ -22,7 +23,6 @@ export class ProfilePage {
 
   loading: any;
   user:any;
-  mySpots:Array<any>;
   userUid:any;
   loader:any;
   segment = 'profil';
@@ -38,6 +38,7 @@ export class ProfilePage {
               public loadingCtrl: LoadingController,
               public userProvider: UserProvider,
               public favorisProvider: FavorisProvider,
+              public page: PaginationService,
               public spotProvider: SpotProvider) {
                 
 
@@ -67,16 +68,7 @@ ionViewDidLoad(){
       if(this.loader){
         this.loader.dismiss();
       }
-      this.spotProvider.getSpotsForCurrentUser(user.uid).snapshotChanges().map(spots => {
-        return spots.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-          })
-        }).subscribe(spots => {
-        this.mySpots = spots;
-        this.loading = false;
-      })
+      this.page.init('spots', 'dateUpdate', { reverse: true, prepend: false, userUid:this.userUid}); 
     }
   });
 }

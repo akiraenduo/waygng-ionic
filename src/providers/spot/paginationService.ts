@@ -32,14 +32,23 @@ export class PaginationService {
       path,
       field,
       limit: 20,
+      userUid: "",
       reverse: false,
       prepend: false,
       ...opts
     }
     const first = this.afs.collection(this.query.path, ref => {
-      return ref
-              .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
-              .limit(this.query.limit)
+      if(this.query.userUid.length > 0){
+        return ref.where('userUid', '==', this.query.userUid)
+        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+        .limit(this.query.limit)
+      }else{
+        return ref
+        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+        .limit(this.query.limit)
+      }
+
+              
     })
     this.mapAndUpdate(first,{refresher:refresher})
     // Create the observable array for consumption in components
@@ -53,10 +62,18 @@ export class PaginationService {
   more(infiniteScroll) {
     const cursor = this.getCursor()
     const more = this.afs.collection(this.query.path, ref => {
-      return ref
-              .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
-              .limit(this.query.limit)
-              .startAfter(cursor)
+      if(this.query.userUid.length > 0){
+        return ref.where('userUid', '==', this.query.userUid)
+        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+        .limit(this.query.limit)
+        .startAfter(cursor)
+      }else{
+        return ref
+        .orderBy(this.query.field, this.query.reverse ? 'desc' : 'asc')
+        .limit(this.query.limit)
+        .startAfter(cursor)
+      }
+
     })
     this.mapAndUpdate(more,{infiniteScroll:infiniteScroll})
   }
