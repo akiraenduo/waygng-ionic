@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, IonicPage, ModalController, AlertController, ToastController, LoadingController, ActionSheetController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import spotUtils from '../spot/spotUtils';
@@ -38,6 +38,7 @@ export class ProfilePage {
               public loadingCtrl: LoadingController,
               public userProvider: UserProvider,
               public favorisProvider: FavorisProvider,
+              public actionsheetCtrl: ActionSheetController,
               public page: PaginationService,
               public spotProvider: SpotProvider) {
                 
@@ -83,35 +84,46 @@ ionViewDidLoad(){
     myModal.present();
   }
   
-  removeSpot(spot){
-    this.spotProvider.removeSpot(spot);
-  }
 
-  showConfirm(spot) {
-    let confirm = this.alertCtrl.create({
-      title: 'Suppresion du spot',
-      message: 'Etes vous certain de vouloir supprimer ce spot ?',
+  editSpot(spot:Spot){
+    if(spot.userUid == this.userUid){
+    let actionSheet = this.actionsheetCtrl.create({
+      cssClass: 'action-sheets-basic-page',
       buttons: [
         {
-          text: 'Non',
+          text: 'Modifier',
           handler: () => {
+           this.updateSpot(spot);
           }
         },
         {
-          text: 'Oui',
+          text: 'Supprimer',
+          role: 'destructive',
           handler: () => {
             this.removeSpot(spot);
-            this.toastCtrl.create({
-              message: 'Spot supprimé !',
-              duration: 3000,
-              position: 'bottom'
-            }).present();
           }
+        },
+        {
+          text: 'Annuler',
+          role: 'cancel', // will always sort to be on the bottom
         }
       ]
     });
-    confirm.present();
+    actionSheet.present();
   }
+}
+
+removeSpot(spot:Spot){
+  this.spotProvider.removeSpot(spot);
+}
+
+updateSpot(spot:Spot){
+  this.navCtrl.push('AddSpotPage', {
+    spot:spot
+  });
+}
+
+
   presentLoading() {
     this.loader = this.loadingCtrl.create({
       content: "Please wait...",

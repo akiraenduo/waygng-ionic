@@ -63,11 +63,9 @@
                   <ion-avatar *ngIf="spot.anonyme" item-start>
                       <ion-icon class="icon-anonyme-size" name="contact"></ion-icon>
                   </ion-avatar>
-                  <ion-avatar item-end>
-                      <button color="danger" clear ion-button icon-only (click)="showConfirm(spot)">
-                          <ion-icon name="ios-trash-outline"></ion-icon>
-                      </button>
-                  </ion-avatar>
+                  <button class="greyColor" item-end clear ion-button icon-only (click)="editSpot(spot)">
+                    <ion-icon name="ios-more"></ion-icon>
+                  </button>
                   
                   <h3 *ngIf="!spot.anonyme">{{ spot.userName }}</h3>
                   <h3 *ngIf="spot.anonyme">{{ 'ANONYME' | translate }}</h3>

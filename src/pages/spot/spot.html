@@ -59,11 +59,11 @@
                 
                   <ion-row class="border-top row-margin rowNotification">
                         <ion-col class="noPadding">
-                                <button (click)="openModalLike(spot)"  ion-button item-start icon-only clear small>
-                                    <img class="like-img" src="assets/reactions/like.svg">
-                                    <p>{{spot.likes | formatLikes}}</p>
-                                </button>
-                            </ion-col> 
+                            <button (click)="openModalLike(spot)"  ion-button item-start icon-only clear small>
+                                <img class="like-img" src="assets/reactions/like.svg">
+                                <p>{{spot.likes | formatLikes}}</p>
+                            </button>
+                        </ion-col> 
                         <ion-col class="noPadding align-end"> 
                             <button class="margin-right-comment" (click)="goDetailSpot(spot)"  ion-button item-end icon-only clear small>
                                 <p>{{spot?.commentCount | formatComments}}</p>
