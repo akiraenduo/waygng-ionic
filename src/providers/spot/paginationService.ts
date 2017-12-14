@@ -115,9 +115,7 @@ export class PaginationService {
           this._done.next(true)
         }
     })
-    .subscribe(() => {
-        this.subscription.unsubscribe();
-    });
+    .subscribe();
 
     return this.subscription;
   }

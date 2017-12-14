@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, IonicPage, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, IonicPage, ActionSheetController, AlertController, ToastController } from 'ionic-angular';
 import { SpotProvider } from '../../providers/spot/spotProvider';
 import { AngularFireDatabase } from 'angularfire2/database';
 import 'rxjs/add/operator/do';
@@ -31,6 +31,8 @@ export class SpotPage {
               public modalCtrl: ModalController,
               public page: PaginationService,
               public actionsheetCtrl: ActionSheetController,
+              public alertCtrl: AlertController,
+              public toastCtrl: ToastController,
               public auth: AuthProvider) {
 
 
@@ -108,7 +110,7 @@ export class SpotPage {
           text: 'Supprimer',
           role: 'destructive',
           handler: () => {
-            this.removeSpot(spot);
+            this.showConfirm(spot);
           }
         },
         {
@@ -121,11 +123,39 @@ export class SpotPage {
   }
 }
 
-removeSpot(spot:Spot){
-  this.spotProvider.removeSpot(spot);
+showConfirm(spot) {
+  let confirm = this.alertCtrl.create({
+    title: 'Suppresion du spot',
+    message: 'Etes vous certain de vouloir supprimer ce spot ?',
+    buttons: [
+      {
+        text: 'Non',
+        handler: () => {
+        }
+      },
+      {
+        text: 'Oui',
+        handler: () => {
+          this.removeSpot(spot);
+          this.toastCtrl.create({
+            message: 'Spot supprimé !',
+            duration: 3000,
+            position: 'bottom'
+          }).present();
+        }
+      }
+    ]
+  });
+  confirm.present();
 }
 
-updateSpot(spot:Spot){
+removeSpot(spot:Spot){
+  this.spotProvider.removeSpot(spot);
+  this.page.init('spots', 'dateUpdate', { reverse: true, prepend: false}); 
+}
+
+updateSpot(spot){
+  delete spot.doc;
   this.navCtrl.push('AddSpotPage', {
     spot:spot
   });
